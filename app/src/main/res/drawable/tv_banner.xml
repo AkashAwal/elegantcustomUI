@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android TV home-screen banner. Required minimum size is 320x180dp
+     (16:9). Replace with a raster export of the real logo lockup once
+     supplied — this vector placeholder just shows the monogram + name. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+    <path
+        android:fillColor="#000000"
+        android:pathData="M0,0h320v180h-320z" />
+    <path
+        android:fillColor="#6C4CFF"
+        android:pathData="M130,60a30,30 0,1 0,0.1 0z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M116,78h20v7h-12v5h11v7h-11v5h12v7h-20z" />
+</vector>

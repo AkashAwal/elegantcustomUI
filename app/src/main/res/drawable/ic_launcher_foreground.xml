@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Placeholder adaptive-icon foreground: a simple "EG" monogram.
+     Replace with a vector trace of the real logo once supplied. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#6C4CFF"
+        android:pathData="M54,20a34,34 0,1 0,0.1 0z"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,40h20v8h-12v6h11v8h-11v6h12v8h-20z" />
+    <path
+        android:fillColor="#00D1B2"
+        android:pathData="M63,54a9,9 0,1 0,0.1 0z" />
+</vector>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mirrors ui/theme/Color.kt SurfaceBlack / BrandPrimary so XML-only
+         resources (themes.xml, the boot banner) stay in sync with the
+         Compose brand palette. Update both places together. -->
+    <color name="tv_background_black">#000000</color>
+    <color name="brand_primary">#6C4CFF</color>
+    <color name="brand_secondary">#00D1B2</color>
+</resources>
