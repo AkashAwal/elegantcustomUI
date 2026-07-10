@@ -67,7 +67,7 @@ private fun RailIcon(
     onClick: () -> Unit,
 ) {
     val shape = RoundedCornerShape(16.dp)
-    val focusVisuals = rememberTvFocusVisualsCompat(shape)
+    val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
     val backgroundColor = if (isSelected) {
         MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
