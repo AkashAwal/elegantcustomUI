@@ -50,13 +50,7 @@ fun SearchBar(
         modifier = modifier
             .clip(shape)
             .background(SurfaceElevated2)
-            .then(
-                if (isFocused) {
-                    Modifier.background(SurfaceElevated2)
-                } else {
-                    Modifier
-                }
-            )
+            .border(2.dp, borderColor, shape)
             .padding(horizontal = 20.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
