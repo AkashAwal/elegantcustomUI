@@ -132,7 +132,7 @@ private fun BrandMark() {
         painter = painterResource(id = R.drawable.company_logo),
         contentDescription = "Elegant Galaxy",
         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
-        modifier = Modifier.size(64.dp),
+        modifier = Modifier.size(48.dp),
     )
 }
 
