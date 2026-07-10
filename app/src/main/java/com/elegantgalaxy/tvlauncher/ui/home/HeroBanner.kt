@@ -56,6 +56,7 @@ private data class HeroBannerItem(
 private val heroBannerItems = listOf(
     HeroBannerItem("YouTube", "Endless entertainment, ready to stream", Color(0xFFFF3B30)),
     HeroBannerItem("Netflix", "New episodes added weekly", Color(0xFFB8004A)),
+    HeroBannerItem("Prime Video", "Included with your subscription", Color(0xFF1F5C99)),
 )
 
 private const val SLIDE_DURATION_MS = 6000
