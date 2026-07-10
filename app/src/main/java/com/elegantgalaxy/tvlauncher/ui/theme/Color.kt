@@ -3,20 +3,22 @@ package com.elegantgalaxy.tvlauncher.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // --- Elegant Galaxy brand palette -------------------------------------
-// Swap these hex values once the real brand guidelines / logo colors
+// PS5-dashboard-inspired: near-black with a faint blue undertone, one
+// electric-blue accent. Swap these hex values once real brand guidelines
 // are supplied — every screen pulls from here, nothing is hardcoded
 // per-composable.
-val BrandPrimary = Color(0xFF6C4CFF)      // primary accent (buttons, focus ring)
-val BrandSecondary = Color(0xFF00D1B2)    // secondary accent (highlights, badges)
+val BrandPrimary = Color(0xFF00A3FF)      // electric blue accent (buttons, focus ring)
+val BrandSecondary = Color(0xFF7C5CFF)    // violet secondary accent (highlights, badges)
 val BrandOnPrimary = Color(0xFFFFFFFF)
 
 // --- OLED-friendly dark surfaces ---------------------------------------
-// True black (not dark grey) so OLED pixels fully switch off on TVs that
-// support it, saving power and improving contrast on burn-in-prone panels.
-val SurfaceBlack = Color(0xFF000000)
-val SurfaceElevated1 = Color(0xFF121212)
-val SurfaceElevated2 = Color(0xFF1E1E1E)
-val SurfaceElevated3 = Color(0xFF2A2A2A)
+// True black with a faint blue tint (not neutral grey) so OLED pixels
+// mostly switch off while still reading as "PS5 dashboard" rather than
+// flat black. Saves power and improves contrast on burn-in-prone panels.
+val SurfaceBlack = Color(0xFF000005)
+val SurfaceElevated1 = Color(0xFF10121A)
+val SurfaceElevated2 = Color(0xFF1A1D28)
+val SurfaceElevated3 = Color(0xFF262A38)
 
 val TextPrimary = Color(0xFFF5F5F5)
 val TextSecondary = Color(0xFFB3B3B3)
