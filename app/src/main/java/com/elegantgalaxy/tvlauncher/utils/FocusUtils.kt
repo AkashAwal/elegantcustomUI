@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.scale
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.ui.theme.FocusRing
 import kotlinx.coroutines.flow.collect
