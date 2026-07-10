@@ -125,6 +125,7 @@ fun SearchBar(
                     voiceLauncher.launch(intent)
                 }
             },
+            modifier = Modifier.size(28.dp),
         ) {
             Icon(
                 imageVector = Icons.Filled.Mic,
