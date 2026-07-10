@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.R
+import com.elegantgalaxy.tvlauncher.ui.theme.AppBackground
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated1
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated3
 import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
