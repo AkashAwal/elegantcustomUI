@@ -141,21 +141,12 @@ private fun HomeHeader(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            val companyName = stringResource(id = R.string.company_name)
-            Image(
-                painter = painterResource(id = R.drawable.company_logo),
-                contentDescription = companyName,
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
-                modifier = Modifier.size(40.dp),
-            )
-            Spacer(modifier = Modifier.padding(start = 12.dp))
-            Text(
-                text = companyName,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-        }
+        Text(
+            text = stringResource(id = R.string.company_name).uppercase(),
+            style = MaterialTheme.typography.titleLarge,
+            letterSpacing = 4.sp,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
 
         SearchBar(
             query = query,
