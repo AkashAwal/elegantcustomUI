@@ -48,6 +48,7 @@ fun AppCarousel(
                     app = app,
                     onClick = { onAppClick(app) },
                     modifier = Modifier.width(140.dp).height(160.dp),
+                    onFocusChange = onAppFocusChange,
                 )
             }
         }
