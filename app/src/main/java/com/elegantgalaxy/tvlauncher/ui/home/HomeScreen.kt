@@ -49,7 +49,6 @@ import com.elegantgalaxy.tvlauncher.utils.MockData
  */
 @Composable
 fun HomeScreen(
-    onOpenSettings: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
