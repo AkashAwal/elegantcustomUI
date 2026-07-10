@@ -187,13 +187,35 @@ private fun HomeHeader(
             color = MaterialTheme.colorScheme.onBackground,
         )
 
-        SearchBar(
-            query = query,
-            onQueryChange = onQueryChange,
-            onSearchSubmit = onSearchSubmit,
-            modifier = Modifier
-                .padding(horizontal = 32.dp)
-                .width(460.dp),
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            DateTimeText(modifier = Modifier.padding(end = 20.dp))
+
+            SearchBar(
+                query = query,
+                onQueryChange = onQueryChange,
+                onSearchSubmit = onSearchSubmit,
+                modifier = Modifier.width(400.dp),
+            )
+        }
     }
+}
+
+/** Updates every 30s — plenty for a clock display, no need for per-second ticks. */
+@Composable
+private fun DateTimeText(modifier: Modifier = Modifier) {
+    var now by remember { mutableStateOf(LocalDateTime.now()) }
+    LaunchedEffect(Unit) {
+        while (true) {
+            now = LocalDateTime.now()
+            delay(30_000)
+        }
+    }
+    val formatter = remember { DateTimeFormatter.ofPattern("EEE, MMM d · h:mm a") }
+
+    Text(
+        text = now.format(formatter),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = modifier,
+    )
 }
