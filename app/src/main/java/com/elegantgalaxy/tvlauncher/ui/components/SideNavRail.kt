@@ -135,11 +135,11 @@ private fun BrandMark() {
             .background(BrandPrimary),
         contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = "E",
-            color = BrandOnPrimary,
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.titleMedium,
+        Image(
+            painter = painterResource(id = R.drawable.company_logo),
+            contentDescription = "Elegant Galaxy",
+            colorFilter = ColorFilter.tint(BrandOnPrimary),
+            modifier = Modifier.size(22.dp),
         )
     }
 }
