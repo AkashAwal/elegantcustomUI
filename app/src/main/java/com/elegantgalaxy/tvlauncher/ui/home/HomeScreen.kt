@@ -79,8 +79,11 @@ fun HomeScreen(
             } else {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(32.dp),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 16.dp),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 16.dp),
                 ) {
+                    item {
+                        HeroBanner()
+                    }
                     items(AppCategory.entries.filter { appsByCategory[it]?.isNotEmpty() == true }) { category ->
                         AppCarousel(
                             title = category.displayName,
