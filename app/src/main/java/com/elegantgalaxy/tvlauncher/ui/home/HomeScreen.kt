@@ -60,13 +60,42 @@ fun HomeScreen(
         if (query.isBlank()) emptyList() else apps.filter { it.label.contains(query, ignoreCase = true) }
     }
 
+    // Reactive background: whichever app tile currently has D-Pad focus
+    // donates its icon's dominant color to a subtle tint at the bottom of
+    // the screen, via Palette. Extraction runs off the main thread since
+    // Palette.generate() is a blocking call; animateColorAsState smooths
+    // the jump between colors as focus moves tile to tile.
+    var focusedApp by remember { mutableStateOf<AppInfo?>(null) }
+    var targetAccent by remember { mutableStateOf(AppBackground) }
+    LaunchedEffect(focusedApp) {
+        val bitmap = focusedApp?.iconBitmap
+        targetAccent = if (bitmap != null) {
+            withContext(Dispatchers.Default) {
+                val palette = Palette.from(bitmap).generate()
+                val swatch = palette.dominantSwatch ?: palette.vibrantSwatch ?: palette.mutedSwatch
+                swatch?.let { Color(it.rgb) } ?: AppBackground
+            }
+        } else {
+            AppBackground
+        }
+    }
+    val animatedAccent by animateColorAsState(
+        targetValue = targetAccent,
+        animationSpec = tween(700),
+        label = "focusAccent",
+    )
+
     Box(modifier = modifier.fillMaxSize()) {
         GoldenParticleBackground(modifier = Modifier.fillMaxSize())
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(AppBackground.copy(alpha = 0.9f)),
+                .background(
+                    Brush.verticalGradient(
+                        listOf(AppBackground.copy(alpha = 0.92f), animatedAccent.copy(alpha = 0.55f)),
+                    ),
+                ),
         ) {
             HomeHeader(
                 query = query,
