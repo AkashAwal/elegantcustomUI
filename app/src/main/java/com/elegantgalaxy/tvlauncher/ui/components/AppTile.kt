@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,13 +27,18 @@ import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
  * A single app icon tile used by both the home grid and the category
  * carousels. Falls back to a letter avatar when [app.icon] hasn't been
  * resolved yet (e.g. before PackageManager lookup finishes, or in mock
- * data used for design/testing).
+ * data used for design/testing). [onFocusChange] reports this tile's own
+ * focus state up to the caller (e.g. so the home screen's background can
+ * react to whichever app currently has D-Pad focus) — it's a separate
+ * concern from [rememberTvFocusVisuals], which only handles this tile's
+ * own scale/border visuals.
  */
 @Composable
 fun AppTile(
     app: AppInfo,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onFocusChange: (AppInfo?) -> Unit = {},
 ) {
     val shape = RoundedCornerShape(12.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
@@ -42,6 +48,7 @@ fun AppTile(
             .then(focusVisuals.modifier)
             .clip(shape)
             .background(SurfaceElevated2)
+            .onFocusChanged { onFocusChange(if (it.isFocused) app else null) }
             .clickable(
                 interactionSource = focusVisuals.interactionSource,
                 indication = null,
