@@ -60,7 +60,7 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Brush.verticalGradient(listOf(GradientBlack, GradientGold))),
+                .background(AppBackground.copy(alpha = 0.9f)),
         ) {
             HomeHeader(
                 query = query,
