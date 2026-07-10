@@ -40,7 +40,10 @@ import com.elegantgalaxy.tvlauncher.ui.components.SearchBar
 import com.elegantgalaxy.tvlauncher.ui.theme.AppBackground
 import com.elegantgalaxy.tvlauncher.utils.AppLauncherUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Launcher home screen: branding header, then one horizontally-scrolling
