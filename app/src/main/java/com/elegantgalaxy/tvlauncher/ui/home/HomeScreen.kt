@@ -107,6 +107,7 @@ fun HomeScreen(
                 SearchResultsRow(
                     apps = filteredApps,
                     onAppClick = { app -> AppLauncherUtils.launch(context, app) },
+                    onAppFocusChange = { focusedApp = it },
                 )
             } else {
                 // HeroBanner lives here, outside the LazyColumn, on purpose:
