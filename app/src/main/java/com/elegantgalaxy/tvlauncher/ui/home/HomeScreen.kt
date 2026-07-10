@@ -141,9 +141,8 @@ private fun HomeHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
-            text = stringResource(id = R.string.company_name).uppercase(),
+            text = stringResource(id = R.string.company_name),
             style = MaterialTheme.typography.titleLarge,
-            letterSpacing = 4.sp,
             color = MaterialTheme.colorScheme.onBackground,
         )
 
