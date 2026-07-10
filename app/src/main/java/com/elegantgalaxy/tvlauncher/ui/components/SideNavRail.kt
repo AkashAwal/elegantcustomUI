@@ -130,20 +130,12 @@ fun SideNavRail(
 
 @Composable
 private fun BrandMark() {
-    Box(
-        modifier = Modifier
-            .size(40.dp)
-            .clip(CircleShape)
-            .background(BrandPrimary),
-        contentAlignment = Alignment.Center,
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.company_logo),
-            contentDescription = "Elegant Galaxy",
-            colorFilter = ColorFilter.tint(BrandOnPrimary),
-            modifier = Modifier.size(22.dp),
-        )
-    }
+    Image(
+        painter = painterResource(id = R.drawable.company_logo),
+        contentDescription = "Elegant Galaxy",
+        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+        modifier = Modifier.size(64.dp),
+    )
 }
 
 @Composable
