@@ -47,6 +47,34 @@ object AppLauncherUtils {
         }
         context.startActivity(intent)
     }
+
+    private const val YOUTUBE_TV_PACKAGE = "com.google.android.youtube.tv"
+
+    /**
+     * Hands a search query off to the YouTube TV app's own search-results
+     * screen. Deliberately not rendering YouTube results inline here — that
+     * would need a Data API key, quota management, and a thumbnail-loading
+     * layer for what the YouTube app already does natively. Falls back to a
+     * web search intent if YouTube isn't installed.
+     */
+    fun launchYouTubeSearch(context: Context, query: String) {
+        val youtubeIntent = Intent(Intent.ACTION_SEARCH).apply {
+            setPackage(YOUTUBE_TV_PACKAGE)
+            putExtra(SearchManager.QUERY, query)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        val resolved = context.packageManager.resolveActivity(youtubeIntent, PackageManager.MATCH_DEFAULT_ONLY)
+        if (resolved != null) {
+            context.startActivity(youtubeIntent)
+            return
+        }
+
+        val webIntent = Intent(Intent.ACTION_VIEW).apply {
+            data = android.net.Uri.parse("https://www.youtube.com/results?search_query=${android.net.Uri.encode(query)}")
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        context.startActivity(webIntent)
+    }
 }
 
 private fun android.graphics.drawable.Drawable.toBitmap(): android.graphics.Bitmap {
