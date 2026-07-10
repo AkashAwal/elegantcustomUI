@@ -31,9 +31,12 @@ fun TvLauncherNavGraph(
         SideNavRail(
             selected = selectedRail,
             onSelect = { destination ->
+                // SEARCH/APPS/GUIDE have no dedicated screens yet — Home
+                // already hosts the search bar and app grid, so route there
+                // until those get their own destinations.
                 val target = when (destination) {
-                    RailDestination.HOME -> Screen.Home.route
                     RailDestination.SETTINGS -> Screen.Settings.route
+                    else -> Screen.Home.route
                 }
                 if (target != currentRoute) {
                     navController.navigate(target) {
@@ -42,6 +45,10 @@ fun TvLauncherNavGraph(
                     }
                 }
             },
+            // No Contact/Notifications screen exists yet — these are
+            // visual placeholders until that's built.
+            onContactClick = {},
+            onNotificationsClick = {},
         )
 
         NavHost(
