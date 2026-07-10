@@ -23,13 +23,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.BuildConfig
-import com.elegantgalaxy.tvlauncher.ui.theme.GradientBlack
-import com.elegantgalaxy.tvlauncher.ui.theme.GradientGold
+import com.elegantgalaxy.tvlauncher.ui.theme.AppBackground
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated2
 import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
 
