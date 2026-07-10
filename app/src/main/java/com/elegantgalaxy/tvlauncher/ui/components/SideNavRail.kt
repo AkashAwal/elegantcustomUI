@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated1
+import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
 
 enum class RailDestination(val icon: ImageVector, val contentDescription: String) {
     HOME(Icons.Filled.Home, "Home"),
