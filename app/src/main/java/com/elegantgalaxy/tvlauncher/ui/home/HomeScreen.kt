@@ -71,7 +71,7 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background.copy(alpha = 0.6f)),
+                .background(Brush.verticalGradient(listOf(GradientBlack, GradientGold))),
         ) {
             HomeHeader(
                 onOpenSettings = onOpenSettings,
