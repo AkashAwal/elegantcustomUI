@@ -77,7 +77,7 @@ fun SearchBar(
             .clip(shape)
             .background(SurfaceElevated2)
             .border(2.dp, borderColor, shape)
-            .padding(horizontal = 20.dp, vertical = 14.dp),
+            .padding(horizontal = 20.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
