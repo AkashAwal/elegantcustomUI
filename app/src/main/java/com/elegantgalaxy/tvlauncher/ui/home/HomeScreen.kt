@@ -55,23 +55,70 @@ fun HomeScreen(
     val apps = remember { MockData.sampleApps }
     val appsByCategory = remember(apps) { apps.groupBy { it.category } }
 
+    var query by remember { mutableStateOf("") }
+    val filteredApps = remember(apps, query) {
+        if (query.isBlank()) emptyList() else apps.filter { it.label.contains(query, ignoreCase = true) }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        HomeHeader(onOpenSettings = onOpenSettings)
+        HomeHeader(
+            onOpenSettings = onOpenSettings,
+            query = query,
+            onQueryChange = { query = it },
+            onSearchSubmit = { AppLauncherUtils.launchYouTubeSearch(context, query) },
+        )
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(32.dp),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 16.dp),
-        ) {
-            items(AppCategory.entries.filter { appsByCategory[it]?.isNotEmpty() == true }) { category ->
-                AppCarousel(
-                    title = category.displayName,
-                    apps = appsByCategory[category].orEmpty(),
-                    onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
-                )
+        if (query.isNotBlank()) {
+            SearchResultsRow(
+                apps = filteredApps,
+                onAppClick = { app -> AppLauncherUtils.launch(context, app) },
+            )
+        } else {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(32.dp),
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 16.dp),
+            ) {
+                items(AppCategory.entries.filter { appsByCategory[it]?.isNotEmpty() == true }) { category ->
+                    AppCarousel(
+                        title = category.displayName,
+                        apps = appsByCategory[category].orEmpty(),
+                        onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SearchResultsRow(
+    apps: List<AppInfo>,
+    onAppClick: (AppInfo) -> Unit,
+) {
+    Column(modifier = Modifier.padding(top = 24.dp)) {
+        Text(
+            text = if (apps.isEmpty()) "No installed apps match — press Search to look on YouTube" else "Apps",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(start = 48.dp, bottom = 12.dp),
+        )
+
+        if (apps.isNotEmpty()) {
+            LazyRow(
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 48.dp),
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+            ) {
+                items(apps, key = { it.packageName }) { app ->
+                    AppTile(
+                        app = app,
+                        onClick = { onAppClick(app) },
+                        modifier = Modifier.width(140.dp).height(160.dp),
+                    )
+                }
             }
         }
     }
