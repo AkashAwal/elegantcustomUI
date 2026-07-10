@@ -59,7 +59,7 @@ fun SettingsScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(Brush.verticalGradient(listOf(GradientBlack, GradientGold)))
             .padding(horizontal = 48.dp, vertical = 24.dp),
     ) {
         Text(
