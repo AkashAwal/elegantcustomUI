@@ -17,12 +17,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LiveTv
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Brightness6
+import androidx.compose.material.icons.filled.ContactPhone
+import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -33,8 +33,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.elegantgalaxy.tvlauncher.ui.theme.BrandPrimary
 import com.elegantgalaxy.tvlauncher.ui.theme.BrandOnPrimary
+import com.elegantgalaxy.tvlauncher.ui.theme.BrandPrimary
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated1
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated3
 import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
@@ -43,14 +43,18 @@ import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
  * Rail entries backed by a real NavGraph route (see
  * [com.elegantgalaxy.tvlauncher.navigation.TvLauncherNavGraph]). SEARCH,
  * APPS, and GUIDE don't have dedicated screens yet — they currently just
- * navigate Home — since Home already hosts the search bar and app grid.
- * Wire them to real destinations once those screens exist.
+ * navigate Home, since Home already hosts the search bar and app grid.
+ * DISPLAY_SETTINGS, NETWORK_SETTINGS, and SETTINGS all currently point at
+ * the same Settings screen (which already has Brightness/Network rows) —
+ * split them into real dedicated screens later if they need to differ.
  */
 enum class RailDestination(val icon: ImageVector, val contentDescription: String) {
     SEARCH(Icons.Filled.Search, "Search"),
     APPS(Icons.Filled.Apps, "Apps"),
-    GUIDE(Icons.Filled.LiveTv, "Guide"),
-    HOME(Icons.Filled.Home, "Home"),
+    GUIDE(Icons.Filled.MenuBook, "Guide"),
+    DISPLAY_SETTINGS(Icons.Filled.Brightness6, "Display settings"),
+    NETWORK_SETTINGS(Icons.Filled.Wifi, "Network settings"),
+    CONTACT(Icons.Filled.ContactPhone, "Contact"),
     SETTINGS(Icons.Filled.Settings, "Settings"),
 }
 
@@ -60,18 +64,13 @@ enum class RailDestination(val icon: ImageVector, val contentDescription: String
  * living inside any one screen — this is what lets it stay visible while
  * Home/Settings swap in the content area next to it, PS5-dashboard style.
  *
- * Layout top to bottom: brand mark, divider, the five [RailDestination]
- * icons, a second divider, then Contact/Notifications — the latter two are
- * presentation-only placeholders for now (see [onContactClick] /
- * [onNotificationsClick]); there's no Contact or Notifications screen in
- * this app yet.
+ * Layout top to bottom: brand mark, divider, Search/Apps/Guide/Display
+ * settings/Network settings, a second divider, then Contact/Settings.
  */
 @Composable
 fun SideNavRail(
     selected: RailDestination,
     onSelect: (RailDestination) -> Unit,
-    onContactClick: () -> Unit,
-    onNotificationsClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     // Scrollable rather than relying on a fixed height budget: at common TV
@@ -94,7 +93,13 @@ fun SideNavRail(
         }
 
         Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-            RailDestination.entries.forEach { destination ->
+            listOf(
+                RailDestination.SEARCH,
+                RailDestination.APPS,
+                RailDestination.GUIDE,
+                RailDestination.DISPLAY_SETTINGS,
+                RailDestination.NETWORK_SETTINGS,
+            ).forEach { destination ->
                 RailIcon(
                     icon = destination.icon,
                     contentDescription = destination.contentDescription,
@@ -109,18 +114,14 @@ fun SideNavRail(
         }
 
         Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-            RailIcon(
-                icon = Icons.Filled.Call,
-                contentDescription = "Contact",
-                isSelected = false,
-                onClick = onContactClick,
-            )
-            RailIcon(
-                icon = Icons.Filled.Notifications,
-                contentDescription = "Notifications",
-                isSelected = false,
-                onClick = onNotificationsClick,
-            )
+            listOf(RailDestination.CONTACT, RailDestination.SETTINGS).forEach { destination ->
+                RailIcon(
+                    icon = destination.icon,
+                    contentDescription = destination.contentDescription,
+                    isSelected = destination == selected,
+                    onClick = { onSelect(destination) },
+                )
+            }
         }
     }
 }
