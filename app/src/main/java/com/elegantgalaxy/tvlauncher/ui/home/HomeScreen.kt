@@ -26,7 +26,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.elegantgalaxy.tvlauncher.R
 import com.elegantgalaxy.tvlauncher.model.AppCategory
 import com.elegantgalaxy.tvlauncher.model.AppInfo
