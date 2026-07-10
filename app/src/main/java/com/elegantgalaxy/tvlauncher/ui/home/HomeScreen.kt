@@ -129,7 +129,6 @@ private fun SearchResultsRow(
 
 @Composable
 private fun HomeHeader(
-    onOpenSettings: () -> Unit,
     query: String,
     onQueryChange: (String) -> Unit,
     onSearchSubmit: () -> Unit,
@@ -164,13 +163,5 @@ private fun HomeHeader(
                 .padding(horizontal = 32.dp)
                 .width(420.dp),
         )
-
-        IconButton(onClick = onOpenSettings) {
-            Icon(
-                imageVector = Icons.Filled.Settings,
-                contentDescription = "Settings",
-                tint = MaterialTheme.colorScheme.onBackground,
-            )
-        }
     }
 }
