@@ -29,12 +29,14 @@ object AppLauncherUtils {
                 val activityInfo = resolveInfo.activityInfo
                 val isSystem = (activityInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
                 val iconDrawable = resolveInfo.loadIcon(pm)
+                val iconBitmap = iconDrawable.toBitmap()
                 AppInfo(
                     packageName = activityInfo.packageName,
                     activityName = activityInfo.name,
                     label = resolveInfo.loadLabel(pm).toString(),
                     category = if (isSystem) AppCategory.TOOLS else AppCategory.STREAMING,
-                    icon = BitmapPainter(iconDrawable.toBitmap().asImageBitmap()),
+                    icon = BitmapPainter(iconBitmap.asImageBitmap()),
+                    iconBitmap = iconBitmap,
                     isSystemApp = isSystem,
                 )
             }
