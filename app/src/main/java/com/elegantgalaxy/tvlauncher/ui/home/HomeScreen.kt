@@ -33,13 +33,11 @@ import com.elegantgalaxy.tvlauncher.ui.components.GoldenParticleBackground
 import com.elegantgalaxy.tvlauncher.ui.components.SearchBar
 import com.elegantgalaxy.tvlauncher.ui.theme.AppBackground
 import com.elegantgalaxy.tvlauncher.utils.AppLauncherUtils
-import com.elegantgalaxy.tvlauncher.utils.MockData
 
 /**
  * Launcher home screen: branding header, then one horizontally-scrolling
- * [AppCarousel] per [AppCategory] that has apps. Swap [MockData.sampleApps]
- * for `AppLauncherUtils.queryLaunchableApps(context)` once you're testing
- * against a real device's installed app list.
+ * [AppCarousel] per [AppCategory] that has apps, populated from the real
+ * installed-app list via [AppLauncherUtils.queryLaunchableApps].
  */
 @Composable
 fun HomeScreen(
