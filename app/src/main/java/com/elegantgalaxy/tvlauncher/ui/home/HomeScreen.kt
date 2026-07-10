@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,6 +40,8 @@ import com.elegantgalaxy.tvlauncher.model.AppInfo
 import com.elegantgalaxy.tvlauncher.ui.components.AppTile
 import com.elegantgalaxy.tvlauncher.ui.components.GoldenParticleBackground
 import com.elegantgalaxy.tvlauncher.ui.components.SearchBar
+import com.elegantgalaxy.tvlauncher.ui.theme.GradientBlack
+import com.elegantgalaxy.tvlauncher.ui.theme.GradientGold
 import com.elegantgalaxy.tvlauncher.utils.AppLauncherUtils
 import com.elegantgalaxy.tvlauncher.utils.MockData
 
