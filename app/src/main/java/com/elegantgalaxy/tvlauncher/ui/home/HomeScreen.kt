@@ -152,7 +152,7 @@ private fun HomeHeader(
             onSearchSubmit = onSearchSubmit,
             modifier = Modifier
                 .padding(horizontal = 32.dp)
-                .width(320.dp),
+                .width(460.dp),
         )
     }
 }
