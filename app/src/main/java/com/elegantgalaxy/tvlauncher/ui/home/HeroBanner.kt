@@ -69,13 +69,11 @@ private const val SLIDE_DURATION_MS = 6000
  * restarts that same animation from zero.
  *
  * The effect is keyed on [activePage] — a plain local `Int` we own — rather
- * than `pagerState.currentPage`, and jumps pages with `scrollToPage`
- * (instant) rather than `animateScrollToPage` (animated). This pager lives
- * inside a vertically-scrolling `LazyColumn`; the animated variant was
- * getting its horizontal scroll animation interrupted mid-flight — likely a
- * nested-scroll conflict with the parent list — leaving the pager stuck
- * straddling two pages instead of settling on one. An instant jump can't be
- * caught mid-animation because there's no animation to interrupt.
+ * than `pagerState.currentPage`, which updates mid-scroll before a scroll
+ * animation actually finishes settling. [HeroBanner] is now a fixed sibling
+ * above the screen's `LazyColumn` rather than a lazy item inside it (see
+ * call site), which resolved a nested-scroll conflict that used to cut
+ * `animateScrollToPage` off mid-flight — so it's safe to animate again here.
  */
 @Composable
 fun HeroBanner(modifier: Modifier = Modifier) {
@@ -85,7 +83,7 @@ fun HeroBanner(modifier: Modifier = Modifier) {
 
     LaunchedEffect(activePage) {
         if (pagerState.currentPage != activePage) {
-            pagerState.scrollToPage(activePage)
+            pagerState.animateScrollToPage(activePage)
         }
         progress.snapTo(0f)
         progress.animateTo(1f, animationSpec = tween(SLIDE_DURATION_MS, easing = LinearEasing))
