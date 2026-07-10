@@ -101,7 +101,7 @@ fun HeroBanner(modifier: Modifier = Modifier) {
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(360.dp),
+                .height(317.dp),
         ) { page ->
             HeroBannerPage(item = heroBannerItems[page])
         }
