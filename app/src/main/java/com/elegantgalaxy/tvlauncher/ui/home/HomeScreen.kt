@@ -127,6 +127,7 @@ fun HomeScreen(
                             title = category.displayName,
                             apps = appsByCategory[category].orEmpty(),
                             onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
+                            onAppFocusChange = { focusedApp = it },
                         )
                     }
                 }
