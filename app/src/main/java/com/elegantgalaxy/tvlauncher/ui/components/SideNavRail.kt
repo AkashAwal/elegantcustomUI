@@ -153,15 +153,11 @@ private fun RailIcon(
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
-    val shape = RoundedCornerShape(16.dp)
+    val shape = RoundedCornerShape(4.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
-    val backgroundColor = if (isSelected) {
-        MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
-    } else {
-        SurfaceElevated1
-    }
-    val tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+    val backgroundColor = if (isSelected) Color.White else SurfaceElevated1
+    val tint = if (isSelected) Color.Black else MaterialTheme.colorScheme.onSurfaceVariant
 
     Icon(
         imageVector = icon,
