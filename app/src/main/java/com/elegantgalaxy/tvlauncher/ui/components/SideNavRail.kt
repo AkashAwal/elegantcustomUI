@@ -92,7 +92,3 @@ private fun RailIcon(
             .padding(16.dp),
     )
 }
-
-@Composable
-private fun rememberTvFocusVisualsCompat(shape: RoundedCornerShape) =
-    com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals(shape = shape)
