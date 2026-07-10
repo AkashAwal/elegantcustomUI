@@ -145,6 +145,7 @@ private fun HomeHeader(
             Image(
                 painter = painterResource(id = R.drawable.company_logo),
                 contentDescription = companyName,
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                 modifier = Modifier.size(40.dp),
             )
             Spacer(modifier = Modifier.padding(start = 12.dp))
