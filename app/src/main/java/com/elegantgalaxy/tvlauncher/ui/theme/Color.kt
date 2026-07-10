@@ -15,7 +15,7 @@ val BrandOnPrimary = Color(0xFFFFFFFF)
 // True black with a faint blue tint (not neutral grey) so OLED pixels
 // mostly switch off while still reading as "PS5 dashboard" rather than
 // flat black. Saves power and improves contrast on burn-in-prone panels.
-val SurfaceBlack = Color(0xFF000005)
+val SurfaceBlack = Color(0xFFFFD54A)
 val SurfaceElevated1 = Color(0xFF10121A)
 val SurfaceElevated2 = Color(0xFF1A1D28)
 val SurfaceElevated3 = Color(0xFF262A38)
