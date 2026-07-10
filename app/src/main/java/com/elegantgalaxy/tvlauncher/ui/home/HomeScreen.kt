@@ -46,7 +46,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val apps = remember { MockData.sampleApps }
+    val apps = remember { AppLauncherUtils.queryLaunchableApps(context) }
     val appsByCategory = remember(apps) { apps.groupBy { it.category } }
 
     var query by remember { mutableStateOf("") }
