@@ -69,7 +69,6 @@ fun HomeScreen(
                 .background(Brush.verticalGradient(listOf(GradientBlack, GradientGold))),
         ) {
             HomeHeader(
-                onOpenSettings = onOpenSettings,
                 query = query,
                 onQueryChange = { query = it },
                 onSearchSubmit = { AppLauncherUtils.launchYouTubeSearch(context, query) },
