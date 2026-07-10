@@ -29,6 +29,7 @@ fun AppCarousel(
     apps: List<AppInfo>,
     onAppClick: (AppInfo) -> Unit,
     modifier: Modifier = Modifier,
+    onAppFocusChange: (AppInfo?) -> Unit = {},
 ) {
     Column(modifier = modifier) {
         Text(
