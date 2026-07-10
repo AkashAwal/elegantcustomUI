@@ -140,6 +140,7 @@ fun HomeScreen(
 private fun SearchResultsRow(
     apps: List<AppInfo>,
     onAppClick: (AppInfo) -> Unit,
+    onAppFocusChange: (AppInfo?) -> Unit = {},
 ) {
     Column(modifier = Modifier.padding(top = 24.dp)) {
         Text(
@@ -159,6 +160,7 @@ private fun SearchResultsRow(
                         app = app,
                         onClick = { onAppClick(app) },
                         modifier = Modifier.width(140.dp).height(160.dp),
+                        onFocusChange = onAppFocusChange,
                     )
                 }
             }
