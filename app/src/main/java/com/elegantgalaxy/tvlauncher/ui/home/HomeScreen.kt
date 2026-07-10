@@ -62,34 +62,38 @@ fun HomeScreen(
         if (query.isBlank()) emptyList() else apps.filter { it.label.contains(query, ignoreCase = true) }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-    ) {
-        HomeHeader(
-            onOpenSettings = onOpenSettings,
-            query = query,
-            onQueryChange = { query = it },
-            onSearchSubmit = { AppLauncherUtils.launchYouTubeSearch(context, query) },
-        )
+    Box(modifier = modifier.fillMaxSize()) {
+        GoldenParticleBackground(modifier = Modifier.fillMaxSize())
 
-        if (query.isNotBlank()) {
-            SearchResultsRow(
-                apps = filteredApps,
-                onAppClick = { app -> AppLauncherUtils.launch(context, app) },
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background.copy(alpha = 0.6f)),
+        ) {
+            HomeHeader(
+                onOpenSettings = onOpenSettings,
+                query = query,
+                onQueryChange = { query = it },
+                onSearchSubmit = { AppLauncherUtils.launchYouTubeSearch(context, query) },
             )
-        } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(32.dp),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 16.dp),
-            ) {
-                items(AppCategory.entries.filter { appsByCategory[it]?.isNotEmpty() == true }) { category ->
-                    AppCarousel(
-                        title = category.displayName,
-                        apps = appsByCategory[category].orEmpty(),
-                        onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
-                    )
+
+            if (query.isNotBlank()) {
+                SearchResultsRow(
+                    apps = filteredApps,
+                    onAppClick = { app -> AppLauncherUtils.launch(context, app) },
+                )
+            } else {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(32.dp),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 16.dp),
+                ) {
+                    items(AppCategory.entries.filter { appsByCategory[it]?.isNotEmpty() == true }) { category ->
+                        AppCarousel(
+                            title = category.displayName,
+                            apps = appsByCategory[category].orEmpty(),
+                            onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
+                        )
+                    }
                 }
             }
         }
