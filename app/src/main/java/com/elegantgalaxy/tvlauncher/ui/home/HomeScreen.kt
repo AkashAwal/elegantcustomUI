@@ -125,7 +125,12 @@ private fun SearchResultsRow(
 }
 
 @Composable
-private fun HomeHeader(onOpenSettings: () -> Unit) {
+private fun HomeHeader(
+    onOpenSettings: () -> Unit,
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearchSubmit: () -> Unit,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -147,6 +152,15 @@ private fun HomeHeader(onOpenSettings: () -> Unit) {
                 color = MaterialTheme.colorScheme.onBackground,
             )
         }
+
+        SearchBar(
+            query = query,
+            onQueryChange = onQueryChange,
+            onSearchSubmit = onSearchSubmit,
+            modifier = Modifier
+                .padding(horizontal = 32.dp)
+                .width(420.dp),
+        )
 
         IconButton(onClick = onOpenSettings) {
             Icon(
