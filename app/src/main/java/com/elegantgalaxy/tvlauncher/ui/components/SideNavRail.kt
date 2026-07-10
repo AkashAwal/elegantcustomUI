@@ -72,11 +72,16 @@ fun SideNavRail(
     onNotificationsClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // Scrollable rather than relying on a fixed height budget: at common TV
+    // resolutions/densities (e.g. 1920x1080 @ 320dpi = 540dp of height), a
+    // logo + 2 dividers + 7 icons doesn't reliably fit un-scrolled, and a
+    // clipped-but-invisible icon is worse than one you scroll to reach.
     Column(
         modifier = modifier
             .fillMaxHeight()
             .width(96.dp)
             .background(SurfaceElevated1)
+            .verticalScroll(rememberScrollState())
             .padding(vertical = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -97,9 +102,7 @@ fun SideNavRail(
             }
         }
 
-        Box(modifier = Modifier.weight(1f))
-
-        Box(modifier = Modifier.padding(bottom = 20.dp)) {
+        Box(modifier = Modifier.padding(vertical = 20.dp)) {
             RailDivider()
         }
 
