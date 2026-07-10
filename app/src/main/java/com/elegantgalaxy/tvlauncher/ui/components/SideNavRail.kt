@@ -24,7 +24,6 @@ import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
 
 enum class RailDestination(val icon: ImageVector, val contentDescription: String) {
     HOME(Icons.Filled.Home, "Home"),
-    APPS(Icons.Filled.Apps, "All apps"),
     SETTINGS(Icons.Filled.Settings, "Settings"),
 }
 
