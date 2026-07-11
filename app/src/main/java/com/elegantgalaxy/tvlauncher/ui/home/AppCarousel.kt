@@ -86,7 +86,7 @@ fun AppCarousel(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .focusRequester(lazyRow)
-                .focusRestorer { firstItem },
+                .focusRestorer(firstItem),
         ) {
             itemsIndexed(apps, key = { _, app -> app.packageName }) { index, app ->
                 val distance = if (focusedIndex == -1) Int.MAX_VALUE else kotlin.math.abs(index - focusedIndex)
