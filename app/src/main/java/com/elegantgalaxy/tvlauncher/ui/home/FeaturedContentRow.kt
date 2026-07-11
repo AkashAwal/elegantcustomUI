@@ -46,15 +46,17 @@ private val featuredMovies = listOf(
     FeaturedMovie("The Bear", Color(0xFF1F4A5C)),
 )
 
-private val tileShape = RoundedCornerShape(12.dp)
-
 /**
  * Row beneath [HeroBanner]: quick-access square tile for Android TV (the
  * launcher's own home surface), a rectangular tile for HDMI/other inputs,
- * then rectangular featured show/movie tiles. [onAndroidTvClick] and
- * [onInputsClick] are left as caller-supplied no-ops for now — neither
- * screen exists yet, same "wire it up when the destination exists" approach
- * as the RailDestination entries that already point at Home.
+ * then rectangular featured show/movie tiles — each with its own small
+ * caption above it ("OS", "Recent Input", "Featured") instead of one
+ * shared row title, since the three groups mean different things.
+ * [onAndroidTvClick] and [onInputsClick] are left as caller-supplied
+ * no-ops for now — neither screen exists yet, same "wire it up when the
+ * destination exists" approach as the RailDestination entries that
+ * already point at Home. Tiles are square-cornered (no rounding), unlike
+ * the app tiles below.
  */
 @Composable
 fun FeaturedContentRow(
@@ -62,34 +64,40 @@ fun FeaturedContentRow(
     onInputsClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
-        Text(
-            text = "Featured",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(start = 48.dp, bottom = 12.dp),
-        )
-
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 48.dp),
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
-        ) {
-            item { AndroidTvTile(onClick = onAndroidTvClick) }
-            item { InputsTile(onClick = onInputsClick) }
-            items(featuredMovies, key = { it.title }) { movie -> MovieTile(movie = movie) }
+    LazyRow(
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = 48.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        item { CaptionedTile(caption = "OS") { AndroidTvTile(onClick = onAndroidTvClick) } }
+        item { CaptionedTile(caption = "Recent Input") { InputsTile(onClick = onInputsClick) } }
+        items(featuredMovies, key = { it.title }) { movie ->
+            CaptionedTile(caption = "Featured") { MovieTile(movie = movie) }
         }
     }
 }
 
 @Composable
+private fun CaptionedTile(caption: String, content: @Composable () -> Unit) {
+    Column {
+        Text(
+            text = caption.uppercase(),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 8.dp),
+        )
+        content()
+    }
+}
+
+@Composable
 private fun AndroidTvTile(onClick: () -> Unit) {
-    val focusVisuals = rememberTvFocusVisuals(shape = tileShape)
+    val focusVisuals = rememberTvFocusVisuals()
 
     Box(
         modifier = Modifier
             .size(160.dp)
             .then(focusVisuals.modifier)
-            .clip(tileShape)
             .background(SurfaceElevated2)
             .clickable(
                 interactionSource = focusVisuals.interactionSource,
@@ -109,14 +117,13 @@ private fun AndroidTvTile(onClick: () -> Unit) {
 
 @Composable
 private fun InputsTile(onClick: () -> Unit) {
-    val focusVisuals = rememberTvFocusVisuals(shape = tileShape)
+    val focusVisuals = rememberTvFocusVisuals()
 
     Box(
         modifier = Modifier
             .width(240.dp)
             .height(160.dp)
             .then(focusVisuals.modifier)
-            .clip(tileShape)
             .background(
                 Brush.horizontalGradient(listOf(SurfaceElevated2, SurfaceElevated3)),
             )
@@ -147,14 +154,13 @@ private fun InputsTile(onClick: () -> Unit) {
 
 @Composable
 private fun MovieTile(movie: FeaturedMovie) {
-    val focusVisuals = rememberTvFocusVisuals(shape = tileShape)
+    val focusVisuals = rememberTvFocusVisuals()
 
     Box(
         modifier = Modifier
             .width(240.dp)
             .height(160.dp)
             .then(focusVisuals.modifier)
-            .clip(tileShape)
             .clickable(
                 interactionSource = focusVisuals.interactionSource,
                 indication = null,
