@@ -70,10 +70,7 @@ private const val SLIDE_DURATION_MS = 6000
  *
  * The effect is keyed on [activePage] — a plain local `Int` we own — rather
  * than `pagerState.currentPage`, which updates mid-scroll before a scroll
- * animation actually finishes settling. [HeroBanner] is now a fixed sibling
- * above the screen's `LazyColumn` rather than a lazy item inside it (see
- * call site), which resolved a nested-scroll conflict that used to cut
- * `animateScrollToPage` off mid-flight — so it's safe to animate again here.
+ * animation actually finishes settling.
  */
 @Composable
 fun HeroBanner(modifier: Modifier = Modifier) {
