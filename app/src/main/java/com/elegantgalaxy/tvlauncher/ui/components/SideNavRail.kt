@@ -81,7 +81,7 @@ fun SideNavRail(
     Column(
         modifier = modifier
             .fillMaxHeight()
-            .width(96.dp)
+            .width(64.dp)
             .background(AppBackground)
             .verticalScroll(rememberScrollState())
             .padding(vertical = 24.dp),
@@ -93,7 +93,7 @@ fun SideNavRail(
             RailDivider()
         }
 
-        Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             listOf(
                 RailDestination.SEARCH,
                 RailDestination.APPS,
