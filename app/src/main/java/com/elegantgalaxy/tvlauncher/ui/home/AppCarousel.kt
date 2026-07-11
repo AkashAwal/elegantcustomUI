@@ -69,7 +69,7 @@ fun AppCarousel(
         )
 
         LazyRow(
-            contentPadding = PaddingValues(horizontal = 48.dp, top = RISE_FOCUSED, bottom = 4.dp),
+            contentPadding = PaddingValues(start = 48.dp, end = 48.dp, top = RISE_FOCUSED, bottom = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             itemsIndexed(apps, key = { _, app -> app.packageName }) { index, app ->
