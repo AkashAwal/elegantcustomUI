@@ -207,7 +207,7 @@ private fun DateTimeText(modifier: Modifier = Modifier) {
             delay(30_000)
         }
     }
-    val formatter = remember { DateTimeFormatter.ofPattern("EEE, MMM d · h:mm a") }
+    val formatter = remember { DateTimeFormatter.ofPattern("MMM d · h:mm a") }
 
     Text(
         text = now.format(formatter),
