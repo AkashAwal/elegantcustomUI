@@ -54,7 +54,14 @@ private val RISE_NEIGHBOR = 6.dp
  * is tracked as a plain index rather than derived from focus state per
  * tile so neighbors 1 index away can react even though they aren't
  * focused themselves.
+ *
+ * The row restores focus to whichever tile was last focused when D-Pad
+ * navigation re-enters it (falling back to the first tile the first time),
+ * instead of always resetting to the start — same pattern Google's
+ * JetStreamCompose sample uses for its content rows, since without it a
+ * TV remote "loses its place" every time focus leaves and returns to a row.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AppCarousel(
     title: String,
@@ -64,8 +71,9 @@ fun AppCarousel(
     onAppFocusChange: (AppInfo?) -> Unit = {},
 ) {
     var focusedIndex by remember { mutableStateOf(-1) }
+    val (lazyRow, firstItem) = remember { FocusRequester.createRefs() }
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier.focusGroup()) {
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
@@ -76,6 +84,9 @@ fun AppCarousel(
         LazyRow(
             contentPadding = PaddingValues(start = 48.dp, end = 48.dp, top = RISE_FOCUSED, bottom = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+                .focusRequester(lazyRow)
+                .focusRestorer { firstItem },
         ) {
             itemsIndexed(apps, key = { _, app -> app.packageName }) { index, app ->
                 val distance = if (focusedIndex == -1) Int.MAX_VALUE else kotlin.math.abs(index - focusedIndex)
@@ -89,10 +100,12 @@ fun AppCarousel(
                     label = "tileRise",
                 )
 
+                val itemFocusRequester = if (index == 0) Modifier.focusRequester(firstItem) else Modifier
+
                 CompactAppTile(
                     app = app,
                     onClick = { onAppClick(app) },
-                    modifier = Modifier.size(TILE_SIZE).offset(y = -rise),
+                    modifier = itemFocusRequester.size(TILE_SIZE).offset(y = -rise),
                     onFocusChange = { focusedAppOrNull ->
                         onAppFocusChange(focusedAppOrNull)
                         focusedIndex = when {
