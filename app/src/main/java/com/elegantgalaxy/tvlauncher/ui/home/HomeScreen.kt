@@ -185,14 +185,14 @@ private fun HomeHeader(
         )
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            DateTimeText(modifier = Modifier.padding(end = 20.dp))
-
             SearchBar(
                 query = query,
                 onQueryChange = onQueryChange,
                 onSearchSubmit = onSearchSubmit,
                 modifier = Modifier.width(400.dp),
             )
+
+            DateTimeText(modifier = Modifier.padding(start = 20.dp))
         }
     }
 }
