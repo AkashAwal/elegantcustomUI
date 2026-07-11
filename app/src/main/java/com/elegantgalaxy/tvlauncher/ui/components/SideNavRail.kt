@@ -155,7 +155,7 @@ private fun RailIcon(
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
-    // 6dp corner radius on a ~40dp icon box (20dp icon + 2x10dp padding)
+    // 6dp corner radius on the ~44dp icon box (24dp icon + 2x10dp padding)
     // is about 5 percentage points rounder than the previous 4dp/56dp ratio.
     val shape = RoundedCornerShape(6.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
@@ -168,7 +168,6 @@ private fun RailIcon(
         contentDescription = contentDescription,
         tint = tint,
         modifier = Modifier
-            .size(20.dp)
             .then(focusVisuals.modifier)
             .clip(shape)
             .background(backgroundColor)
