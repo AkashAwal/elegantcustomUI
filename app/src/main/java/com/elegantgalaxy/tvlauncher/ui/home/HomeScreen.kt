@@ -113,18 +113,12 @@ fun HomeScreen(
                     onAppFocusChange = { focusedApp = it },
                 )
             } else {
-                // HeroBanner lives here, outside the LazyColumn, on purpose:
-                // a HorizontalPager as a lazy *item* inside a vertically
-                // scrolling LazyColumn was getting its own scroll animation
-                // interrupted mid-flight (a nested-scroll conflict between
-                // the two). As a fixed sibling above the list instead, it's
-                // no longer a scrollable nested inside another scrollable.
-                HeroBanner()
-
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(32.dp),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(top = 32.dp, bottom = 16.dp),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(top = 8.dp, bottom = 16.dp),
                 ) {
+                    item { HeroBanner() }
+
                     items(AppCategory.entries.filter { appsByCategory[it]?.isNotEmpty() == true }) { category ->
                         AppCarousel(
                             title = category.displayName,
