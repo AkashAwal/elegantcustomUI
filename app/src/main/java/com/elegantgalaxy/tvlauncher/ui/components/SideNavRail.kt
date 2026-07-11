@@ -114,7 +114,7 @@ fun SideNavRail(
             RailDivider()
         }
 
-        Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             listOf(RailDestination.CONTACT, RailDestination.SETTINGS).forEach { destination ->
                 RailIcon(
                     icon = destination.icon,
