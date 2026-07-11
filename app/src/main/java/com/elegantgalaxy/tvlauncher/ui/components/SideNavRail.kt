@@ -133,7 +133,7 @@ private fun BrandMark() {
         painter = painterResource(id = R.drawable.company_logo),
         contentDescription = "Elegant Galaxy",
         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
-        modifier = Modifier.size(48.dp),
+        modifier = Modifier.size(32.dp),
     )
 }
 
@@ -142,7 +142,7 @@ private fun RailDivider() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 12.dp)
             .height(1.dp)
             .background(SurfaceElevated3),
     )
@@ -155,7 +155,9 @@ private fun RailIcon(
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
-    val shape = RoundedCornerShape(4.dp)
+    // 6dp corner radius on a ~40dp icon box (20dp icon + 2x10dp padding)
+    // is about 5 percentage points rounder than the previous 4dp/56dp ratio.
+    val shape = RoundedCornerShape(6.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
     val backgroundColor = if (isSelected) Color.White else SurfaceElevated1
@@ -166,6 +168,7 @@ private fun RailIcon(
         contentDescription = contentDescription,
         tint = tint,
         modifier = Modifier
+            .size(20.dp)
             .then(focusVisuals.modifier)
             .clip(shape)
             .background(backgroundColor)
@@ -174,6 +177,6 @@ private fun RailIcon(
                 indication = null,
                 onClick = onClick,
             )
-            .padding(16.dp),
+            .padding(10.dp),
     )
 }
