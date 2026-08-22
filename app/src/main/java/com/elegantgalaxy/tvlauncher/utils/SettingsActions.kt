@@ -3,25 +3,13 @@ package com.elegantgalaxy.tvlauncher.utils
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.AudioManager
 import android.net.Uri
 import android.provider.Settings
 
-/**
- * Backing actions for the Settings screen rows. Each one either drives a
- * real system API directly (volume, brightness — the launcher already holds
- * WRITE_SETTINGS for this) or deep-links into the platform's own screen for
- * things a TV launcher shouldn't reimplement (Wi-Fi picker).
- */
+/** Backing actions for the Settings sidebar's Brightness switcher — the one item that drives a real system value. */
 object SettingsActions {
 
     private const val BRIGHTNESS_STEP_PERCENT = 10
-
-    /** Pops the system volume overlay, which the D-Pad/remote's volume keys already control. */
-    fun adjustVolume(context: Context) {
-        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_SAME, AudioManager.FLAG_SHOW_UI)
-    }
 
     /** Current screen brightness as 0-100, reading the real system value. */
     fun getBrightnessPercent(context: Context): Int {
