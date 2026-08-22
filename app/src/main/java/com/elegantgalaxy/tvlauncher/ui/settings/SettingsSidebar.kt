@@ -150,12 +150,10 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
             Spacer(Modifier.height(14.dp))
         }
 
-        Spacer(Modifier.weight(1f))
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 10.dp)
+                .padding(bottom = 14.dp)
                 .height(1.dp)
                 .background(SurfaceElevated3),
         )
