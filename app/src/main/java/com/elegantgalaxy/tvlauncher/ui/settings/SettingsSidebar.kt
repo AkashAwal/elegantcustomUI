@@ -160,7 +160,13 @@ private class TileSpec<T>(
 )
 
 @Composable
-private fun FullWidthRow(label: String, icon: ImageVector, onClick: () -> Unit, verticalPadding: Dp = 16.dp) {
+private fun FullWidthRow(
+    label: String,
+    icon: ImageVector,
+    onClick: () -> Unit,
+    verticalPadding: Dp = 16.dp,
+    subtitle: String? = null,
+) {
     val shape = RoundedCornerShape(10.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
@@ -173,14 +179,31 @@ private fun FullWidthRow(label: String, icon: ImageVector, onClick: () -> Unit, 
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick)
             .padding(horizontal = 16.dp, vertical = verticalPadding),
     ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center,
+        Column(
             modifier = Modifier.fillMaxWidth().align(Alignment.Center),
-        )
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            if (subtitle != null) {
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 2.dp),
+                )
+            }
+        }
         Icon(
             imageVector = icon,
             contentDescription = label,
