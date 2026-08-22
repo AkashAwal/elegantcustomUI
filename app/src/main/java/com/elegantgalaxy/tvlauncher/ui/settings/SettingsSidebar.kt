@@ -74,7 +74,7 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
             .background(SurfaceElevated1)
             .padding(16.dp),
     ) {
-        FullWidthRow(label = "Support", icon = Icons.Filled.SupportAgent, onClick = {})
+        FullWidthRow(label = "Wi-Fi / Network", icon = Icons.Filled.Wifi, onClick = { SettingsActions.openNetworkSettings(context) })
 
         Spacer(Modifier.height(20.dp))
 
