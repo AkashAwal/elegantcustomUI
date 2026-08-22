@@ -36,7 +36,12 @@ import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated3
 import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
 
 private val NUMBER_ROW = "1234567890"
-private val LETTER_ROWS = listOf("qwertyuiop", "asdfghjkl", "zxcvbnm")
+
+// "?" sits below "p", "@" sits below "a", and "," "." sit below "?" (comma
+// to its left) — standard mobile-keyboard punctuation placement, requested
+// explicitly. Only applies to the letters layout; symbols mode has its own
+// full punctuation set instead.
+private val LETTER_ROWS = listOf("qwertyuiop", "asdfghjkl?", "@zxcvbnm,.")
 private val SYMBOL_ROWS = listOf("!@#$%^&*()", "-_=+[]{}\\|", ";:'\",.<>/?")
 
 /**
