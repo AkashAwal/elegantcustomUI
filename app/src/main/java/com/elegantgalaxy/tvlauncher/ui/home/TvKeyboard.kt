@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Backspace
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,96 +26,224 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated2
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated3
 import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
 
-private val ROWS = listOf("qwertyuiop", "asdfghjkl", "zxcvbnm")
+private val NUMBER_ROW = "1234567890"
+private val LETTER_ROWS = listOf("qwertyuiop", "asdfghjkl", "zxcvbnm")
+private val SYMBOL_ROWS = listOf("!@#$%^&*()", "-_=+[]{}\\|", ";:'\",.<>/?")
 
 /**
- * In-app D-Pad QWERTY keyboard, replacing reliance on the system IME so
- * search input stays fully D-Pad native (no soft keyboard popping up
- * unpredictably over the layout). Lowercase letters only — app-name
- * matching is case-insensitive, so shift/caps isn't needed for this
- * launcher's search — plus space, backspace, and search-submit.
+ * In-app D-Pad keyboard, replacing reliance on the system IME so search
+ * input stays fully D-Pad native. Full layout: numbers row, three
+ * letter/symbol rows, and a space-bar row, flanked by a left action column
+ * (language, symbols toggle, caps lock, hide keyboard) and a right action
+ * column (backspace, Done, mic, clear-all, cursor chevrons).
  */
 @Composable
 fun TvKeyboard(
-    onKeyPress: (Char) -> Unit,
+    capsLock: Boolean,
+    onToggleCaps: () -> Unit,
+    symbolsMode: Boolean,
+    onToggleSymbols: () -> Unit,
+    onCharPress: (Char) -> Unit,
     onBackspace: () -> Unit,
-    onSearch: () -> Unit,
+    onClearAll: () -> Unit,
+    onMoveCursor: (Int) -> Unit,
+    onDone: () -> Unit,
+    onMicPress: () -> Unit,
+    onHideKeyboard: () -> Unit,
     modifier: Modifier = Modifier,
     firstKeyFocusRequester: FocusRequester? = null,
 ) {
+    val rows = if (symbolsMode) SYMBOL_ROWS else LETTER_ROWS
+
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(SurfaceElevated2)
-            .padding(vertical = 16.dp, horizontal = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+            .padding(vertical = 12.dp, horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        ROWS.forEachIndexed { rowIndex, row ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                row.forEachIndexed { charIndex, char ->
-                    KeyButton(
-                        label = char.toString(),
-                        onClick = { onKeyPress(char) },
-                        focusRequester = if (rowIndex == 0 && charIndex == 0) firstKeyFocusRequester else null,
-                    )
-                }
+        // Numbers row: language label (left) ... digits ... backspace (right)
+        KeyRow {
+            LabelKey(text = "ENG")
+            NUMBER_ROW.forEach { digit ->
+                CharKey(
+                    label = digit.toString(),
+                    onClick = { onCharPress(digit) },
+                    focusRequester = if (digit == NUMBER_ROW.first()) firstKeyFocusRequester else null,
+                )
             }
+            IconKey(icon = Icons.AutoMirrored.Filled.Backspace, contentDescription = "Backspace", onClick = onBackspace)
         }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            KeyButton(label = "", onClick = onBackspace, icon = Icons.AutoMirrored.Filled.Backspace, widthDp = 64)
-            KeyButton(label = "space", onClick = { onKeyPress(' ') }, widthDp = 280)
-            KeyButton(label = "Search", onClick = onSearch, icon = Icons.Filled.Search, widthDp = 120, highlighted = true)
+
+        // Row 1: symbols/ABC toggle (left) ... qwertyuiop ... Done (right, green)
+        KeyRow {
+            TextActionKey(text = if (symbolsMode) "ABC" else "!#1", onClick = onToggleSymbols)
+            rows[0].forEach { char ->
+                CharKey(label = displayChar(char, capsLock), onClick = { onCharPress(effectiveChar(char, capsLock)) })
+            }
+            TextActionKey(text = "Done", onClick = onDone, highlighted = true)
+        }
+
+        // Row 2: caps lock (left) ... asdfghjkl ... mic (right)
+        KeyRow {
+            IconKey(
+                icon = Icons.Filled.KeyboardArrowDown,
+                contentDescription = "Caps lock",
+                onClick = onToggleCaps,
+                active = capsLock,
+                rotateUp = true,
+            )
+            rows[1].forEach { char ->
+                CharKey(label = displayChar(char, capsLock), onClick = { onCharPress(effectiveChar(char, capsLock)) })
+            }
+            IconKey(icon = Icons.Filled.Mic, contentDescription = "Voice search", onClick = onMicPress)
+        }
+
+        // Row 3: hide keyboard (left) ... zxcvbnm ... clear all (right)
+        KeyRow {
+            IconKey(icon = Icons.Filled.KeyboardArrowDown, contentDescription = "Hide keyboard", onClick = onHideKeyboard)
+            rows[2].forEach { char ->
+                CharKey(label = displayChar(char, capsLock), onClick = { onCharPress(effectiveChar(char, capsLock)) })
+            }
+            TextActionKey(text = "Clear", onClick = onClearAll)
+        }
+
+        // Row 4: space bar, flanked by cursor chevrons on the right
+        KeyRow {
+            SpaceKey(onClick = { onCharPress(' ') })
+            IconKey(icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Move cursor left", onClick = { onMoveCursor(-1) })
+            IconKey(icon = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Move cursor right", onClick = { onMoveCursor(1) })
         }
     }
 }
 
+private fun displayChar(char: Char, capsLock: Boolean): String =
+    (if (capsLock) char.uppercaseChar() else char).toString()
+
+private fun effectiveChar(char: Char, capsLock: Boolean): Char =
+    if (capsLock) char.uppercaseChar() else char
+
 @Composable
-private fun KeyButton(
-    label: String,
-    onClick: () -> Unit,
-    icon: ImageVector? = null,
-    widthDp: Int = 44,
-    highlighted: Boolean = false,
-    focusRequester: FocusRequester? = null,
-) {
-    val shape = RoundedCornerShape(8.dp)
+private fun KeyRow(content: @Composable () -> Unit) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth(),
+    ) { content() }
+}
+
+@Composable
+private fun LabelKey(text: String) {
+    Box(
+        modifier = Modifier
+            .width(48.dp)
+            .height(38.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(text = text, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelMedium)
+    }
+}
+
+@Composable
+private fun CharKey(label: String, onClick: () -> Unit, focusRequester: FocusRequester? = null) {
+    val shape = RoundedCornerShape(6.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
     Box(
         modifier = Modifier
             .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier)
             .then(focusVisuals.modifier)
-            .width(widthDp.dp)
-            .height(44.dp)
+            .width(38.dp)
+            .height(38.dp)
             .clip(shape)
-            .background(if (highlighted) MaterialTheme.colorScheme.primary else SurfaceElevated3)
+            .background(SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        if (icon != null) {
-            Icon(
-                imageVector = icon,
-                contentDescription = if (label.isNotEmpty()) label else null,
-                tint = if (highlighted) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
-            )
-        } else {
-            Text(
-                text = label,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.titleSmall,
-            )
-        }
+        Text(text = label, color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.titleSmall)
     }
 }
+
+@Composable
+private fun IconKey(
+    icon: ImageVector,
+    contentDescription: String,
+    onClick: () -> Unit,
+    active: Boolean = false,
+    rotateUp: Boolean = false,
+) {
+    val shape = RoundedCornerShape(6.dp)
+    val focusVisuals = rememberTvFocusVisuals(shape = shape)
+
+    Box(
+        modifier = Modifier
+            .then(focusVisuals.modifier)
+            .width(48.dp)
+            .height(38.dp)
+            .clip(shape)
+            .background(if (active) MaterialTheme.colorScheme.primary else SurfaceElevated3)
+            .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = contentDescription,
+            tint = if (active) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
+            modifier = if (rotateUp) Modifier.rotateUpright() else Modifier,
+        )
+    }
+}
+
+@Composable
+private fun TextActionKey(text: String, onClick: () -> Unit, highlighted: Boolean = false) {
+    val shape = RoundedCornerShape(6.dp)
+    val focusVisuals = rememberTvFocusVisuals(shape = shape)
+    val greenDone = Color(0xFF2E7D32)
+
+    Box(
+        modifier = Modifier
+            .then(focusVisuals.modifier)
+            .width(64.dp)
+            .height(38.dp)
+            .clip(shape)
+            .background(if (highlighted) greenDone else SurfaceElevated3)
+            .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = text,
+            color = if (highlighted) Color.White else MaterialTheme.colorScheme.onSurface,
+            fontWeight = if (highlighted) FontWeight.Bold else FontWeight.Normal,
+            style = MaterialTheme.typography.labelMedium,
+        )
+    }
+}
+
+@Composable
+private fun SpaceKey(onClick: () -> Unit) {
+    val shape = RoundedCornerShape(6.dp)
+    val focusVisuals = rememberTvFocusVisuals(shape = shape)
+
+    Box(
+        modifier = Modifier
+            .then(focusVisuals.modifier)
+            .fillMaxWidth()
+            .height(38.dp)
+            .clip(shape)
+            .background(SurfaceElevated3)
+            .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(text = "space", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelMedium)
+    }
+}
+
+private fun Modifier.rotateUpright(): Modifier = this
