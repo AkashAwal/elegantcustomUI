@@ -59,7 +59,7 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    var selectedMode by remember { mutableStateOfDisplayMode(DisplayModeStore.current(context)) }
+    var selectedMode by remember { mutableStateOf(DisplayModeStore.current(context)) }
 
     val entries = listOf(
         SettingsEntry(
