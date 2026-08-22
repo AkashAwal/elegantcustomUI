@@ -41,12 +41,4 @@ object SettingsActions {
         val nextPercent = (getBrightnessPercent(context) + deltaPercent).coerceIn(5, 100)
         Settings.System.putInt(resolver, Settings.System.SCREEN_BRIGHTNESS, nextPercent * 255 / 100)
     }
-
-    /** Hands off to the platform's own Wi-Fi settings screen rather than reimplementing a network picker. */
-    fun openNetworkSettings(context: Context) {
-        val intent = Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        if (context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
-            context.startActivity(intent)
-        }
-    }
 }
