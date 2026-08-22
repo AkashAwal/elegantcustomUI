@@ -68,9 +68,9 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxHeight()
-            .width(420.dp)
+            .width(300.dp)
             .background(SurfaceElevated1)
-            .padding(20.dp),
+            .padding(16.dp),
     ) {
         FullWidthRow(label = "Support", icon = Icons.Filled.SupportAgent, onClick = {})
 
