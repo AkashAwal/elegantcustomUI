@@ -182,22 +182,26 @@ private fun QuickSettingTile(
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
+            maxLines = 1,
             modifier = Modifier.fillMaxWidth(),
+        )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurface,
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 6.dp),
         )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
         ) {
             StepButton(icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Previous $label", onClick = onPrev)
-            Text(
-                text = value,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.weight(1f),
-            )
             StepButton(icon = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Next $label", onClick = onNext)
         }
     }
