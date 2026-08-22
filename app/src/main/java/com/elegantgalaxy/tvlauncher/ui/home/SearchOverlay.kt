@@ -77,6 +77,7 @@ private val TRENDING_SEARCHES = listOf("Cricket", "New movies", "Comedy specials
  * keyboard's left/right chevrons can move the insertion point like a real
  * text cursor.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchOverlay(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
     val context = LocalContext.current
