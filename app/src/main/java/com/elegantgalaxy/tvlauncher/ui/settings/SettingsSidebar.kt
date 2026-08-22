@@ -69,6 +69,7 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
     val sleepTimer by QuickSettingsStore.sleepTimer.collectAsState()
     val eyeCareEnabled by QuickSettingsStore.eyeCareEnabled.collectAsState()
     var brightnessPercent by remember { mutableIntStateOf(SettingsActions.getBrightnessPercent(context)) }
+    val wifiStatus = remember { SettingsActions.getWifiStatusLabel(context) }
 
     Column(
         modifier = modifier
@@ -77,7 +78,12 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
             .background(SurfaceElevated1)
             .padding(16.dp),
     ) {
-        FullWidthRow(label = "Wi-Fi / Network", icon = Icons.Filled.Wifi, onClick = { SettingsActions.openNetworkSettings(context) })
+        FullWidthRow(
+            label = "Wi-Fi Settings",
+            subtitle = wifiStatus,
+            icon = Icons.Filled.Wifi,
+            onClick = { SettingsActions.openNetworkSettings(context) },
+        )
 
         Spacer(Modifier.height(14.dp))
 
