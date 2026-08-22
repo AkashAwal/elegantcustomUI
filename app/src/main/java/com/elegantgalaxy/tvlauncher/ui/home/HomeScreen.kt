@@ -32,6 +32,7 @@ import com.elegantgalaxy.tvlauncher.ui.components.GoldenParticleBackground
 import com.elegantgalaxy.tvlauncher.ui.components.SearchBar
 import com.elegantgalaxy.tvlauncher.ui.theme.AppBackground
 import com.elegantgalaxy.tvlauncher.utils.AppLauncherUtils
+import com.elegantgalaxy.tvlauncher.utils.DisplayModeStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
