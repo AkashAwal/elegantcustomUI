@@ -108,16 +108,24 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
         tiles.chunked(2).forEach { pair ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(14.dp),
             ) {
                 pair.forEach { tile ->
                     QuickSettingTile(tile = tile, modifier = Modifier.weight(1f))
                 }
             }
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(14.dp))
         }
 
         Spacer(Modifier.weight(1f))
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+                .height(1.dp)
+                .background(SurfaceElevated3),
+        )
 
         FullWidthRow(label = "Contact Us", icon = Icons.Filled.ContactPhone, onClick = {})
     }
