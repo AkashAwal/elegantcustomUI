@@ -242,12 +242,44 @@ private fun <T> QuickSettingTile(tile: TileSpec<T>, modifier: Modifier = Modifie
                 .fillMaxWidth()
                 .padding(top = 8.dp),
         )
-        DotSelector(
-            count = tile.options.size,
-            selectedIndex = tile.selectedIndex,
-            onSelect = tile.onSelect,
-            modifier = Modifier.padding(top = 12.dp),
-        )
+        if (tile.useStepper) {
+            Row(
+                modifier = Modifier.padding(top = 10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                StepButton(icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Decrease ${tile.label}") {
+                    tile.onSelect(tile.selectedIndex - 1)
+                }
+                StepButton(icon = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Increase ${tile.label}") {
+                    tile.onSelect(tile.selectedIndex + 1)
+                }
+            }
+        } else {
+            DotSelector(
+                count = tile.options.size,
+                selectedIndex = tile.selectedIndex,
+                onSelect = tile.onSelect,
+                modifier = Modifier.padding(top = 12.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun StepButton(icon: ImageVector, contentDescription: String, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(8.dp)
+    val focusVisuals = rememberTvFocusVisuals(shape = shape)
+
+    Box(
+        modifier = Modifier
+            .size(28.dp)
+            .then(focusVisuals.modifier)
+            .clip(shape)
+            .background(SurfaceElevated3)
+            .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(imageVector = icon, contentDescription = contentDescription, tint = MaterialTheme.colorScheme.onSurface)
     }
 }
 
