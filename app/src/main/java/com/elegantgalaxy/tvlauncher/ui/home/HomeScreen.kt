@@ -85,7 +85,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .background(
                     Brush.verticalGradient(
-                        listOf(AppBackground.copy(alpha = 0.92f), animatedAccent.copy(alpha = 0.55f)),
+                        listOf(displayMode.tint.copy(alpha = 0.92f), animatedAccent.copy(alpha = 0.55f)),
                     ),
                 ),
         ) {
