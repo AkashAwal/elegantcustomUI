@@ -87,36 +87,28 @@ fun HomeScreen(
                     ),
                 ),
         ) {
-            if (uiState.searchQuery.isBlank()) {
-                val appsByCategory = uiState.appsByCategory
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(32.dp),
-                    contentPadding = PaddingValues(bottom = 16.dp),
-                ) {
-                    item { HeroBanner() }
+            val appsByCategory = uiState.appsByCategory
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(32.dp),
+                contentPadding = PaddingValues(bottom = 16.dp),
+            ) {
+                item { HeroBanner() }
 
-                    item {
-                        FeaturedContentRow(
-                            onAndroidTvClick = {},
-                            onInputsClick = {},
-                        )
-                    }
-
-                    items(AppCategory.entries.filter { appsByCategory[it]?.isNotEmpty() == true }) { category ->
-                        AppCarousel(
-                            title = category.displayName,
-                            apps = appsByCategory[category].orEmpty(),
-                            onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
-                            onAppFocusChange = viewModel::onFocusedAppChange,
-                        )
-                    }
+                item {
+                    FeaturedContentRow(
+                        onAndroidTvClick = {},
+                        onInputsClick = {},
+                    )
                 }
-            } else {
-                AppGrid(
-                    apps = uiState.searchResults,
-                    onAppClick = { app -> AppLauncherUtils.launch(context, app) },
-                    modifier = Modifier.fillMaxSize(),
-                )
+
+                items(AppCategory.entries.filter { appsByCategory[it]?.isNotEmpty() == true }) { category ->
+                    AppCarousel(
+                        title = category.displayName,
+                        apps = appsByCategory[category].orEmpty(),
+                        onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
+                        onAppFocusChange = viewModel::onFocusedAppChange,
+                    )
+                }
             }
         }
     }
