@@ -55,7 +55,7 @@ fun HomeScreen(
     // the screen, via Palette. Extraction runs off the main thread since
     // Palette.generate() is a blocking call; animateColorAsState smooths
     // the jump between colors as focus moves tile to tile.
-    var targetAccent by remember { mutableStateOfAppBackground(AppBackground) }
+    var targetAccent by remember { mutableStateOf(AppBackground) }
     LaunchedEffect(uiState.focusedApp) {
         val bitmap = uiState.focusedApp?.iconBitmap
         targetAccent = if (bitmap != null) {
