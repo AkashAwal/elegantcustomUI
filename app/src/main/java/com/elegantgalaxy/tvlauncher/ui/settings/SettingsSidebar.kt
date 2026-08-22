@@ -76,7 +76,7 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
     ) {
         FullWidthRow(label = "Wi-Fi / Network", icon = Icons.Filled.Wifi, onClick = { SettingsActions.openNetworkSettings(context) })
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(14.dp))
 
         val eyeCareOptions = listOf(false, true)
         val tiles: List<TileSpec<*>> = listOf(
