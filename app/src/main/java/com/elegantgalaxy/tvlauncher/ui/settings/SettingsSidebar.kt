@@ -187,7 +187,7 @@ private fun <T> QuickSettingTile(tile: TileSpec<T>, modifier: Modifier = Modifie
         modifier = modifier
             .clip(shape)
             .background(SurfaceElevated2)
-            .padding(vertical = 16.dp, horizontal = 14.dp),
+            .padding(vertical = 13.dp, horizontal = 14.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
