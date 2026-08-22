@@ -97,8 +97,10 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
                 SettingsActions.brightnessLevels,
                 nearestIndex(SettingsActions.brightnessLevels, brightnessPercent),
                 { "$it%" },
+                useStepper = true,
             ) { index ->
-                SettingsActions.setBrightnessPercent(context, SettingsActions.brightnessLevels[index])
+                val clamped = index.coerceIn(0, SettingsActions.brightnessLevels.lastIndex)
+                SettingsActions.setBrightnessPercent(context, SettingsActions.brightnessLevels[clamped])
                 brightnessPercent = SettingsActions.getBrightnessPercent(context)
             },
             TileSpec("Sound Mode", SoundMode.entries, SoundMode.entries.indexOf(soundMode), { it.label }) { index ->
