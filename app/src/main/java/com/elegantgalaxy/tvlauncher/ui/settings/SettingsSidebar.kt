@@ -74,7 +74,21 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
     val sleepTimer by QuickSettingsStore.sleepTimer.collectAsState()
     val eyeCareEnabled by QuickSettingsStore.eyeCareEnabled.collectAsState()
     var brightnessPercent by remember { mutableIntStateOf(SettingsActions.getBrightnessPercent(context)) }
-    val wifiStatus = remember { SettingsActions.getWifiStatusLabel(context) }
+    var wifiStatus by remember { mutableStateOf(SettingsActions.getWifiStatusLabel(context)) }
+
+    // Refreshes when the app comes back to the foreground (e.g. Back from
+    // the system Wi-Fi settings screen this row deep-links to), since the
+    // Activity isn't destroyed/recreated on that round trip.
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                wifiStatus = SettingsActions.getWifiStatusLabel(context)
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     Column(
         modifier = modifier
