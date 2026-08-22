@@ -149,7 +149,7 @@ private class TileSpec<T>(
 )
 
 @Composable
-private fun FullWidthRow(label: String, icon: ImageVector, onClick: () -> Unit, verticalPadding: androidx.compose.ui.unit.Dp = 16.dp) {
+private fun FullWidthRow(label: String, icon: ImageVector, onClick: () -> Unit, verticalPadding: Dp = 16.dp) {
     val shape = RoundedCornerShape(10.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
