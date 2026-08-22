@@ -50,10 +50,8 @@ fun HomeScreen(
     val context = LocalContext.current
     val viewModel: HomeViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
-    val displayMode by remember { DisplayModeStore.mode }.let {
-        DisplayModeStore.current(context) // triggers lazy load from prefs before first read
-        it.collectAsState()
-    }
+    DisplayModeStore.current(context) // ensures the persisted mode is loaded before first read below
+    val displayMode by DisplayModeStore.mode.collectAsState()
 
     // Reactive background: whichever app tile currently has D-Pad focus
     // donates its icon's dominant color to a subtle tint at the bottom of
