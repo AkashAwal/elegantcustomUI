@@ -277,6 +277,7 @@ private fun BrowseSuggestions(
     history: List<String>,
     onHistoryClick: (String) -> Unit,
     onTrendingClick: (String) -> Unit,
+    onMoreAppsClick: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -304,12 +305,44 @@ private fun BrowseSuggestions(
 
         Spacer(Modifier.height(28.dp))
 
-        SectionLabel("Famous Apps")
+        SectionLabel("Trending Apps")
         LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             items(FamousAppsList) { app ->
                 FamousAppTile(app = app, onClick = { AppLauncherUtils.launchOrOpenStore(context, app.packageName) })
             }
         }
+
+        Spacer(Modifier.height(16.dp))
+
+        MoreAppsLink(onClick = onMoreAppsClick)
+    }
+}
+
+@Composable
+private fun MoreAppsLink(onClick: () -> Unit) {
+    val focusVisuals = rememberTvFocusVisuals(shape = RoundedCornerShape(6.dp))
+
+    Row(
+        modifier = Modifier
+            .then(focusVisuals.modifier)
+            .clip(RoundedCornerShape(6.dp))
+            .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick)
+            .padding(vertical = 6.dp, horizontal = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = "More Apps",
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier
+                .padding(start = 6.dp)
+                .size(16.dp),
+        )
     }
 }
 
