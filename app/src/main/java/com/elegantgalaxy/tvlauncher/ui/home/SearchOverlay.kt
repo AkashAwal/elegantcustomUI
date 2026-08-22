@@ -146,7 +146,7 @@ fun SearchOverlay(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
             // escape into the nav rail underneath (which is still
             // composed, just visually covered), silently closing search.
             .focusGroup()
-            .focusProperties { exit = { FocusRequester.Cancel } },
+            .focusProperties { onExit = { cancelFocusChange() } },
     ) {
         SearchField(
             query = uiState.searchQuery,
