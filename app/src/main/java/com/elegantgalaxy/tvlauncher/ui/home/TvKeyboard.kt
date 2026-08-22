@@ -144,8 +144,8 @@ private fun KeyRow(content: @Composable () -> Unit) {
 private fun LabelKey(text: String) {
     Box(
         modifier = Modifier
-            .width(48.dp)
-            .height(38.dp),
+            .width(40.dp)
+            .height(32.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(text = text, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelMedium)
