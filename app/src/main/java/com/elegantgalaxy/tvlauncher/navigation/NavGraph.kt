@@ -133,6 +133,7 @@ fun TvLauncherNavGraph(
             visible = searchOverlayOpen,
             enter = fadeIn(),
             exit = fadeOut(),
+            modifier = Modifier.fillMaxSize(),
         ) {
             SearchOverlay(homeViewModel = homeViewModel)
         }
