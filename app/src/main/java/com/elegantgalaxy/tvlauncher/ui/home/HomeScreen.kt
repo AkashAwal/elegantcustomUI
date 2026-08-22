@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -24,12 +22,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.palette.graphics.Palette
 import com.elegantgalaxy.tvlauncher.model.AppCategory
 import com.elegantgalaxy.tvlauncher.model.AppInfo
 import com.elegantgalaxy.tvlauncher.ui.components.GoldenParticleBackground
-import com.elegantgalaxy.tvlauncher.ui.components.SearchBar
 import com.elegantgalaxy.tvlauncher.ui.theme.AppBackground
 import com.elegantgalaxy.tvlauncher.utils.AppLauncherUtils
 import com.elegantgalaxy.tvlauncher.utils.DisplayModeStore
@@ -37,18 +33,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
- * Launcher home screen: search bar, then either the normal hero/featured/
- * category-carousel stack, or (while a search query is active) a flat grid
- * of matching apps. App data comes from [HomeViewModel], which owns the
- * PackageManager query so it runs off the main thread and refreshes itself
- * on install/uninstall.
+ * Launcher home screen: either the normal hero/featured/category-carousel
+ * stack, or (while a search query is active, driven by [SearchSidebar]) a
+ * flat grid of matching apps. App data comes from [viewModel], which owns
+ * the PackageManager query so it runs off the main thread and refreshes
+ * itself on install/uninstall. [viewModel] is hoisted to [com.elegantgalaxy.tvlauncher.navigation.TvLauncherNavGraph]
+ * and shared with [SearchSidebar] so typing there filters this screen.
  */
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val viewModel: HomeViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
     DisplayModeStore.current(context) // ensures the persisted mode is loaded before first read below
     val displayMode by DisplayModeStore.mode.collectAsState()
@@ -89,15 +86,6 @@ fun HomeScreen(
                     ),
                 ),
         ) {
-            SearchBar(
-                query = uiState.searchQuery,
-                onQueryChange = viewModel::onSearchQueryChange,
-                onSearchSubmit = { AppLauncherUtils.launchYouTubeSearch(context, uiState.searchQuery) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 48.dp, vertical = 16.dp),
-            )
-
             if (uiState.searchQuery.isBlank()) {
                 val appsByCategory = uiState.appsByCategory
                 LazyColumn(
