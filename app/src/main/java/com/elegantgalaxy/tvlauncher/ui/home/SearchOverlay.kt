@@ -177,6 +177,7 @@ fun SearchOverlay(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
                 },
                 onHideKeyboard = {
                     keyboardVisible = false
+                    searchFieldFocusRequester.requestFocus()
                 },
                 firstKeyFocusRequester = firstKeyFocusRequester,
                 modifier = Modifier
