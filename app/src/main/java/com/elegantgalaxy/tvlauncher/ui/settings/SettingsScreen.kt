@@ -24,34 +24,53 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.BuildConfig
 import com.elegantgalaxy.tvlauncher.ui.theme.AppBackground
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated2
+import com.elegantgalaxy.tvlauncher.utils.SettingsActions
 import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
 
 private data class SettingsEntry(
     val icon: ImageVector,
     val title: String,
     val subtitle: String,
+    val onClick: () -> Unit,
 )
 
-/**
- * Simple settings list. Each row is a placeholder for a real control
- * (volume slider, brightness slider, Wi-Fi picker) — wire those up as
- * follow-on tasks; this establishes the navigable list + focus pattern.
- */
 @Composable
 fun SettingsScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
     val entries = listOf(
-        SettingsEntry(Icons.AutoMirrored.Filled.VolumeUp, "Volume", "Adjust system volume"),
-        SettingsEntry(Icons.Filled.Brightness6, "Brightness", "Adjust screen brightness"),
-        SettingsEntry(Icons.Filled.Wifi, "Network", "Wi-Fi and Ethernet settings"),
-        SettingsEntry(Icons.Filled.Info, "About", "Version ${BuildConfig.VERSION_NAME} · Elegant Galaxy Pvt. Ltd."),
+        SettingsEntry(
+            Icons.AutoMirrored.Filled.VolumeUp,
+            "Volume",
+            "Adjust system volume",
+            onClick = { SettingsActions.adjustVolume(context) },
+        ),
+        SettingsEntry(
+            Icons.Filled.Brightness6,
+            "Brightness",
+            "Adjust screen brightness",
+            onClick = { SettingsActions.cycleBrightness(context) },
+        ),
+        SettingsEntry(
+            Icons.Filled.Wifi,
+            "Network",
+            "Wi-Fi and Ethernet settings",
+            onClick = { SettingsActions.openNetworkSettings(context) },
+        ),
+        SettingsEntry(
+            Icons.Filled.Info,
+            "About",
+            "Version ${BuildConfig.VERSION_NAME} · Elegant Galaxy Pvt. Ltd.",
+            onClick = {},
+        ),
     )
 
     Column(
