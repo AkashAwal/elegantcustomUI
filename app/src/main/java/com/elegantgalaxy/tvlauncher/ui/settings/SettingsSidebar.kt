@@ -267,8 +267,8 @@ private fun <T> QuickSettingTile(tile: TileSpec<T>, modifier: Modifier = Modifie
         )
         if (tile.useStepper) {
             Row(
-                modifier = Modifier.padding(top = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.padding(top = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(14.dp),
             ) {
                 StepButton(icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Decrease ${tile.label}") {
                     tile.onSelect(tile.selectedIndex - 1)
