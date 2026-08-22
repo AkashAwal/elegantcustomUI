@@ -353,7 +353,7 @@ private fun SectionLabel(text: String) {
         style = MaterialTheme.typography.titleMedium,
         fontWeight = FontWeight.SemiBold,
         color = MaterialTheme.colorScheme.onSurface,
-        modifier = Modifier.padding(bottom = 12.dp),
+        modifier = Modifier.padding(bottom = 8.dp),
     )
 }
 
