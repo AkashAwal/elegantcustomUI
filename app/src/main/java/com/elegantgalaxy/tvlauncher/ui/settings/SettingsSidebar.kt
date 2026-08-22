@@ -77,6 +77,13 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
     val eyeCareEnabled by QuickSettingsStore.eyeCareEnabled.collectAsState()
     var brightnessPercent by remember { mutableIntStateOf(SettingsActions.getBrightnessPercent(context)) }
     var wifiStatus by remember { mutableStateOf(SettingsActions.getWifiStatusLabel(context)) }
+    val firstRowFocusRequester = remember { FocusRequester() }
+
+    // Grabs D-Pad focus as soon as the sidebar opens — otherwise the rail
+    // keeps focus and directional navigation doesn't reliably land here.
+    LaunchedEffect(Unit) {
+        firstRowFocusRequester.requestFocus()
+    }
 
     // Refreshes when the app comes back to the foreground (e.g. Back from
     // the system Wi-Fi settings screen this row deep-links to), since the
