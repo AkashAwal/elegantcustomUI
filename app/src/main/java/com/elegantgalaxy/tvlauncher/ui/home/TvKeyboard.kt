@@ -178,7 +178,6 @@ private fun IconKey(
     contentDescription: String,
     onClick: () -> Unit,
     active: Boolean = false,
-    rotateUp: Boolean = false,
 ) {
     val shape = RoundedCornerShape(6.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
@@ -197,7 +196,6 @@ private fun IconKey(
             imageVector = icon,
             contentDescription = contentDescription,
             tint = if (active) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
-            modifier = if (rotateUp) Modifier.rotateUpright() else Modifier,
         )
     }
 }
