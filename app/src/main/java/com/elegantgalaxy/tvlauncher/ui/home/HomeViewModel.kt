@@ -63,7 +63,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             val apps = withContext(Dispatchers.IO) {
                 AppLauncherUtils.queryLaunchableApps(getApplication())
             }
-            android.util.Log.d("HomeViewModelDiag", "labels=${apps.map { it.label }}")
             _uiState.update { it.copy(isLoading = false, allApps = apps) }
         }
     }
