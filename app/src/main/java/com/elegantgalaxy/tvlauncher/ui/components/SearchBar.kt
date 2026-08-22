@@ -114,6 +114,7 @@ fun SearchBar(
                 keyboardActions = KeyboardActions(onSearch = { onSearchSubmit() }),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier)
                     .onFocusChanged { isFocused = it.isFocused },
             )
         }
