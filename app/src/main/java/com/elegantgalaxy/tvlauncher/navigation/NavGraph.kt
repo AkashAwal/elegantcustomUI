@@ -99,7 +99,7 @@ fun TvLauncherNavGraph(
                 modifier = Modifier.weight(1f),
             ) {
                 composable(Screen.Home.route) {
-                    HomeScreen(viewModel = homeViewModel)
+                    HomeScreen(viewModel = homeViewModel, searchSidebarOpen = searchSidebarOpen)
                 }
             }
         }
