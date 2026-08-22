@@ -155,6 +155,7 @@ private class TileSpec<T>(
     val options: List<T>,
     val selectedIndex: Int,
     val valueLabel: (T) -> String,
+    val useStepper: Boolean = false,
     val onSelect: (Int) -> Unit,
 )
 
