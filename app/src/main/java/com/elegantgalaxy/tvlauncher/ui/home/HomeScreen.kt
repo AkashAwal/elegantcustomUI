@@ -87,7 +87,11 @@ fun HomeScreen(
                     Brush.verticalGradient(
                         listOf(displayMode.tint.copy(alpha = 0.92f), animatedAccent.copy(alpha = 0.55f)),
                     ),
-                ),
+                )
+                // Search results need to stay visible while the user types,
+                // unlike Settings which is fine briefly covering Home — so
+                // only the search sidebar pushes content over to clear it.
+                .padding(start = if (searchSidebarOpen) 300.dp else 0.dp),
         ) {
             if (uiState.searchQuery.isBlank()) {
                 val appsByCategory = uiState.appsByCategory
