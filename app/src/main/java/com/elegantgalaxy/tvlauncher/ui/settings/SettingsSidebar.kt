@@ -245,6 +245,7 @@ private fun <T> QuickSettingTile(tile: TileSpec<T>, modifier: Modifier = Modifie
             .background(SurfaceElevated2)
             .padding(vertical = 13.dp, horizontal = 14.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = tile.label,
