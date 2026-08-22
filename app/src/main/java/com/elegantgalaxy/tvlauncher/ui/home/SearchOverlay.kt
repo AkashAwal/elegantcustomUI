@@ -143,6 +143,7 @@ fun SearchOverlay(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
             // directional move at the edge of the keyboard/content grid can
             // escape into the nav rail underneath (which is still
             // composed, just visually covered), silently closing search.
+            .focusGroup()
             .focusProperties { exit = { FocusRequester.Cancel } },
     ) {
         SearchField(
