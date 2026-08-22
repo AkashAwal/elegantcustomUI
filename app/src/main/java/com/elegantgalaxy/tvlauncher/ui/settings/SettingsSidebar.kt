@@ -134,7 +134,7 @@ private fun FullWidthRow(label: String, icon: ImageVector, onClick: () -> Unit) 
     val shape = RoundedCornerShape(10.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .then(focusVisuals.modifier)
@@ -142,16 +142,21 @@ private fun FullWidthRow(label: String, icon: ImageVector, onClick: () -> Unit) 
             .background(SurfaceElevated2)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick)
             .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
             text = label,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth().align(Alignment.Center),
         )
-        Icon(imageVector = icon, contentDescription = label, tint = MaterialTheme.colorScheme.onSurface)
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.align(Alignment.CenterEnd),
+        )
     }
 }
 
