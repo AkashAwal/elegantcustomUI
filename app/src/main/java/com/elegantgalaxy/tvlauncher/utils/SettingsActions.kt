@@ -31,10 +31,11 @@ object SettingsActions {
      */
     fun cycleBrightness(context: Context) {
         if (!Settings.System.canWrite(context)) {
-            context.startActivity(
-                Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:${context.packageName}"))
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
-            )
+            val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:${context.packageName}"))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                context.startActivity(intent)
+            }
             return
         }
         val resolver = context.contentResolver
