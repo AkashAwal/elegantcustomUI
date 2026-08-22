@@ -202,7 +202,7 @@ private fun <T> QuickSettingTile(tile: TileSpec<T>, modifier: Modifier = Modifie
     }
 }
 
-/** Same visual language as the hero banner's page dots — small circle unselected, wide capsule selected — but each dot is directly clickable/focusable. */
+/** All dots the same size — the active option is just white, no enlargement. */
 @Composable
 private fun DotSelector(count: Int, selectedIndex: Int, onSelect: (Int) -> Unit, modifier: Modifier = Modifier) {
     Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -212,10 +212,9 @@ private fun DotSelector(count: Int, selectedIndex: Int, onSelect: (Int) -> Unit,
             Box(
                 modifier = Modifier
                     .then(focusVisuals.modifier)
-                    .width(if (isSelected) 20.dp else 8.dp)
-                    .height(8.dp)
+                    .size(6.dp)
                     .clip(CircleShape)
-                    .background(if (isSelected) MaterialTheme.colorScheme.primary else SurfaceElevated3)
+                    .background(if (isSelected) Color.White else SurfaceElevated3)
                     .clickable(
                         interactionSource = focusVisuals.interactionSource,
                         indication = null,
