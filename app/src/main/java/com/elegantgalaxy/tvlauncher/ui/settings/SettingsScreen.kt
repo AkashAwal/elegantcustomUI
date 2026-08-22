@@ -48,7 +48,7 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
 ) {
     val entries = listOf(
-        SettingsEntry(Icons.Filled.VolumeUp, "Volume", "Adjust system volume"),
+        SettingsEntry(Icons.AutoMirrored.Filled.VolumeUp, "Volume", "Adjust system volume"),
         SettingsEntry(Icons.Filled.Brightness6, "Brightness", "Adjust screen brightness"),
         SettingsEntry(Icons.Filled.Wifi, "Network", "Wi-Fi and Ethernet settings"),
         SettingsEntry(Icons.Filled.Info, "About", "Version ${BuildConfig.VERSION_NAME} · Elegant Galaxy Pvt. Ltd."),
