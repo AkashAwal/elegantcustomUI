@@ -2,6 +2,8 @@ package com.elegantgalaxy.tvlauncher.navigation
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
@@ -27,7 +29,7 @@ import com.elegantgalaxy.tvlauncher.ui.components.RailDestination
 import com.elegantgalaxy.tvlauncher.ui.components.SideNavRail
 import com.elegantgalaxy.tvlauncher.ui.home.HomeScreen
 import com.elegantgalaxy.tvlauncher.ui.home.HomeViewModel
-import com.elegantgalaxy.tvlauncher.ui.home.SearchSidebar
+import com.elegantgalaxy.tvlauncher.ui.home.SearchOverlay
 import com.elegantgalaxy.tvlauncher.ui.settings.SettingsSidebar
 
 /**
@@ -35,15 +37,15 @@ import com.elegantgalaxy.tvlauncher.ui.settings.SettingsSidebar
  * while Home occupies the content area beside it.
  *
  * [homeViewModel] is hoisted to this level (rather than owned inside
- * [HomeScreen]) so [SearchSidebar] — which lives outside the NavHost,
- * as a sibling overlay — can share the same search-query state that
- * filters what Home renders.
+ * [HomeScreen]) so [SearchOverlay] — which lives outside the NavHost, as a
+ * sibling overlay — can share the same search-query state.
  *
- * Settings (DISPLAY_SETTINGS/NETWORK_SETTINGS/SETTINGS rail icons) and
- * Search (the SEARCH rail icon) each open an overlay sidebar next to the
- * rail instead of navigating to a full page — Home stays mounted
- * underneath, and opening one closes the other. CONTACT has no destination
- * at all — clicking it still highlights it, but is otherwise a no-op.
+ * Settings (DISPLAY_SETTINGS/NETWORK_SETTINGS/SETTINGS rail icons) opens an
+ * overlay sidebar next to the rail; Search (the SEARCH rail icon) opens a
+ * full-screen overlay instead — unlike Settings, Home doesn't need to stay
+ * visible behind it, since search results render inside the overlay itself.
+ * Opening one closes the other. CONTACT has no destination at all —
+ * clicking it still highlights it, but is otherwise a no-op.
  */
 @Composable
 fun TvLauncherNavGraph(
@@ -51,12 +53,17 @@ fun TvLauncherNavGraph(
 ) {
     var selectedRail by remember { mutableStateOf(RailDestination.SEARCH) }
     var settingsSidebarOpen by remember { mutableStateOf(false) }
-    var searchSidebarOpen by remember { mutableStateOf(false) }
+    var searchOverlayOpen by remember { mutableStateOf(false) }
     val homeViewModel: HomeViewModel = viewModel()
 
-    BackHandler(enabled = settingsSidebarOpen || searchSidebarOpen) {
+    fun closeSearch() {
+        searchOverlayOpen = false
+        homeViewModel.onSearchQueryChange("")
+    }
+
+    BackHandler(enabled = settingsSidebarOpen || searchOverlayOpen) {
         settingsSidebarOpen = false
-        searchSidebarOpen = false
+        if (searchOverlayOpen) closeSearch()
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -68,22 +75,18 @@ fun TvLauncherNavGraph(
                     when (destination) {
                         RailDestination.SEARCH -> {
                             settingsSidebarOpen = false
-                            searchSidebarOpen = true
-                            navController.navigate(Screen.Home.route) {
-                                popUpTo(Screen.Home.route)
-                                launchSingleTop = true
-                            }
+                            searchOverlayOpen = true
                         }
                         RailDestination.DISPLAY_SETTINGS,
                         RailDestination.NETWORK_SETTINGS,
                         RailDestination.SETTINGS -> {
-                            searchSidebarOpen = false
+                            if (searchOverlayOpen) closeSearch()
                             settingsSidebarOpen = true
                         }
                         RailDestination.CONTACT -> Unit
                         else -> {
                             settingsSidebarOpen = false
-                            searchSidebarOpen = false
+                            if (searchOverlayOpen) closeSearch()
                             navController.navigate(Screen.Home.route) {
                                 popUpTo(Screen.Home.route)
                                 launchSingleTop = true
@@ -99,13 +102,12 @@ fun TvLauncherNavGraph(
                 modifier = Modifier.weight(1f),
             ) {
                 composable(Screen.Home.route) {
-                    HomeScreen(viewModel = homeViewModel, searchSidebarOpen = searchSidebarOpen)
+                    HomeScreen(viewModel = homeViewModel)
                 }
             }
         }
 
-        val sidebarOpen = settingsSidebarOpen || searchSidebarOpen
-        if (sidebarOpen) {
+        if (settingsSidebarOpen) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -113,10 +115,7 @@ fun TvLauncherNavGraph(
                     .clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() },
-                        onClick = {
-                            settingsSidebarOpen = false
-                            searchSidebarOpen = false
-                        },
+                        onClick = { settingsSidebarOpen = false },
                     ),
             )
         }
@@ -131,12 +130,11 @@ fun TvLauncherNavGraph(
         }
 
         AnimatedVisibility(
-            visible = searchSidebarOpen,
-            enter = slideInHorizontally(initialOffsetX = { -it }),
-            exit = slideOutHorizontally(targetOffsetX = { -it }),
-            modifier = Modifier.align(Alignment.CenterStart),
+            visible = searchOverlayOpen,
+            enter = fadeIn(),
+            exit = fadeOut(),
         ) {
-            SearchSidebar(homeViewModel = homeViewModel)
+            SearchOverlay(homeViewModel = homeViewModel)
         }
     }
 }
