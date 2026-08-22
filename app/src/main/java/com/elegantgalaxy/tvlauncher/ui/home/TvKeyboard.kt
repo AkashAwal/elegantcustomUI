@@ -243,5 +243,3 @@ private fun SpaceKey(onClick: () -> Unit) {
         Text(text = "space", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelMedium)
     }
 }
-
-private fun Modifier.rotateUpright(): Modifier = this
