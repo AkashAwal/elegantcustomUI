@@ -52,7 +52,7 @@ import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
 enum class RailDestination(val icon: ImageVector, val contentDescription: String) {
     SEARCH(Icons.Filled.Search, "Search"),
     APPS(Icons.Filled.Apps, "Apps"),
-    GUIDE(Icons.Filled.MenuBook, "Guide"),
+    GUIDE(Icons.AutoMirrored.Filled.MenuBook, "Guide"),
     DISPLAY_SETTINGS(Icons.Filled.Brightness6, "Display settings"),
     NETWORK_SETTINGS(Icons.Filled.Wifi, "Network settings"),
     CONTACT(Icons.Filled.ContactPhone, "Contact"),
