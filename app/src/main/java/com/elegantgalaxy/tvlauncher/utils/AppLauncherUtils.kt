@@ -108,6 +108,21 @@ object AppLauncherUtils {
         ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(webIntent)
     }
+
+    /**
+     * The real launcher icon for [packageName] if it's installed, or null
+     * otherwise. Used for the "Trending Apps" curated shortcuts — shows the
+     * device's actual icon for whichever of those apps happen to be
+     * installed, since that's a real PackageManager read (same as every
+     * other icon in this launcher), not a bundled/downloaded logo asset.
+     */
+    fun getInstalledAppIcon(context: Context, packageName: String): android.graphics.Bitmap? {
+        return try {
+            context.packageManager.getApplicationIcon(packageName).toBitmap()
+        } catch (e: PackageManager.NameNotFoundException) {
+            null
+        }
+    }
 }
 
 private fun android.graphics.drawable.Drawable.toBitmap(): android.graphics.Bitmap {
