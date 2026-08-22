@@ -48,4 +48,23 @@ object SettingsActions {
             context.startActivity(intent)
         }
     }
+
+    /**
+     * The connected Wi-Fi network's name, or "Disconnected" if there's no
+     * active Wi-Fi connection. On API 29+, the real SSID is only readable
+     * with a location permission granted — this app doesn't request one
+     * (a TV launcher has no legitimate reason to ask for location), so on
+     * those versions this falls back to "Connected" when the OS masks the
+     * SSID as unknown, rather than showing that placeholder string.
+     */
+    fun getWifiStatusLabel(context: Context): String {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return "Disconnected"
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return "Disconnected"
+        if (!capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) return "Disconnected"
+
+        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val ssid = wifiManager.connectionInfo?.ssid?.trim('"')
+        return if (ssid.isNullOrBlank() || ssid == WifiManager.UNKNOWN_SSID) "Connected" else ssid
+    }
 }
