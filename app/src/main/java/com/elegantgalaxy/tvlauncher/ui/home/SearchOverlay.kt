@@ -284,7 +284,7 @@ private fun BrowseSuggestions(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 48.dp, vertical = 8.dp),
+            .padding(horizontal = 48.dp, vertical = 6.dp),
     ) {
         if (history.isNotEmpty()) {
             SectionLabel("Previously Searched")
@@ -293,7 +293,7 @@ private fun BrowseSuggestions(
                     Chip(label = term, onClick = { onHistoryClick(term) })
                 }
             }
-            Spacer(Modifier.height(28.dp))
+            Spacer(Modifier.height(14.dp))
         }
 
         SectionLabel("Trending Searches")
@@ -303,7 +303,7 @@ private fun BrowseSuggestions(
             }
         }
 
-        Spacer(Modifier.height(28.dp))
+        Spacer(Modifier.height(14.dp))
 
         SectionLabel("Trending Apps")
         LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -312,7 +312,7 @@ private fun BrowseSuggestions(
             }
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(8.dp))
 
         MoreAppsLink(onClick = onMoreAppsClick)
     }
