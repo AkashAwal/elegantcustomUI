@@ -181,7 +181,7 @@ private fun <T> QuickSettingTile(tile: TileSpec<T>, modifier: Modifier = Modifie
         modifier = modifier
             .clip(shape)
             .background(SurfaceElevated2)
-            .padding(vertical = 22.dp, horizontal = 14.dp),
+            .padding(vertical = 16.dp, horizontal = 14.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -200,13 +200,13 @@ private fun <T> QuickSettingTile(tile: TileSpec<T>, modifier: Modifier = Modifie
             maxLines = 1,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp),
+                .padding(top = 8.dp),
         )
         DotSelector(
             count = tile.options.size,
             selectedIndex = tile.selectedIndex,
             onSelect = tile.onSelect,
-            modifier = Modifier.padding(top = 14.dp),
+            modifier = Modifier.padding(top = 12.dp),
         )
     }
 }
