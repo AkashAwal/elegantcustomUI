@@ -59,6 +59,7 @@ fun SearchSidebar(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
             query = uiState.searchQuery,
             onQueryChange = homeViewModel::onSearchQueryChange,
             onSearchSubmit = { AppLauncherUtils.launchYouTubeSearch(context, uiState.searchQuery) },
+            focusRequester = focusRequester,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 14.dp),
