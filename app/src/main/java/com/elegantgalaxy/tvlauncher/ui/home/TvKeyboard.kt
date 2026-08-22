@@ -68,8 +68,8 @@ fun TvKeyboard(
         modifier = modifier
             .fillMaxWidth()
             .background(SurfaceElevated2)
-            .padding(vertical = 12.dp, horizontal = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+            .padding(vertical = 8.dp, horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         // Numbers row: language label (left) ... digits ... backspace (right)
         KeyRow {
