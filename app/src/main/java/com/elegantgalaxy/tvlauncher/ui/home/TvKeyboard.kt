@@ -96,11 +96,10 @@ fun TvKeyboard(
         // Row 2: caps lock (left) ... asdfghjkl ... mic (right)
         KeyRow {
             IconKey(
-                icon = Icons.Filled.KeyboardArrowDown,
+                icon = Icons.Filled.KeyboardArrowUp,
                 contentDescription = "Caps lock",
                 onClick = onToggleCaps,
                 active = capsLock,
-                rotateUp = true,
             )
             rows[1].forEach { char ->
                 CharKey(label = displayChar(char, capsLock), onClick = { onCharPress(effectiveChar(char, capsLock)) })
