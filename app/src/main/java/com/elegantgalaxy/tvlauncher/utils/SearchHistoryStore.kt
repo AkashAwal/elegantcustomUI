@@ -9,14 +9,14 @@ import kotlinx.coroutines.flow.asStateFlow
  * Persists recently-submitted search queries, most recent first, capped at
  * [MAX_ENTRIES]. Plain SharedPreferences, same lightweight pattern as
  * [DisplayModeStore]/[QuickSettingsStore] — no new dependency. Entries are
- * joined with a control character rather than a space, since search terms
- * can themselves contain spaces.
+ * joined with a control character (not a space) since search terms can
+ * themselves contain spaces.
  */
 object SearchHistoryStore {
     private const val PREFS_NAME = "search_history_prefs"
     private const val KEY_HISTORY = "history"
     private const val MAX_ENTRIES = 8
-    private const val DELIMITER = ""
+    private val DELIMITER = Char(1).toString()
 
     private var initialized = false
     private val _history = MutableStateFlow<List<String>>(emptyList())
