@@ -111,6 +111,7 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
             subtitle = wifiStatus,
             icon = Icons.Filled.Wifi,
             onClick = { SettingsActions.openNetworkSettings(context) },
+            focusRequester = firstRowFocusRequester,
         )
 
         Spacer(Modifier.height(14.dp))
