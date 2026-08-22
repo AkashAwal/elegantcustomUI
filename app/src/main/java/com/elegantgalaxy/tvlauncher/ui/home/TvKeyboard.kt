@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,7 +17,7 @@ import androidx.compose.material.icons.automirrored.filled.Backspace
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.KeyboardCapslock
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +31,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated2
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated3
@@ -43,6 +45,23 @@ private val NUMBER_ROW = "1234567890"
 // full punctuation set instead.
 private val LETTER_ROWS = listOf("qwertyuiop", "asdfghjkl?", "@zxcvbnm,.")
 private val SYMBOL_ROWS = listOf("!@#$%^&*()", "-_=+[]{}\\|", ";:'\",.<>/?")
+
+private val CHAR_KEY_SIZE = 28.dp
+private val KEY_GAP = 6.dp
+
+// Every row's left/right flanking key (ENG, symbols toggle, caps lock,
+// hide-keyboard, backspace, Done, mic, Clear) shares this exact width so
+// the 10-key letter/number grid lines up in the same columns on every row.
+private val ACTION_KEY_WIDTH = 48.dp
+
+// The space bar spans exactly the same width as the 10-key grid above it
+// (10 keys + 9 gaps) so it starts under "@" and ends under ".", rather than
+// running the full row width.
+private val MIDDLE_GRID_WIDTH = CHAR_KEY_SIZE * 10 + KEY_GAP * 9
+
+// The two cursor chevrons split the same width as a single right-column
+// action key (e.g. Clear), so together they occupy exactly one column.
+private val CHEVRON_WIDTH = (ACTION_KEY_WIDTH - KEY_GAP) / 2
 
 /**
  * In-app D-Pad keyboard, replacing reliance on the system IME so search
@@ -101,7 +120,7 @@ fun TvKeyboard(
         // Row 2: caps lock (left) ... asdfghjkl ... mic (right)
         KeyRow {
             IconKey(
-                icon = Icons.Filled.KeyboardArrowUp,
+                icon = Icons.Filled.KeyboardCapslock,
                 contentDescription = "Caps lock",
                 onClick = onToggleCaps,
                 active = capsLock,
@@ -121,11 +140,24 @@ fun TvKeyboard(
             TextActionKey(text = "Clear", onClick = onClearAll)
         }
 
-        // Row 4: space bar, flanked by cursor chevrons on the right
+        // Row 4: left spacer (matches the other rows' left column) ... space
+        // bar spanning exactly the letter-grid width ... cursor chevrons
+        // sharing one right-column's width between them.
         KeyRow {
-            SpaceKey(onClick = { onCharPress(' ') }, modifier = Modifier.weight(1f))
-            IconKey(icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Move cursor left", onClick = { onMoveCursor(-1) })
-            IconKey(icon = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Move cursor right", onClick = { onMoveCursor(1) })
+            Box(modifier = Modifier.width(ACTION_KEY_WIDTH))
+            SpaceKey(onClick = { onCharPress(' ') }, modifier = Modifier.width(MIDDLE_GRID_WIDTH))
+            IconKey(
+                icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                contentDescription = "Move cursor left",
+                onClick = { onMoveCursor(-1) },
+                width = CHEVRON_WIDTH,
+            )
+            IconKey(
+                icon = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "Move cursor right",
+                onClick = { onMoveCursor(1) },
+                width = CHEVRON_WIDTH,
+            )
         }
     }
 }
@@ -137,9 +169,9 @@ private fun effectiveChar(char: Char, capsLock: Boolean): Char =
     if (capsLock) char.uppercaseChar() else char
 
 @Composable
-private fun KeyRow(content: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit) {
+private fun KeyRow(content: @Composable RowScope.() -> Unit) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+        horizontalArrangement = Arrangement.spacedBy(KEY_GAP, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth(),
         content = content,
@@ -150,7 +182,7 @@ private fun KeyRow(content: @Composable androidx.compose.foundation.layout.RowSc
 private fun LabelKey(text: String) {
     Box(
         modifier = Modifier
-            .width(34.dp)
+            .width(ACTION_KEY_WIDTH)
             .height(28.dp),
         contentAlignment = Alignment.Center,
     ) {
@@ -167,8 +199,8 @@ private fun CharKey(label: String, onClick: () -> Unit, focusRequester: FocusReq
         modifier = Modifier
             .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier)
             .then(focusVisuals.modifier)
-            .width(28.dp)
-            .height(28.dp)
+            .width(CHAR_KEY_SIZE)
+            .height(CHAR_KEY_SIZE)
             .clip(shape)
             .background(SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
@@ -184,6 +216,7 @@ private fun IconKey(
     contentDescription: String,
     onClick: () -> Unit,
     active: Boolean = false,
+    width: Dp = ACTION_KEY_WIDTH,
 ) {
     val shape = RoundedCornerShape(6.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
@@ -191,7 +224,7 @@ private fun IconKey(
     Box(
         modifier = Modifier
             .then(focusVisuals.modifier)
-            .width(34.dp)
+            .width(width)
             .height(28.dp)
             .clip(shape)
             .background(if (active) MaterialTheme.colorScheme.primary else SurfaceElevated3)
@@ -216,9 +249,8 @@ private fun TextActionKey(text: String, onClick: () -> Unit, highlighted: Boolea
         modifier = Modifier
             .then(focusVisuals.modifier)
             // Same width as LabelKey/IconKey so every row's flanking column
-            // lines up exactly — a text button here would otherwise be
-            // wider and throw off column alignment between rows.
-            .width(34.dp)
+            // lines up exactly.
+            .width(ACTION_KEY_WIDTH)
             .height(28.dp)
             .clip(shape)
             .background(if (highlighted) greenDone else SurfaceElevated3)
@@ -229,7 +261,7 @@ private fun TextActionKey(text: String, onClick: () -> Unit, highlighted: Boolea
             text = text,
             color = if (highlighted) Color.White else MaterialTheme.colorScheme.onSurface,
             fontWeight = if (highlighted) FontWeight.Bold else FontWeight.Normal,
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.labelMedium,
         )
     }
 }
