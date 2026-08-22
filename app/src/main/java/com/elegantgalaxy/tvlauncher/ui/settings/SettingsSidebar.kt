@@ -161,11 +161,7 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
                 .background(SurfaceElevated3),
         )
 
-        FullWidthRow(label = "Support", icon = Icons.Filled.SupportAgent, onClick = {}, verticalPadding = 12.dp)
-
-        Spacer(Modifier.height(8.dp))
-
-        FullWidthRow(label = "Contact Us", icon = Icons.Filled.ContactPhone, onClick = {}, verticalPadding = 12.dp)
+        FullWidthRow(label = "Support", icon = Icons.Filled.SupportAgent, onClick = {})
     }
 }
 
