@@ -68,8 +68,8 @@ fun TvKeyboard(
         modifier = modifier
             .fillMaxWidth()
             .background(SurfaceElevated2)
-            .padding(vertical = 8.dp, horizontal = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+            .padding(vertical = 6.dp, horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp),
     ) {
         // Numbers row: language label (left) ... digits ... backspace (right)
         KeyRow {
@@ -132,20 +132,21 @@ private fun effectiveChar(char: Char, capsLock: Boolean): Char =
     if (capsLock) char.uppercaseChar() else char
 
 @Composable
-private fun KeyRow(content: @Composable () -> Unit) {
+private fun KeyRow(content: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth(),
-    ) { content() }
+        content = content,
+    )
 }
 
 @Composable
 private fun LabelKey(text: String) {
     Box(
         modifier = Modifier
-            .width(40.dp)
-            .height(32.dp),
+            .width(34.dp)
+            .height(28.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(text = text, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelMedium)
@@ -161,8 +162,8 @@ private fun CharKey(label: String, onClick: () -> Unit, focusRequester: FocusReq
         modifier = Modifier
             .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier)
             .then(focusVisuals.modifier)
-            .width(32.dp)
-            .height(32.dp)
+            .width(28.dp)
+            .height(28.dp)
             .clip(shape)
             .background(SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
@@ -185,8 +186,8 @@ private fun IconKey(
     Box(
         modifier = Modifier
             .then(focusVisuals.modifier)
-            .width(40.dp)
-            .height(32.dp)
+            .width(34.dp)
+            .height(28.dp)
             .clip(shape)
             .background(if (active) MaterialTheme.colorScheme.primary else SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
@@ -209,8 +210,8 @@ private fun TextActionKey(text: String, onClick: () -> Unit, highlighted: Boolea
     Box(
         modifier = Modifier
             .then(focusVisuals.modifier)
-            .width(56.dp)
-            .height(32.dp)
+            .width(48.dp)
+            .height(28.dp)
             .clip(shape)
             .background(if (highlighted) greenDone else SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
@@ -234,7 +235,7 @@ private fun SpaceKey(onClick: () -> Unit) {
         modifier = Modifier
             .then(focusVisuals.modifier)
             .fillMaxWidth()
-            .height(32.dp)
+            .height(28.dp)
             .clip(shape)
             .background(SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
