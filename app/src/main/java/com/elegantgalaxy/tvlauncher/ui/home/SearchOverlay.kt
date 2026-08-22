@@ -150,18 +150,29 @@ fun SearchOverlay(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
                 .weight(1f)
                 .fillMaxWidth(),
         ) {
-            if (uiState.searchQuery.isBlank()) {
-                BrowseSuggestions(
-                    history = history,
-                    onHistoryClick = { setQuery(it, it.length) },
-                    onTrendingClick = { setQuery(it, it.length) },
-                )
-            } else {
-                AppGrid(
-                    apps = uiState.searchResults,
-                    onAppClick = { app -> AppLauncherUtils.launch(context, app) },
-                    modifier = Modifier.fillMaxSize(),
-                )
+            when {
+                showAllApps -> {
+                    AppGrid(
+                        apps = uiState.allApps,
+                        onAppClick = { app -> AppLauncherUtils.launch(context, app) },
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+                uiState.searchQuery.isBlank() -> {
+                    BrowseSuggestions(
+                        history = history,
+                        onHistoryClick = { setQuery(it, it.length) },
+                        onTrendingClick = { setQuery(it, it.length) },
+                        onMoreAppsClick = { showAllApps = true },
+                    )
+                }
+                else -> {
+                    AppGrid(
+                        apps = uiState.searchResults,
+                        onAppClick = { app -> AppLauncherUtils.launch(context, app) },
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
             }
         }
 
