@@ -376,23 +376,33 @@ private fun Chip(label: String, onClick: () -> Unit) {
 
 @Composable
 private fun FamousAppTile(app: FamousApp, onClick: () -> Unit) {
+    val context = LocalContext.current
     val shape = RoundedCornerShape(12.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
+    val realIcon = remember(app.packageName) { AppLauncherUtils.getInstalledAppIcon(context, app.packageName) }
 
     Box(
         modifier = Modifier
             .then(focusVisuals.modifier)
             .size(width = 140.dp, height = 80.dp)
             .clip(shape)
-            .background(app.color)
+            .background(if (realIcon != null) SurfaceElevated3 else app.color)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = app.label,
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.titleSmall,
-        )
+        if (realIcon != null) {
+            Image(
+                bitmap = realIcon.asImageBitmap(),
+                contentDescription = app.label,
+                modifier = Modifier.size(56.dp),
+            )
+        } else {
+            Text(
+                text = app.label,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleSmall,
+            )
+        }
     }
 }
