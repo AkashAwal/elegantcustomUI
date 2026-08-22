@@ -3,7 +3,10 @@ package com.elegantgalaxy.tvlauncher.utils
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.provider.Settings
 
 /** Backing actions for the Settings sidebar's Brightness switcher — the one item that drives a real system value. */
