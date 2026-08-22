@@ -234,7 +234,7 @@ private fun SpaceKey(onClick: () -> Unit) {
         modifier = Modifier
             .then(focusVisuals.modifier)
             .fillMaxWidth()
-            .height(38.dp)
+            .height(32.dp)
             .clip(shape)
             .background(SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
