@@ -280,6 +280,11 @@ private fun SpaceKey(onClick: () -> Unit, modifier: Modifier = Modifier) {
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text = "space", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelMedium)
+        Text(
+            text = "]",
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.rotate(90f),
+        )
     }
 }
