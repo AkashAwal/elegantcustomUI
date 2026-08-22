@@ -161,8 +161,8 @@ private fun CharKey(label: String, onClick: () -> Unit, focusRequester: FocusReq
         modifier = Modifier
             .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier)
             .then(focusVisuals.modifier)
-            .width(38.dp)
-            .height(38.dp)
+            .width(32.dp)
+            .height(32.dp)
             .clip(shape)
             .background(SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
