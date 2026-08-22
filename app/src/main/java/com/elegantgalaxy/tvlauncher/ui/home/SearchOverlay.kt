@@ -137,7 +137,12 @@ fun SearchOverlay(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.9f)),
+            .background(Color.Black.copy(alpha = 0.9f))
+            // Traps D-Pad focus inside the overlay — without this, a
+            // directional move at the edge of the keyboard/content grid can
+            // escape into the nav rail underneath (which is still
+            // composed, just visually covered), silently closing search.
+            .focusProperties { exit = { FocusRequester.Cancel } },
     ) {
         SearchField(
             query = uiState.searchQuery,
