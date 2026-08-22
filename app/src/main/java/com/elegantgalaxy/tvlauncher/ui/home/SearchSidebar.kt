@@ -33,6 +33,13 @@ import com.elegantgalaxy.tvlauncher.utils.AppLauncherUtils
 fun SearchSidebar(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val uiState by homeViewModel.uiState.collectAsState()
+    val focusRequester = remember { FocusRequester() }
+
+    // Grabs D-Pad focus as soon as the sidebar opens, since there's no
+    // touchscreen to tap the field into focus on a TV remote.
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     Column(
         modifier = modifier
