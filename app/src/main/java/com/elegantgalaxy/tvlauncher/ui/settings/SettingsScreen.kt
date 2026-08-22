@@ -110,7 +110,7 @@ private fun SettingsRow(entry: SettingsEntry, modifier: Modifier = Modifier) {
             .clickable(
                 interactionSource = focusVisuals.interactionSource,
                 indication = null,
-                onClick = { /* wire up real setting screen per entry */ },
+                onClick = entry.onClick,
             )
             .padding(20.dp),
         verticalAlignment = Alignment.CenterVertically,
