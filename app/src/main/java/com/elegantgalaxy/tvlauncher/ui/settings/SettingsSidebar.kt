@@ -107,19 +107,23 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
             },
         )
 
-        tiles.chunked(2).forEach { pair ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(14.dp),
-            ) {
-                pair.forEach { tile ->
-                    QuickSettingTile(tile = tile, modifier = Modifier.weight(1f))
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+        ) {
+            tiles.chunked(2).forEach { pair ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(14.dp),
+                ) {
+                    pair.forEach { tile ->
+                        QuickSettingTile(tile = tile, modifier = Modifier.weight(1f))
+                    }
                 }
+                Spacer(Modifier.height(14.dp))
             }
-            Spacer(Modifier.height(14.dp))
         }
-
-        Spacer(Modifier.weight(1f))
 
         Box(
             modifier = Modifier
