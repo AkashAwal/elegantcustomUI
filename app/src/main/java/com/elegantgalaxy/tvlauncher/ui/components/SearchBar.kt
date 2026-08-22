@@ -58,6 +58,7 @@ fun SearchBar(
     onQueryChange: (String) -> Unit,
     onSearchSubmit: () -> Unit,
     modifier: Modifier = Modifier,
+    focusRequester: FocusRequester? = null,
 ) {
     val shape = RoundedCornerShape(28.dp)
     var isFocused by remember { mutableStateOf(false) }
