@@ -138,11 +138,13 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
 
         tiles.chunked(2).forEach { pair ->
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Max),
                 horizontalArrangement = Arrangement.spacedBy(14.dp),
             ) {
                 pair.forEach { tile ->
-                    QuickSettingTile(tile = tile, modifier = Modifier.weight(1f))
+                    QuickSettingTile(tile = tile, modifier = Modifier.weight(1f).fillMaxHeight())
                 }
             }
             Spacer(Modifier.height(14.dp))
