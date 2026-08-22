@@ -209,8 +209,8 @@ private fun TextActionKey(text: String, onClick: () -> Unit, highlighted: Boolea
     Box(
         modifier = Modifier
             .then(focusVisuals.modifier)
-            .width(64.dp)
-            .height(38.dp)
+            .width(56.dp)
+            .height(32.dp)
             .clip(shape)
             .background(if (highlighted) greenDone else SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
