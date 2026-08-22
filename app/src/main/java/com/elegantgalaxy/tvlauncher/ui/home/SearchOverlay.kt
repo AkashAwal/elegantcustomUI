@@ -384,7 +384,7 @@ private fun FamousAppTile(app: FamousApp, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .then(focusVisuals.modifier)
-            .size(width = 140.dp, height = 80.dp)
+            .size(width = 132.dp, height = 64.dp)
             .clip(shape)
             .background(if (realIcon != null) SurfaceElevated3 else app.color)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
@@ -394,7 +394,7 @@ private fun FamousAppTile(app: FamousApp, onClick: () -> Unit) {
             Image(
                 bitmap = realIcon.asImageBitmap(),
                 contentDescription = app.label,
-                modifier = Modifier.size(56.dp),
+                modifier = Modifier.size(44.dp),
             )
         } else {
             Text(
