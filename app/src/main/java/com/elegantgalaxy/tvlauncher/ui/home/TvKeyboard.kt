@@ -215,7 +215,10 @@ private fun TextActionKey(text: String, onClick: () -> Unit, highlighted: Boolea
     Box(
         modifier = Modifier
             .then(focusVisuals.modifier)
-            .width(48.dp)
+            // Same width as LabelKey/IconKey so every row's flanking column
+            // lines up exactly — a text button here would otherwise be
+            // wider and throw off column alignment between rows.
+            .width(34.dp)
             .height(28.dp)
             .clip(shape)
             .background(if (highlighted) greenDone else SurfaceElevated3)
@@ -226,7 +229,7 @@ private fun TextActionKey(text: String, onClick: () -> Unit, highlighted: Boolea
             text = text,
             color = if (highlighted) Color.White else MaterialTheme.colorScheme.onSurface,
             fontWeight = if (highlighted) FontWeight.Bold else FontWeight.Normal,
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelSmall,
         )
     }
 }
