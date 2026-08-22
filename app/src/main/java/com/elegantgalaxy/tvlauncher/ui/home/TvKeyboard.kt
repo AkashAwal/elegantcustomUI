@@ -118,7 +118,7 @@ fun TvKeyboard(
 
         // Row 4: space bar, flanked by cursor chevrons on the right
         KeyRow {
-            SpaceKey(onClick = { onCharPress(' ') })
+            SpaceKey(onClick = { onCharPress(' ') }, modifier = Modifier.weight(1f))
             IconKey(icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Move cursor left", onClick = { onMoveCursor(-1) })
             IconKey(icon = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Move cursor right", onClick = { onMoveCursor(1) })
         }
