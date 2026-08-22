@@ -185,8 +185,8 @@ private fun IconKey(
     Box(
         modifier = Modifier
             .then(focusVisuals.modifier)
-            .width(48.dp)
-            .height(38.dp)
+            .width(40.dp)
+            .height(32.dp)
             .clip(shape)
             .background(if (active) MaterialTheme.colorScheme.primary else SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
