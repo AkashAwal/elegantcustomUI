@@ -78,6 +78,36 @@ object AppLauncherUtils {
         }
         context.startActivity(webIntent)
     }
+
+    /**
+     * Launches [packageName] if it's actually installed, otherwise sends the
+     * user to its Play Store listing (app first, falling back to the web
+     * listing if the Play Store app itself isn't present). Backs the
+     * "Famous Apps" curated shortcuts in search, which list well-known apps
+     * regardless of whether this specific device has them installed.
+     */
+    fun launchOrOpenStore(context: Context, packageName: String) {
+        val launchIntent = context.packageManager.getLeanbackLaunchIntentForPackage(packageName)
+            ?: context.packageManager.getLaunchIntentForPackage(packageName)
+        if (launchIntent != null) {
+            launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(launchIntent)
+            return
+        }
+
+        val marketIntent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("market://details?id=$packageName"))
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        if (context.packageManager.resolveActivity(marketIntent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+            context.startActivity(marketIntent)
+            return
+        }
+
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            android.net.Uri.parse("https://play.google.com/store/apps/details?id=$packageName"),
+        ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(webIntent)
+    }
 }
 
 private fun android.graphics.drawable.Drawable.toBitmap(): android.graphics.Bitmap {
