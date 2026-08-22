@@ -368,7 +368,7 @@ private fun Chip(label: String, onClick: () -> Unit) {
             .clip(shape)
             .background(SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick)
-            .padding(horizontal = 18.dp, vertical = 10.dp),
+            .padding(horizontal = 16.dp, vertical = 7.dp),
     ) {
         Text(text = label, color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.bodyMedium)
     }
