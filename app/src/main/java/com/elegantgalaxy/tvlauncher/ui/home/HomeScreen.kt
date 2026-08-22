@@ -45,7 +45,6 @@ import kotlinx.coroutines.withContext
 fun HomeScreen(
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
-    searchSidebarOpen: Boolean = false,
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
