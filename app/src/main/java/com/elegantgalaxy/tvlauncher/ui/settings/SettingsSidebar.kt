@@ -290,19 +290,23 @@ private fun <T> QuickSettingTile(tile: TileSpec<T>, modifier: Modifier = Modifie
 
 @Composable
 private fun StepButton(icon: ImageVector, contentDescription: String, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(8.dp)
+    val shape = CircleShape
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
     Box(
         modifier = Modifier
-            .size(28.dp)
+            .size(18.dp)
             .then(focusVisuals.modifier)
             .clip(shape)
-            .background(SurfaceElevated3)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(imageVector = icon, contentDescription = contentDescription, tint = MaterialTheme.colorScheme.onSurface)
+        Icon(
+            imageVector = icon,
+            contentDescription = contentDescription,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(16.dp),
+        )
     }
 }
 
