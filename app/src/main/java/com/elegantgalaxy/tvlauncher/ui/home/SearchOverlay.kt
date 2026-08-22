@@ -85,6 +85,11 @@ fun SearchOverlay(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
     var capsLock by remember { mutableStateOf(false) }
     var symbolsMode by remember { mutableStateOf(false) }
     var keyboardVisible by remember { mutableStateOf(true) }
+    var showAllApps by remember { mutableStateOf(false) }
+
+    // "More Apps" opens a full list within this overlay; Back should close
+    // that first rather than closing the whole overlay in one press.
+    BackHandler(enabled = showAllApps) { showAllApps = false }
 
     LaunchedEffect(Unit) {
         SearchHistoryStore.ensureInitialized(context)
