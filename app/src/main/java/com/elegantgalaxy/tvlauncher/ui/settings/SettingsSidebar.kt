@@ -191,6 +191,7 @@ private fun FullWidthRow(
     onClick: () -> Unit,
     verticalPadding: Dp = 16.dp,
     subtitle: String? = null,
+    focusRequester: FocusRequester? = null,
 ) {
     val shape = RoundedCornerShape(10.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
@@ -198,6 +199,7 @@ private fun FullWidthRow(
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier)
             .then(focusVisuals.modifier)
             .clip(shape)
             .background(SurfaceElevated2)
