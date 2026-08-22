@@ -33,12 +33,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
- * Launcher home screen: either the normal hero/featured/category-carousel
- * stack, or (while a search query is active, driven by [SearchSidebar]) a
- * flat grid of matching apps. App data comes from [viewModel], which owns
- * the PackageManager query so it runs off the main thread and refreshes
- * itself on install/uninstall. [viewModel] is hoisted to [com.elegantgalaxy.tvlauncher.navigation.TvLauncherNavGraph]
- * and shared with [SearchSidebar] so typing there filters this screen.
+ * Launcher home screen: the normal hero/featured/category-carousel stack.
+ * Search is a separate full-screen overlay ([SearchOverlay]) rather than
+ * living here — see [com.elegantgalaxy.tvlauncher.navigation.TvLauncherNavGraph].
+ * App data comes from [viewModel], which owns the PackageManager query so it
+ * runs off the main thread and refreshes itself on install/uninstall.
+ * [viewModel] is hoisted to [com.elegantgalaxy.tvlauncher.navigation.TvLauncherNavGraph]
+ * and shared with [SearchOverlay] so its query state stays in sync.
  */
 @Composable
 fun HomeScreen(
