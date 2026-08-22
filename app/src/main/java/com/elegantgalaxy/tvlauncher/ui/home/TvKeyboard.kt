@@ -227,14 +227,13 @@ private fun TextActionKey(text: String, onClick: () -> Unit, highlighted: Boolea
 }
 
 @Composable
-private fun SpaceKey(onClick: () -> Unit) {
+private fun SpaceKey(onClick: () -> Unit, modifier: Modifier = Modifier) {
     val shape = RoundedCornerShape(6.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .then(focusVisuals.modifier)
-            .fillMaxWidth()
             .height(28.dp)
             .clip(shape)
             .background(SurfaceElevated3)
