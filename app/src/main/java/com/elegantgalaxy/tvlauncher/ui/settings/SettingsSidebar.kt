@@ -132,7 +132,7 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(8.dp))
 
-        FullWidthRow(label = "Contact Us", icon = Icons.Filled.ContactPhone, onClick = {})
+        FullWidthRow(label = "Contact Us", icon = Icons.Filled.ContactPhone, onClick = {}, verticalPadding = 12.dp)
     }
 }
 
