@@ -13,10 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.ContactPhone
 import androidx.compose.material.icons.filled.SupportAgent
 import androidx.compose.material3.Icon
@@ -24,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -36,7 +36,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.collectAsState
 import com.elegantgalaxy.tvlauncher.ui.theme.DisplayMode
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated1
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated2
@@ -49,7 +48,7 @@ import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
 /**
  * Quick-settings sidebar: opens as an overlay next to the nav rail instead
  * of navigating to a full page (see [com.elegantgalaxy.tvlauncher.navigation.TvLauncherNavGraph]).
- * Every middle item is an inline cycle switcher — no drill-down screens.
+ * Every middle item is an inline dot selector — no chevrons, no drill-down screens.
  */
 @Composable
 fun SettingsSidebar(modifier: Modifier = Modifier) {
@@ -77,42 +76,41 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(20.dp))
 
-        val tileRows = listOf(
-            "Picture Mode" to (displayMode.label to { delta: Int ->
-                DisplayModeStore.setMode(context, cycle(DisplayMode.entries, displayMode, delta))
-            }),
-            "Brightness" to ("$brightnessPercent%" to { delta: Int ->
-                if (delta > 0) SettingsActions.increaseBrightness(context) else SettingsActions.decreaseBrightness(context)
+        val eyeCareOptions = listOf(false, true)
+        val tiles: List<TileSpec<*>> = listOf(
+            TileSpec("Picture Mode", DisplayMode.entries, DisplayMode.entries.indexOf(displayMode), { it.label }) { index ->
+                DisplayModeStore.setMode(context, DisplayMode.entries[index])
+            },
+            TileSpec(
+                "Brightness",
+                SettingsActions.brightnessLevels,
+                nearestIndex(SettingsActions.brightnessLevels, brightnessPercent),
+                { "$it%" },
+            ) { index ->
+                SettingsActions.setBrightnessPercent(context, SettingsActions.brightnessLevels[index])
                 brightnessPercent = SettingsActions.getBrightnessPercent(context)
-            }),
-            "Sound Mode" to (soundMode.label to { delta: Int ->
-                QuickSettingsStore.setSoundMode(context, cycle(SoundMode.entries, soundMode, delta))
-            }),
-            "Sound Output" to (soundOutput.label to { delta: Int ->
-                QuickSettingsStore.setSoundOutput(context, cycle(SoundOutput.entries, soundOutput, delta))
-            }),
-            "Sleep Timer" to (sleepTimer.label to { delta: Int ->
-                QuickSettingsStore.setSleepTimer(context, cycle(SleepTimer.entries, sleepTimer, delta))
-            }),
-            "Eye Care Mode" to ((if (eyeCareEnabled) "On" else "Off") to { _: Int ->
-                QuickSettingsStore.setEyeCareEnabled(context, !eyeCareEnabled)
-            }),
+            },
+            TileSpec("Sound Mode", SoundMode.entries, SoundMode.entries.indexOf(soundMode), { it.label }) { index ->
+                QuickSettingsStore.setSoundMode(context, SoundMode.entries[index])
+            },
+            TileSpec("Sound Output", SoundOutput.entries, SoundOutput.entries.indexOf(soundOutput), { it.label }) { index ->
+                QuickSettingsStore.setSoundOutput(context, SoundOutput.entries[index])
+            },
+            TileSpec("Sleep Timer", SleepTimer.entries, SleepTimer.entries.indexOf(sleepTimer), { it.label }) { index ->
+                QuickSettingsStore.setSleepTimer(context, SleepTimer.entries[index])
+            },
+            TileSpec("Eye Care Mode", eyeCareOptions, eyeCareOptions.indexOf(eyeCareEnabled), { if (it) "On" else "Off" }) { index ->
+                QuickSettingsStore.setEyeCareEnabled(context, eyeCareOptions[index])
+            },
         )
 
-        tileRows.chunked(2).forEach { pair ->
+        tiles.chunked(2).forEach { pair ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                pair.forEach { (label, valueAndStep) ->
-                    val (value, onStep) = valueAndStep
-                    QuickSettingTile(
-                        label = label,
-                        value = value,
-                        onPrev = { onStep(-1) },
-                        onNext = { onStep(1) },
-                        modifier = Modifier.weight(1f),
-                    )
+                pair.forEach { tile ->
+                    QuickSettingTile(tile = tile, modifier = Modifier.weight(1f))
                 }
             }
             Spacer(Modifier.height(12.dp))
@@ -124,11 +122,16 @@ fun SettingsSidebar(modifier: Modifier = Modifier) {
     }
 }
 
-private fun <T> cycle(entries: List<T>, current: T, delta: Int): T {
-    val index = entries.indexOf(current)
-    val size = entries.size
-    return entries[((index + delta) % size + size) % size]
-}
+private fun nearestIndex(levels: List<Int>, value: Int): Int =
+    levels.indices.minByOrNull { kotlin.math.abs(levels[it] - value) } ?: 0
+
+private class TileSpec<T>(
+    val label: String,
+    val options: List<T>,
+    val selectedIndex: Int,
+    val valueLabel: (T) -> String,
+    val onSelect: (Int) -> Unit,
+)
 
 @Composable
 private fun FullWidthRow(label: String, icon: ImageVector, onClick: () -> Unit) {
@@ -162,13 +165,7 @@ private fun FullWidthRow(label: String, icon: ImageVector, onClick: () -> Unit) 
 }
 
 @Composable
-private fun QuickSettingTile(
-    label: String,
-    value: String,
-    onPrev: () -> Unit,
-    onNext: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
+private fun <T> QuickSettingTile(tile: TileSpec<T>, modifier: Modifier = Modifier) {
     val shape = RoundedCornerShape(10.dp)
 
     Column(
@@ -176,9 +173,10 @@ private fun QuickSettingTile(
             .clip(shape)
             .background(SurfaceElevated2)
             .padding(14.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = label,
+            text = tile.label,
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -186,7 +184,7 @@ private fun QuickSettingTile(
             modifier = Modifier.fillMaxWidth(),
         )
         Text(
-            text = value,
+            text = tile.valueLabel(tile.options[tile.selectedIndex]),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center,
@@ -195,33 +193,35 @@ private fun QuickSettingTile(
                 .fillMaxWidth()
                 .padding(top = 6.dp),
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-        ) {
-            StepButton(icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Previous $label", onClick = onPrev)
-            StepButton(icon = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Next $label", onClick = onNext)
-        }
+        DotSelector(
+            count = tile.options.size,
+            selectedIndex = tile.selectedIndex,
+            onSelect = tile.onSelect,
+            modifier = Modifier.padding(top = 10.dp),
+        )
     }
 }
 
+/** Same visual language as the hero banner's page dots — small circle unselected, wide capsule selected — but each dot is directly clickable/focusable. */
 @Composable
-private fun StepButton(icon: ImageVector, contentDescription: String, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(8.dp)
-    val focusVisuals = rememberTvFocusVisuals(shape = shape)
-
-    Row(
-        modifier = Modifier
-            .size(32.dp)
-            .then(focusVisuals.modifier)
-            .clip(shape)
-            .background(SurfaceElevated3)
-            .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(imageVector = icon, contentDescription = contentDescription, tint = MaterialTheme.colorScheme.onSurface)
+private fun DotSelector(count: Int, selectedIndex: Int, onSelect: (Int) -> Unit, modifier: Modifier = Modifier) {
+    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        repeat(count) { index ->
+            val isSelected = index == selectedIndex
+            val focusVisuals = rememberTvFocusVisuals(shape = CircleShape)
+            Box(
+                modifier = Modifier
+                    .then(focusVisuals.modifier)
+                    .width(if (isSelected) 20.dp else 8.dp)
+                    .height(8.dp)
+                    .clip(CircleShape)
+                    .background(if (isSelected) MaterialTheme.colorScheme.primary else SurfaceElevated3)
+                    .clickable(
+                        interactionSource = focusVisuals.interactionSource,
+                        indication = null,
+                        onClick = { onSelect(index) },
+                    ),
+            )
+        }
     }
 }
