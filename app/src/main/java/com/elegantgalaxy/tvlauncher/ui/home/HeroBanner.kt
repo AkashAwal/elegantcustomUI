@@ -154,7 +154,7 @@ private fun HeroBannerPage(item: HeroBannerItem) {
             )
             Text(
                 text = item.subtitle,
-                style = MaterialTheme.typography.bodyLarge,
+                style = BodyStyle,
                 color = Color.White.copy(alpha = 0.85f),
                 modifier = Modifier.padding(top = 8.dp),
             )
