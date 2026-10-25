@@ -23,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.ui.theme.NavigationStyle
@@ -65,7 +64,7 @@ fun TopBar(
     ) {
         Text(
             text = time,
-            style = NavigationStyle,
+            style = TimeStyle,
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(end = 20.dp),
         )
