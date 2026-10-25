@@ -3,6 +3,7 @@ package com.elegantgalaxy.tvlauncher.navigation
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.elegantgalaxy.tvlauncher.R
+import com.elegantgalaxy.tvlauncher.ui.components.TopBar
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
