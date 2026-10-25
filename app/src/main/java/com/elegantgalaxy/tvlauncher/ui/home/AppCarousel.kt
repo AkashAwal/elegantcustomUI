@@ -130,7 +130,14 @@ private fun CompactAppTile(
     onFocusChange: (AppInfo?) -> Unit = {},
 ) {
     val shape = RoundedCornerShape(20.dp)
-    val focusVisuals = rememberTvFocusVisuals(shape = shape)
+    // Figma focused state: 1.08x scale (108 wide, radius 21.6, stroke 2.16 are
+    // just 96 / 20 / 2 scaled), #222540 fill, 2px inside #9F7FDB stroke.
+    val focusVisuals = rememberTvFocusVisuals(
+        shape = shape,
+        focusedScale = 1.08f,
+        focusedBorderColor = AccentLavender,
+        borderWidthDp = 2,
+    )
 
     Box(
         modifier = modifier
