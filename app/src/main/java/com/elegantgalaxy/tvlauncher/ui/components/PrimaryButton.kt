@@ -18,7 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.ui.theme.NavigationStyle
-import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
+import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonFocusedFill
+import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonFocusedStroke
 
 /**
  * Primary button per the Figma spec: 236x145, 29 corner radius, fill
