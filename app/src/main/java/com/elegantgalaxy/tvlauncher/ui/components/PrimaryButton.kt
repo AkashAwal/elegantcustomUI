@@ -41,13 +41,15 @@ fun PrimaryButton(
         modifier = modifier
             .width(width)
             .height(height)
-            .then(focusVisuals.modifier)
             .clip(shape)
-            .background(MaterialTheme.colorScheme.primary)
+            .background(if (focused) PrimaryButtonFocusedFill else MaterialTheme.colorScheme.primary)
             // Compose borders are drawn inside the bounds, matching Figma's "Inside" stroke.
-            .border(BorderStroke(1.dp, Color.Black), shape)
+            .border(
+                if (focused) BorderStroke(2.dp, PrimaryButtonFocusedStroke) else BorderStroke(1.dp, Color.Black),
+                shape,
+            )
             .clickable(
-                interactionSource = focusVisuals.interactionSource,
+                interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick,
             ),
