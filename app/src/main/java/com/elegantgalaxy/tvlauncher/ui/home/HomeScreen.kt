@@ -76,8 +76,6 @@ fun HomeScreen(
     )
 
     Box(modifier = modifier.fillMaxSize()) {
-        GoldenParticleBackground(modifier = Modifier.fillMaxSize())
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
