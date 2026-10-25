@@ -36,16 +36,21 @@ fun SecondaryButton(
     height: Dp = 145.dp,
 ) {
     val shape = RoundedCornerShape(29.dp)
+    val interactionSource = remember { MutableInteractionSource() }
+    val focused by interactionSource.collectIsFocusedAsState()
 
     Box(
         modifier = modifier
             .width(width)
             .height(height)
             .clip(shape)
-            .background(SecondaryButtonFill)
-            .border(BorderStroke(1.dp, SecondaryButtonStroke), shape)
+            .background(if (focused) SecondaryButtonFocusedFill else SecondaryButtonFill)
+            .border(
+                if (focused) BorderStroke(2.dp, PrimaryButtonFocusedStroke) else BorderStroke(1.dp, SecondaryButtonStroke),
+                shape,
+            )
             .clickable(
-                interactionSource = remember { MutableInteractionSource() },
+                interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick,
             ),
