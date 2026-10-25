@@ -111,19 +111,19 @@ fun TvLauncherNavGraph(
                 },
             )
 
-            Box(modifier = Modifier.weight(1f).fillMaxSize()) {
+            Column(modifier = Modifier.weight(1f).fillMaxSize()) {
+                // Login screen doesn't exist yet — no-op, same pattern as the other stubs.
+                TopBar(onProfileClick = {})
+
                 NavHost(
                     navController = navController,
                     startDestination = Screen.Home.route,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.weight(1f).fillMaxWidth(),
                 ) {
                     composable(Screen.Home.route) {
                         HomeScreen(viewModel = homeViewModel)
                     }
                 }
-
-                // Login screen doesn't exist yet — no-op, same pattern as the other stubs.
-                TopBar(onProfileClick = {}, modifier = Modifier.align(Alignment.TopCenter))
             }
         }
 
