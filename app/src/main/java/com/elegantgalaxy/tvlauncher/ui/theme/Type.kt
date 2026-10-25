@@ -19,6 +19,20 @@ val PlusJakartaSans = FontFamily(
         weight = FontWeight.Bold,
         variationSettings = FontVariation.Settings(FontVariation.weight(700)),
     ),
+    Font(
+        resId = R.font.plus_jakarta_sans,
+        weight = FontWeight.SemiBold,
+        variationSettings = FontVariation.Settings(FontVariation.weight(600)),
+    ),
+)
+
+// Carousel section titles (Figma: Plus Jakarta Sans, SemiBold, 36 / line height 44, -1px tracking).
+val SectionTitleStyle = TextStyle(
+    fontFamily = PlusJakartaSans,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 36.sp,
+    lineHeight = 44.sp,
+    letterSpacing = (-1).sp,
 )
 
 // Hero banner title (Figma: Plus Jakarta Sans, Bold, 64 / line height 72, -2.5px tracking).
