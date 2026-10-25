@@ -83,7 +83,8 @@ fun HomeScreen(
                 .fillMaxSize()
                 .background(
                     Brush.verticalGradient(
-                        listOf(displayMode.tint.copy(alpha = 0.92f), animatedAccent.copy(alpha = 0.55f)),
+                        // Kept translucent so the shared app_background image shows through.
+                        listOf(displayMode.tint.copy(alpha = 0.15f), animatedAccent.copy(alpha = 0.25f)),
                     ),
                 ),
         ) {
