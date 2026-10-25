@@ -82,7 +82,7 @@ private fun CaptionedTile(caption: String, content: @Composable () -> Unit) {
     Column {
         Text(
             text = caption.uppercase(),
-            style = MaterialTheme.typography.labelSmall,
+            style = CaptionStyle,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 8.dp),
         )
