@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Color
 // electric-blue accent. Swap these hex values once real brand guidelines
 // are supplied — every screen pulls from here, nothing is hardcoded
 // per-composable.
-val BrandPrimary = Color(0xFF00A3FF)      // electric blue accent (buttons, focus ring)
+val BrandPrimary = Color(0xFF5C3BAB)      // purple primary (buttons) — from Figma primary button fill
 val BrandSecondary = Color(0xFF7C5CFF)    // violet secondary accent (highlights, badges)
 val BrandOnPrimary = Color(0xFFFFFFFF)
 
