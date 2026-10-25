@@ -26,6 +26,24 @@ val PlusJakartaSans = FontFamily(
     ),
 )
 
+// Card titles (Figma: Plus Jakarta Sans, SemiBold, 28 / line height 36, -0.5px tracking).
+val CardTitleStyle = TextStyle(
+    fontFamily = PlusJakartaSans,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 28.sp,
+    lineHeight = 36.sp,
+    letterSpacing = (-0.5).sp,
+)
+
+// Body copy (Figma: Plus Jakarta Sans, Regular, 20 / line height 30, 0 tracking).
+val BodyStyle = TextStyle(
+    fontFamily = PlusJakartaSans,
+    fontWeight = FontWeight.Normal,
+    fontSize = 20.sp,
+    lineHeight = 30.sp,
+    letterSpacing = 0.sp,
+)
+
 // Carousel section titles (Figma: Plus Jakarta Sans, SemiBold, 36 / line height 44, -1px tracking).
 val SectionTitleStyle = TextStyle(
     fontFamily = PlusJakartaSans,
