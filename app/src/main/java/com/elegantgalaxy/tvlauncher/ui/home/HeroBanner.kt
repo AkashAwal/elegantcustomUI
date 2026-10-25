@@ -149,8 +149,7 @@ private fun HeroBannerPage(item: HeroBannerItem) {
         ) {
             Text(
                 text = item.title,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
+                style = HeroTitleStyle,
                 color = Color.White,
             )
             Text(
