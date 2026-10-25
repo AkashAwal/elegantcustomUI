@@ -28,7 +28,8 @@ import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonFocusedStroke
 /**
  * Primary button per the Figma spec: 236x145, 29 corner radius, fill
  * [MaterialTheme.colorScheme.primary] (#5C3BAB), 1px black inside stroke, no
- * shadow. Size defaults match Figma but can be overridden per call site.
+ * shadow. Focused (D-Pad) state per Figma: lighter #6C4AC4 fill, 2px #9F7FDB
+ * inside stroke, no scale change. Size defaults match Figma but can be overridden per call site.
  */
 @Composable
 fun PrimaryButton(
