@@ -36,9 +36,9 @@ private val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
 /**
  * Bar at the top of the content area, above the hero banner (it takes its
- * own row, so content starts below it): live clock plus a profile icon that
- * will open login/account once that screen exists ([onProfileClick] is a
- * caller-supplied no-op until then). The clock re-reads
+ * own row, so content starts below it): profile icon on the left (will open
+ * login/account once that screen exists — [onProfileClick] is a
+ * caller-supplied no-op until then) and the live clock on the right. The clock re-reads
  * the system time every few seconds so it flips within a few seconds of the
  * minute changing without needing a broadcast receiver.
  */
