@@ -129,14 +129,14 @@ private fun CompactAppTile(
     modifier: Modifier = Modifier,
     onFocusChange: (AppInfo?) -> Unit = {},
 ) {
-    val shape = RoundedCornerShape(10.dp)
+    val shape = RoundedCornerShape(20.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
     Box(
         modifier = modifier
             .then(focusVisuals.modifier)
             .clip(shape)
-            .background(SurfaceElevated2)
+            .background(AppTileFill)
             .onFocusChanged { onFocusChange(if (it.isFocused) app else null) }
             .clickable(
                 interactionSource = focusVisuals.interactionSource,
