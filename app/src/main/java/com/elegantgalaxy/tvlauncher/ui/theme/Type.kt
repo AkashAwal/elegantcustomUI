@@ -49,6 +49,24 @@ val BodyStyle = TextStyle(
     letterSpacing = 0.sp,
 )
 
+// Navigation labels (Figma: Plus Jakarta Sans, Medium, 18 / line height 24, 0 tracking).
+val NavigationStyle = TextStyle(
+    fontFamily = PlusJakartaSans,
+    fontWeight = FontWeight.Medium,
+    fontSize = 18.sp,
+    lineHeight = 24.sp,
+    letterSpacing = 0.sp,
+)
+
+// Captions (Figma: Plus Jakarta Sans, Regular, 14 / line height 20, +1px tracking).
+val CaptionStyle = TextStyle(
+    fontFamily = PlusJakartaSans,
+    fontWeight = FontWeight.Normal,
+    fontSize = 14.sp,
+    lineHeight = 20.sp,
+    letterSpacing = 1.sp,
+)
+
 // Carousel section titles (Figma: Plus Jakarta Sans, SemiBold, 36 / line height 44, -1px tracking).
 val SectionTitleStyle = TextStyle(
     fontFamily = PlusJakartaSans,
