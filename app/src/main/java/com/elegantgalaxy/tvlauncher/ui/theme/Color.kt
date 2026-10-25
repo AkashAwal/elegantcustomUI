@@ -8,14 +8,15 @@ import androidx.compose.ui.graphics.Color
 // are supplied — every screen pulls from here, nothing is hardcoded
 // per-composable.
 val BrandPrimary = Color(0xFF5C3BAB)      // purple primary (buttons) — from Figma primary button fill
-val BrandSecondary = Color(0xFF7C5CFF)    // violet secondary accent (highlights, badges)
+val BrandSecondary = Color(0xFF9F7FDB)    // = AccentLavender (replaced old violet 7C5CFF)
 val PrimaryButtonFocusedFill = Color(0xFF6C4AC4)
-val PrimaryButtonFocusedStroke = Color(0xFF9F7FDB)
+val AccentLavender = Color(0xFF9F7FDB)   // accent: button focus strokes, highlights
 val PrimaryButtonPressedFill = Color(0xFF4A2F92)
 val SecondaryButtonFill = Color(0xFF171A2C)
 val SecondaryButtonStroke = Color(0x14FFFFFF) // white @ 8%
 val SecondaryButtonFocusedFill = Color(0xFF222540)
 val SecondaryButtonPressedFill = Color(0xFF2E3050)
+val AppTileFill = Color(0xFF222540)
 val BrandOnPrimary = Color(0xFFFFFFFF)
 
 // --- OLED-friendly dark surfaces ---------------------------------------
