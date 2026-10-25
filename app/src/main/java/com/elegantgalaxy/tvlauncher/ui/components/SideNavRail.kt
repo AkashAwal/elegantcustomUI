@@ -82,7 +82,7 @@ fun SideNavRail(
         modifier = modifier
             .fillMaxHeight()
             .width(64.dp)
-            .background(AppBackground)
+            .background(AppBackground.copy(alpha = 0.55f))
             .verticalScroll(rememberScrollState())
             .padding(vertical = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
