@@ -48,11 +48,21 @@ fun PrimaryButton(
             .width(width)
             .height(height)
             .clip(shape)
-            .background(if (focused) PrimaryButtonFocusedFill else MaterialTheme.colorScheme.primary)
+            .background(
+                when {
+                    pressed -> PrimaryButtonPressedFill
+                    focused -> PrimaryButtonFocusedFill
+                    else -> MaterialTheme.colorScheme.primary
+                },
+            )
             // Compose borders are drawn inside the bounds, matching Figma's "Inside" stroke.
-            .border(
-                if (focused) BorderStroke(2.dp, PrimaryButtonFocusedStroke) else BorderStroke(1.dp, Color.Black),
-                shape,
+            // Pressed state has no stroke in Figma.
+            .then(
+                when {
+                    pressed -> Modifier
+                    focused -> Modifier.border(BorderStroke(2.dp, PrimaryButtonFocusedStroke), shape)
+                    else -> Modifier.border(BorderStroke(1.dp, Color.Black), shape)
+                },
             )
             .clickable(
                 interactionSource = interactionSource,
