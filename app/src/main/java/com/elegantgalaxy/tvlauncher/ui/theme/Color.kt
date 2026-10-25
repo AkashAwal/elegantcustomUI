@@ -14,6 +14,7 @@ val PrimaryButtonFocusedStroke = Color(0xFF9F7FDB)
 val PrimaryButtonPressedFill = Color(0xFF4A2F92)
 val SecondaryButtonFill = Color(0xFF171A2C)
 val SecondaryButtonStroke = Color(0x14FFFFFF) // white @ 8%
+val SecondaryButtonFocusedFill = Color(0xFF222540)
 val BrandOnPrimary = Color(0xFFFFFFFF)
 
 // --- OLED-friendly dark surfaces ---------------------------------------
