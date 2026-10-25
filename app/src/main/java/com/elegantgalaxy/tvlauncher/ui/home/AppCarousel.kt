@@ -35,8 +35,8 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.model.AppCategory
 import com.elegantgalaxy.tvlauncher.model.AppInfo
+import com.elegantgalaxy.tvlauncher.ui.theme.AppTileFill
 import com.elegantgalaxy.tvlauncher.ui.theme.SectionTitleStyle
-import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated2
 import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
 
 private val TILE_SIZE = 96.dp
