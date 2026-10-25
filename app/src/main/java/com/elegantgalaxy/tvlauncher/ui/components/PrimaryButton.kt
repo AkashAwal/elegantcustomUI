@@ -34,7 +34,8 @@ fun PrimaryButton(
     height: Dp = 145.dp,
 ) {
     val shape = RoundedCornerShape(29.dp)
-    val focusVisuals = rememberTvFocusVisuals(shape = shape)
+    val interactionSource = remember { MutableInteractionSource() }
+    val focused by interactionSource.collectIsFocusedAsState()
 
     Box(
         modifier = modifier
