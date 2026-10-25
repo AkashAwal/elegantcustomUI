@@ -178,8 +178,7 @@ private fun MovieTile(movie: FeaturedMovie) {
         )
         Text(
             text = movie.title,
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = FontWeight.Bold,
+            style = CardTitleStyle,
             color = Color.White,
             modifier = Modifier.align(Alignment.BottomStart).padding(16.dp),
         )
