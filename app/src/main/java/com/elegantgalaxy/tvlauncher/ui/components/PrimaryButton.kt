@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.ui.theme.NavigationStyle
 import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonFocusedFill
 import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonFocusedStroke
+import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonPressedFill
 
 /**
  * Primary button per the Figma spec: 236x145, 29 corner radius, fill
