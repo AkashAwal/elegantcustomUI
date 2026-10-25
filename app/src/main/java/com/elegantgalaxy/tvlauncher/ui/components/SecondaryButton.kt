@@ -49,10 +49,20 @@ fun SecondaryButton(
             .width(width)
             .height(height)
             .clip(shape)
-            .background(if (focused) SecondaryButtonFocusedFill else SecondaryButtonFill)
-            .border(
-                if (focused) BorderStroke(2.dp, PrimaryButtonFocusedStroke) else BorderStroke(1.dp, SecondaryButtonStroke),
-                shape,
+            .background(
+                when {
+                    pressed -> SecondaryButtonPressedFill
+                    focused -> SecondaryButtonFocusedFill
+                    else -> SecondaryButtonFill
+                },
+            )
+            // Pressed state has no stroke in Figma.
+            .then(
+                when {
+                    pressed -> Modifier
+                    focused -> Modifier.border(BorderStroke(2.dp, PrimaryButtonFocusedStroke), shape)
+                    else -> Modifier.border(BorderStroke(1.dp, SecondaryButtonStroke), shape)
+                },
             )
             .clickable(
                 interactionSource = interactionSource,
