@@ -32,7 +32,7 @@ import com.elegantgalaxy.tvlauncher.ui.theme.SecondaryButtonStroke
  * Secondary button per the Figma spec: 236x145, 29 corner radius, #171A2C
  * fill, 1px inside stroke of white at 8% opacity. Focused (D-Pad): #222540
  * fill with the same 2px #9F7FDB stroke as the primary button's focus state.
- * Pressed state still needs to be added once designed.
+ * Pressed: #2E3050 fill, no stroke.
  */
 @Composable
 fun SecondaryButton(
