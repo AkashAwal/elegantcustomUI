@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.elegantgalaxy.tvlauncher.ui.theme.NavigationStyle
+import com.elegantgalaxy.tvlauncher.ui.theme.TimeStyle
 import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
 import kotlinx.coroutines.delay
 import java.time.LocalTime
