@@ -25,6 +25,7 @@ import com.elegantgalaxy.tvlauncher.ui.theme.NavigationStyle
 import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonFocusedStroke
 import com.elegantgalaxy.tvlauncher.ui.theme.SecondaryButtonFill
 import com.elegantgalaxy.tvlauncher.ui.theme.SecondaryButtonFocusedFill
+import com.elegantgalaxy.tvlauncher.ui.theme.SecondaryButtonPressedFill
 import com.elegantgalaxy.tvlauncher.ui.theme.SecondaryButtonStroke
 
 /**
