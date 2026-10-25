@@ -59,8 +59,7 @@ fun TopBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(Brush.verticalGradient(listOf(Color.Black.copy(alpha = 0.45f), Color.Transparent)))
-            .padding(start = 48.dp, end = 48.dp, top = 20.dp, bottom = 24.dp),
+            .padding(start = 48.dp, end = 48.dp, top = 20.dp, bottom = 20.dp),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ) {
