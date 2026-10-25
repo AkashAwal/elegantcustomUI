@@ -12,6 +12,8 @@ val BrandSecondary = Color(0xFF7C5CFF)    // violet secondary accent (highlights
 val PrimaryButtonFocusedFill = Color(0xFF6C4AC4)
 val PrimaryButtonFocusedStroke = Color(0xFF9F7FDB)
 val PrimaryButtonPressedFill = Color(0xFF4A2F92)
+val SecondaryButtonFill = Color(0xFF171A2C)
+val SecondaryButtonStroke = Color(0x14FFFFFF) // white @ 8%
 val BrandOnPrimary = Color(0xFFFFFFFF)
 
 // --- OLED-friendly dark surfaces ---------------------------------------
