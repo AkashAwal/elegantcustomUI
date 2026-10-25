@@ -67,6 +67,15 @@ fun TvLauncherNavGraph(
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
+        // Shared backdrop for every screen/page — individual screens stay
+        // transparent (or only lightly tinted) so this shows through.
+        Image(
+            painter = painterResource(R.drawable.app_background),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize(),
+        )
+
         Row(modifier = Modifier.fillMaxSize()) {
             SideNavRail(
                 selected = selectedRail,
