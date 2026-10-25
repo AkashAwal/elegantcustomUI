@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
+import com.elegantgalaxy.tvlauncher.ui.theme.CaptionStyle
 import com.elegantgalaxy.tvlauncher.ui.theme.CardTitleStyle
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated2
 import com.elegantgalaxy.tvlauncher.ui.theme.SurfaceElevated3
