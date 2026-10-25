@@ -26,6 +26,11 @@ val PlusJakartaSans = FontFamily(
     ),
     Font(
         resId = R.font.plus_jakarta_sans,
+        weight = FontWeight.Medium,
+        variationSettings = FontVariation.Settings(FontVariation.weight(500)),
+    ),
+    Font(
+        resId = R.font.plus_jakarta_sans,
         weight = FontWeight.SemiBold,
         variationSettings = FontVariation.Settings(FontVariation.weight(600)),
     ),
