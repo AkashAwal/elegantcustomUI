@@ -59,16 +59,15 @@ fun TopBar(
         modifier = modifier
             .fillMaxWidth()
             .padding(start = 48.dp, end = 48.dp, top = 20.dp, bottom = 20.dp),
-        horizontalArrangement = Arrangement.End,
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        ProfileButton(onClick = onProfileClick)
         Text(
             text = time,
             style = TimeStyle,
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(end = 20.dp),
         )
-        ProfileButton(onClick = onProfileClick)
     }
 }
 
