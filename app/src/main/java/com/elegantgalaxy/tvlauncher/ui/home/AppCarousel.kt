@@ -140,9 +140,26 @@ private fun CompactAppTile(
         borderWidthDp = 2,
     )
 
+    val focused by focusVisuals.interactionSource.collectIsFocusedAsState()
+
     Box(
         modifier = modifier
             .then(focusVisuals.modifier)
+            // Figma drop shadow: x0, y4, blur 12, spread 0, black 25%. Compose's
+            // Modifier.shadow can't offset/blur independently, so draw it with a
+            // native shadow layer (hardware-accelerated on API 28+, our minSdk).
+            .drawBehind {
+                if (focused) {
+                    drawIntoCanvas { canvas ->
+                        val paint = Paint().asFrameworkPaint().apply {
+                            color = AppTileFill.toArgb()
+                            setShadowLayer(6.dp.toPx(), 0f, 4.dp.toPx(), Color.Black.copy(alpha = 0.25f).toArgb())
+                        }
+                        val radius = 20.dp.toPx()
+                        canvas.nativeCanvas.drawRoundRect(0f, 0f, size.width, size.height, radius, radius, paint)
+                    }
+                }
+            }
             .clip(shape)
             .background(AppTileFill)
             .onFocusChanged { onFocusChange(if (it.isFocused) app else null) }
