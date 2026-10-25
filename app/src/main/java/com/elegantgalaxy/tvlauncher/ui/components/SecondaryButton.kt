@@ -21,7 +21,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.ui.theme.NavigationStyle
+import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonFocusedStroke
 import com.elegantgalaxy.tvlauncher.ui.theme.SecondaryButtonFill
+import com.elegantgalaxy.tvlauncher.ui.theme.SecondaryButtonFocusedFill
 import com.elegantgalaxy.tvlauncher.ui.theme.SecondaryButtonStroke
 
 /**
