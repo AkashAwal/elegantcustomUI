@@ -81,6 +81,23 @@ val SectionTitleStyle = TextStyle(
     letterSpacing = (-1).sp,
 )
 
+@OptIn(ExperimentalTextApi::class)
+val Inter = FontFamily(
+    Font(
+        resId = R.font.inter,
+        weight = FontWeight.Normal,
+        variationSettings = FontVariation.Settings(FontVariation.weight(400)),
+    ),
+)
+
+// Top bar clock (Figma: Inter, Regular, 32, line height auto, 0% tracking).
+val TimeStyle = TextStyle(
+    fontFamily = Inter,
+    fontWeight = FontWeight.Normal,
+    fontSize = 32.sp,
+    letterSpacing = 0.sp,
+)
+
 // Hero banner title (Figma: Plus Jakarta Sans, Bold, 64 / line height 72, -2.5px tracking).
 val HeroTitleStyle = TextStyle(
     fontFamily = PlusJakartaSans,
