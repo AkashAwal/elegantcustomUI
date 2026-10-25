@@ -42,6 +42,7 @@ fun PrimaryButton(
     val shape = RoundedCornerShape(29.dp)
     val interactionSource = remember { MutableInteractionSource() }
     val focused by interactionSource.collectIsFocusedAsState()
+    val pressed by interactionSource.collectIsPressedAsState()
 
     Box(
         modifier = modifier
