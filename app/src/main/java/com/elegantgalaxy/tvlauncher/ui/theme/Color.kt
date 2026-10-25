@@ -11,6 +11,7 @@ val BrandPrimary = Color(0xFF5C3BAB)      // purple primary (buttons) — from F
 val BrandSecondary = Color(0xFF7C5CFF)    // violet secondary accent (highlights, badges)
 val PrimaryButtonFocusedFill = Color(0xFF6C4AC4)
 val PrimaryButtonFocusedStroke = Color(0xFF9F7FDB)
+val PrimaryButtonPressedFill = Color(0xFF4A2F92)
 val BrandOnPrimary = Color(0xFFFFFFFF)
 
 // --- OLED-friendly dark surfaces ---------------------------------------
