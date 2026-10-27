@@ -78,6 +78,8 @@ fun MediaRow(
     modifier: Modifier = Modifier,
     onSeeAll: (() -> Unit)? = null,
 ) {
+    val (lazyRow, firstItem) = remember { FocusRequester.createRefs() }
+
     Column(modifier = modifier.focusGroup()) {
         Row(
             modifier = Modifier
