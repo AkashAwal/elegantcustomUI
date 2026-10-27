@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.palette.graphics.Palette
 import com.elegantgalaxy.tvlauncher.model.AppInfo
 import com.elegantgalaxy.tvlauncher.ui.theme.AppBackground
+import com.elegantgalaxy.tvlauncher.ui.theme.HomeContentEnd
+import com.elegantgalaxy.tvlauncher.ui.theme.HomeContentStart
 import com.elegantgalaxy.tvlauncher.utils.AppLauncherUtils
 import com.elegantgalaxy.tvlauncher.utils.DisplayModeStore
 import kotlinx.coroutines.Dispatchers
