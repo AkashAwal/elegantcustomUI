@@ -7,26 +7,5 @@
     "accent": "#1F5C99",
     "package": "com.wbd.stream",
     "asset": "banners/succession.jpg"
-  },
-  {
-    "id": "youtube",
-    "title": "YouTube",
-    "subtitle": "Endless entertainment, ready to stream",
-    "accent": "#FF3B30",
-    "package": "com.google.android.youtube.tv"
-  },
-  {
-    "id": "netflix",
-    "title": "Netflix",
-    "subtitle": "New episodes added weekly",
-    "accent": "#B8004A",
-    "package": "com.netflix.ninja"
-  },
-  {
-    "id": "prime",
-    "title": "Prime Video",
-    "subtitle": "Included with your subscription",
-    "accent": "#1F5C99",
-    "package": "com.amazon.amazonvideo.livingroom"
   }
 ]
