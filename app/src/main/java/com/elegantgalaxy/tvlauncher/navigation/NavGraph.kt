@@ -113,17 +113,21 @@ fun TvLauncherNavGraph(
                 },
             )
 
-            Column(modifier = Modifier.weight(1f).fillMaxSize()) {
-                // Login screen doesn't exist yet — no-op, same pattern as the other stubs.
-                TopBar(onProfileClick = {})
+            // Only the content area is scaled to the 1920x1080 Figma frame; the rail and
+            // overlays keep the system density they were built against.
+            ProvideFigmaDensity {
+                Column(modifier = Modifier.weight(1f).fillMaxSize()) {
+                    // Login screen doesn't exist yet — no-op, same pattern as the other stubs.
+                    TopBar(onProfileClick = {})
 
-                NavHost(
-                    navController = navController,
-                    startDestination = Screen.Home.route,
-                    modifier = Modifier.weight(1f).fillMaxWidth(),
-                ) {
-                    composable(Screen.Home.route) {
-                        HomeScreen(viewModel = homeViewModel)
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.Home.route,
+                        modifier = Modifier.weight(1f).fillMaxWidth(),
+                    ) {
+                        composable(Screen.Home.route) {
+                            HomeScreen(viewModel = homeViewModel)
+                        }
                     }
                 }
             }
