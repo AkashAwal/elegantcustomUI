@@ -103,6 +103,7 @@ object BannerRepository {
                 imagePath = imageFile?.takeIf { it.exists() }?.absolutePath,
                 packageName = item.getString("package"),
                 deepLink = item.optString("deepLink").ifEmpty { null },
+                meta = item.optString("meta"),
             )
         }
         return result
