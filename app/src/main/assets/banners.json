@@ -1,5 +1,14 @@
 [
   {
+    "id": "succession",
+    "title": "Succession",
+    "subtitle": "The Roy family is known for controlling the biggest media and entertainment company in the world. However, their world changes when their father steps down from the company.",
+    "meta": "IMDb 8.8|2018|[16+]|4 Seasons|Black Comedy, Satire",
+    "accent": "#1F5C99",
+    "package": "com.wbd.stream",
+    "asset": "banners/succession.jpg"
+  },
+  {
     "id": "youtube",
     "title": "YouTube",
     "subtitle": "Endless entertainment, ready to stream",
