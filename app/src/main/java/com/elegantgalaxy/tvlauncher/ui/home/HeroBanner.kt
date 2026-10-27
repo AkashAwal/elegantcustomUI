@@ -158,8 +158,8 @@ private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .widthIn(max = 600.dp)
-                .padding(start = 48.dp, bottom = 56.dp, end = 48.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+                .padding(start = 48.dp, bottom = 40.dp, end = 48.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Text(
                 text = banner.title,
