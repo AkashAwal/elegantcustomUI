@@ -9,6 +9,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.elegantgalaxy.tvlauncher.model.AppCategory
 import com.elegantgalaxy.tvlauncher.model.AppInfo
+import com.elegantgalaxy.tvlauncher.model.Banner
+import com.elegantgalaxy.tvlauncher.utils.BannerRepository
 import com.elegantgalaxy.tvlauncher.utils.AppLauncherUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
