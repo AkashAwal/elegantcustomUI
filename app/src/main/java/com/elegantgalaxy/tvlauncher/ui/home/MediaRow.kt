@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.R
 import com.elegantgalaxy.tvlauncher.ui.components.MediaCard
 import com.elegantgalaxy.tvlauncher.ui.theme.AccentLavender
+import com.elegantgalaxy.tvlauncher.ui.theme.HomeContentEnd
+import com.elegantgalaxy.tvlauncher.ui.theme.HomeContentStart
 import com.elegantgalaxy.tvlauncher.ui.theme.HomeSectionTitleStyle
 import com.elegantgalaxy.tvlauncher.ui.theme.SeeAllStyle
 
