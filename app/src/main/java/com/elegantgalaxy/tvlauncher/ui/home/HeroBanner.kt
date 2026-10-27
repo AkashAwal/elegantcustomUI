@@ -165,8 +165,10 @@ private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .widthIn(max = 600.dp)
-                .padding(start = 77.dp, bottom = 85.dp, end = 48.dp),
+                // Padding first, then the 600 cap, so the text itself gets the full 600 (Figma
+                // wraps the description at ~565). Buttons end 24 above the hero's bottom edge.
+                .padding(start = 77.dp, bottom = 24.dp, end = 48.dp)
+                .widthIn(max = 600.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(
