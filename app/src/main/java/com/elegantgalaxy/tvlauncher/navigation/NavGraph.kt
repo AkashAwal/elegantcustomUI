@@ -39,6 +39,7 @@ import com.elegantgalaxy.tvlauncher.ui.home.HomeScreen
 import com.elegantgalaxy.tvlauncher.ui.home.HomeViewModel
 import com.elegantgalaxy.tvlauncher.ui.home.SearchOverlay
 import com.elegantgalaxy.tvlauncher.ui.settings.SettingsSidebar
+import com.elegantgalaxy.tvlauncher.utils.ProvideFigmaDensity
 
 /**
  * The nav rail lives here, outside the screen content, so it stays on-screen
