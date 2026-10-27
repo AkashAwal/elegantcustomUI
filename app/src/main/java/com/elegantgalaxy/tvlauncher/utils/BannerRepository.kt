@@ -94,7 +94,14 @@ object BannerRepository {
 
             val id = item.getString("id")
             val image = item.optString("image")
-            val imageFile = if (image.isNotEmpty()) File(dir(context), imageName(id, image)) else null
+            val bundled = item.optString("asset")
+            val imageFile = when {
+                // Artwork shipped inside the APK (assets/<asset>), copied once to the banner dir so
+                // [decode] only ever deals with plain files.
+                bundled.isNotEmpty() -> copyBundledImage(context, id, bundled)
+                image.isNotEmpty() -> File(dir(context), imageName(id, image))
+                else -> null
+            }
             result += Banner(
                 id = id,
                 title = item.getString("title"),
