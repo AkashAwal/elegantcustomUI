@@ -34,7 +34,8 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-private val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+// Figma shows the clock as "16:42" (24-hour), so that's fixed rather than following the locale.
+private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 
 /**
  * Bar at the top of the content area, above the hero banner (it takes its
