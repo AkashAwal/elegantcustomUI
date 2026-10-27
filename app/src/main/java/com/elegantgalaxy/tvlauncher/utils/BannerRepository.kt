@@ -116,6 +116,16 @@ object BannerRepository {
         return result
     }
 
+    private fun copyBundledImage(context: Context, id: String, assetPath: String): File? {
+        val target = File(dir(context), "asset_${id.filter { it.isLetterOrDigit() }}.jpg")
+        if (!target.exists()) {
+            runCatching {
+                context.assets.open(assetPath).use { input -> target.outputStream().use { input.copyTo(it) } }
+            }.onFailure { return null }
+        }
+        return target
+    }
+
     private fun download(url: String, maxBytes: Int): ByteArray {
         val conn = URL(url).openConnection() as HttpURLConnection
         try {
