@@ -125,7 +125,7 @@ private fun HeroBannerContent(
 }
 
 @Composable
-private fun HeroBannerPage(banner: Banner) {
+private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
     val accent = Color(banner.accentArgb)
     val image by produceState<ImageBitmap?>(null, banner.imagePath) {
         value = banner.imagePath?.let { path ->
