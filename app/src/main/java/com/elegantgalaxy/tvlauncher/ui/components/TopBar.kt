@@ -58,7 +58,8 @@ fun TopBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = 48.dp, end = 48.dp, top = 20.dp, bottom = 20.dp),
+            // Figma: bar sits 40 below the top edge and 48 above the hero.
+            .padding(start = HomeContentStart, end = HomeContentEnd, top = 40.dp, bottom = 48.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
