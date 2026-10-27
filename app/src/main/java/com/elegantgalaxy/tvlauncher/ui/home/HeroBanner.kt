@@ -142,29 +142,6 @@ private fun HeroBannerPage(item: HeroBannerItem) {
     }
 }
 
-@Composable
-private fun ChevronButton(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    contentDescription: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        modifier = modifier
-            .size(48.dp)
-            .clip(CircleShape)
-            .background(Color.Black.copy(alpha = 0.35f))
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = onClick,
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(imageVector = icon, contentDescription = contentDescription, tint = Color.White)
-    }
-}
-
 /**
  * Bottom-center dots; the active one is a wider capsule whose fill grows
  * left-to-right in step with [progress] (0f–1f), so it visibly empties and
