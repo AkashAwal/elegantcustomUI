@@ -119,6 +119,7 @@ fun HomeScreen(
                         items = continueWatchingItems,
                         onItemClick = {},
                         onSeeAll = {},
+                        rowFocusRequester = continueWatchingFocus,
                         modifier = Modifier.padding(top = 44.dp),
                     )
                 }
