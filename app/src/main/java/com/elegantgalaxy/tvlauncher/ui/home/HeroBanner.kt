@@ -89,13 +89,17 @@ private fun HeroBannerContent(
 ) {
     val pagerState = rememberPagerState(pageCount = { banners.size })
     var activePage by remember { mutableStateOf(0) }
+    // True while Play / More Info (or anything inside the hero) holds D-Pad focus. Only the
+    // visible page is composed, so advancing would dispose the focused button and drop focus
+    // to nothing — the rotation waits until focus leaves instead.
+    var heroHasFocus by remember { mutableStateOf(false) }
     val progress = remember { Animatable(0f) }
 
-    LaunchedEffect(activePage) {
+    LaunchedEffect(activePage, heroHasFocus) {
         if (pagerState.currentPage != activePage) {
             pagerState.animateScrollToPage(activePage)
         }
-        if (banners.size < 2) return@LaunchedEffect
+        if (banners.size < 2 || heroHasFocus) return@LaunchedEffect
         progress.snapTo(0f)
         progress.animateTo(1f, animationSpec = tween(SLIDE_DURATION_MS, easing = LinearEasing))
         // Only reached if the animation played out its full natural duration.
