@@ -101,12 +101,7 @@ fun MediaRow(
                 modifier = Modifier.weight(1f),
             )
             if (onSeeAll != null) {
-                Text(
-                    text = "See All ›",
-                    style = SeeAllStyle,
-                    color = AccentLavender,
-                    modifier = Modifier.clickable(onClick = onSeeAll),
-                )
+                SeeAllLink(onClick = onSeeAll)
             }
         }
 
