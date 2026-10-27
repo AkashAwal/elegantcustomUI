@@ -160,7 +160,8 @@ private fun RailIcon(
     val shape = RoundedCornerShape(6.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
 
-    val backgroundColor = if (isSelected) Color.White else SurfaceElevated1
+    // Unselected icons sit directly on the backdrop (no chip behind them).
+    val backgroundColor = if (isSelected) Color.White else Color.Transparent
     val tint = if (isSelected) Color.Black else MaterialTheme.colorScheme.onSurfaceVariant
 
     Icon(
