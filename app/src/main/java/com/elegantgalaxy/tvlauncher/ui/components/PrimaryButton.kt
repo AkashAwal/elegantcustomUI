@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegantgalaxy.tvlauncher.ui.theme.NavigationStyle
 import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonFocusedFill
-import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonFocusedStroke
+import com.elegantgalaxy.tvlauncher.ui.theme.AccentLavender
 import com.elegantgalaxy.tvlauncher.ui.theme.PrimaryButtonPressedFill
 
 /**
@@ -63,7 +63,7 @@ fun PrimaryButton(
             .then(
                 when {
                     pressed -> Modifier
-                    focused -> Modifier.border(BorderStroke(2.dp, PrimaryButtonFocusedStroke), shape)
+                    focused -> Modifier.border(BorderStroke(2.dp, AccentLavender), shape)
                     else -> Modifier.border(BorderStroke(1.dp, Color.Black), shape)
                 },
             )

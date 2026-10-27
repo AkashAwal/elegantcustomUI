@@ -31,8 +31,6 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.asFrameworkPaint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
@@ -159,7 +157,8 @@ private fun CompactAppTile(
             .drawBehind {
                 if (focused) {
                     drawIntoCanvas { canvas ->
-                        val paint = Paint().asFrameworkPaint().apply {
+                        val paint = android.graphics.Paint().apply {
+                            isAntiAlias = true
                             color = AppTileFill.toArgb()
                             setShadowLayer(6.dp.toPx(), 0f, 4.dp.toPx(), Color.Black.copy(alpha = 0.25f).toArgb())
                         }
