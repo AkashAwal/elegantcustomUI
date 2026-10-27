@@ -75,12 +75,13 @@ fun PrimaryButton(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick,
-            ),
+            )
+            .padding(horizontal = horizontalPadding),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
-            style = NavigationStyle,
+            style = textStyle,
             color = MaterialTheme.colorScheme.onPrimary,
         )
     }
