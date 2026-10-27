@@ -47,6 +47,8 @@ fun SecondaryButton(
     cornerRadius: Dp = 29.dp,
     horizontalPadding: Dp = 0.dp,
     textStyle: TextStyle = NavigationStyle,
+    /** Resting fill; focused/pressed keep their own fills. Defaults to the solid secondary fill. */
+    fill: Color = SecondaryButtonFill,
 ) {
     val shape = RoundedCornerShape(cornerRadius)
     val interactionSource = remember { MutableInteractionSource() }
