@@ -87,7 +87,12 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(32.dp),
                 contentPadding = PaddingValues(bottom = 16.dp),
             ) {
-                item { HeroBanner() }
+                item {
+                    HeroBanner(
+                        banners = uiState.banners,
+                        onBannerClick = { AppLauncherUtils.openBanner(context, it) },
+                    )
+                }
 
                 item {
                     AppCarousel(
