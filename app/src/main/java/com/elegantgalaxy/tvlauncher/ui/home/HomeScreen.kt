@@ -75,6 +75,8 @@ fun HomeScreen(
         label = "focusAccent",
     )
 
+    val continueWatchingFocus = remember { FocusRequester() }
+
     Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
