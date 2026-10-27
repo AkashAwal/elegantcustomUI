@@ -108,14 +108,17 @@ fun MediaRow(
             // Vertical padding leaves room for the focused card's 1.08x scale and shadow.
             contentPadding = PaddingValues(start = HomeContentStart, end = HomeContentEnd, top = 12.dp, bottom = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.focusRestorer(),
+            modifier = Modifier
+                .focusRequester(lazyRow)
+                .focusRestorer(firstItem),
         ) {
-            items(items, key = { it.poster }) { item ->
+            itemsIndexed(items, key = { _, item -> item.poster }) { index, item ->
                 MediaCard(
                     title = item.title,
                     poster = item.poster,
                     progress = item.progress,
                     onClick = { onItemClick(item) },
+                    modifier = if (index == 0) Modifier.focusRequester(firstItem) else Modifier,
                 )
             }
         }
