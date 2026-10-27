@@ -85,7 +85,6 @@ fun HomeScreen(
                     ),
                 ),
         ) {
-            val appsByCategory = uiState.appsByCategory
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(32.dp),
                 contentPadding = PaddingValues(bottom = 16.dp),
