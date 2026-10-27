@@ -102,7 +102,7 @@ fun MediaRow(
 
         LazyRow(
             // Vertical padding leaves room for the focused card's 1.08x scale and shadow.
-            contentPadding = PaddingValues(horizontal = 48.dp, vertical = 12.dp),
+            contentPadding = PaddingValues(start = HomeContentStart, end = HomeContentEnd, top = 12.dp, bottom = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.focusRestorer(),
         ) {
