@@ -33,6 +33,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.elegantgalaxy.tvlauncher.ui.components.AppBackdrop
 import com.elegantgalaxy.tvlauncher.ui.components.RailDestination
 import com.elegantgalaxy.tvlauncher.ui.components.SideNavRail
 import com.elegantgalaxy.tvlauncher.ui.home.HomeScreen
