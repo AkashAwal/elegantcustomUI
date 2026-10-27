@@ -209,6 +209,79 @@ private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
 // Figma hero buttons: Plus Jakarta Sans Medium 18 / 24, +1px tracking.
 private val HeroButtonTextStyle = NavigationStyle.copy(letterSpacing = 1.sp)
 
+// Alpha stops of the #0D1020 fades over the artwork, sampled from the design export
+// (fraction of the hero's width/height -> opacity).
+private val HeroFadeColor = HomeBackground
+private val HeroFadeLeft = Brush.horizontalGradient(
+    0f to HeroFadeColor.copy(alpha = 0.82f),
+    0.035f to HeroFadeColor.copy(alpha = 0.74f),
+    0.059f to HeroFadeColor.copy(alpha = 0.50f),
+    0.088f to HeroFadeColor.copy(alpha = 0.46f),
+    0.117f to HeroFadeColor.copy(alpha = 0.33f),
+    0.176f to HeroFadeColor.copy(alpha = 0.14f),
+    0.235f to HeroFadeColor.copy(alpha = 0f),
+)
+private val HeroFadeRight = Brush.horizontalGradient(
+    0.765f to HeroFadeColor.copy(alpha = 0f),
+    0.824f to HeroFadeColor.copy(alpha = 0.09f),
+    0.883f to HeroFadeColor.copy(alpha = 0.14f),
+    0.912f to HeroFadeColor.copy(alpha = 0.22f),
+    0.941f to HeroFadeColor.copy(alpha = 0.38f),
+    0.965f to HeroFadeColor.copy(alpha = 0.57f),
+    0.982f to HeroFadeColor.copy(alpha = 0.63f),
+    1f to HeroFadeColor.copy(alpha = 0.66f),
+)
+private val HeroFadeBottom = Brush.verticalGradient(
+    0.67f to HeroFadeColor.copy(alpha = 0f),
+    0.765f to HeroFadeColor.copy(alpha = 0.20f),
+    0.82f to HeroFadeColor.copy(alpha = 0.30f),
+    0.872f to HeroFadeColor.copy(alpha = 0.47f),
+    0.907f to HeroFadeColor.copy(alpha = 0.60f),
+    0.943f to HeroFadeColor.copy(alpha = 0.73f),
+    1f to HeroFadeColor.copy(alpha = 0.70f),
+)
+
+/**
+ * "IMDb 8.8 • 2018 • [16+] • 4 Seasons • Black Comedy, Satire": entries are
+ * `|`-separated in [meta]; an entry in square brackets is drawn as the small
+ * outlined age-rating badge, the rest as plain 16sp text, with 3dp dots between.
+ */
+@Composable
+private fun HeroMetaRow(meta: String) {
+    val entries = meta.split('|').map { it.trim() }.filter { it.isNotEmpty() }
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        entries.forEachIndexed { index, entry ->
+            if (index > 0) {
+                Box(Modifier.size(3.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.6f)))
+            }
+            if (entry.startsWith("[") && entry.endsWith("]")) {
+                Box(
+                    modifier = Modifier
+                        .height(20.dp)
+                        .border(1.dp, Color(0x33FFE8E8), RoundedCornerShape(4.dp))
+                        .padding(horizontal = 5.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = entry.removePrefix("[").removeSuffix("]"),
+                        style = BodyStyle.copy(fontSize = 12.sp, lineHeight = 16.sp),
+                        color = Color.White,
+                    )
+                }
+            } else {
+                Text(
+                    text = entry,
+                    style = BodyStyle.copy(fontSize = 16.sp, lineHeight = 20.sp),
+                    color = if (index == 0) Color.White.copy(alpha = 0.85f) else Color.White,
+                )
+            }
+        }
+    }
+}
+
 /**
  * Bottom-center dots; the active one is a wider capsule whose fill grows
  * left-to-right in step with [progress] (0f–1f), so it visibly empties and
