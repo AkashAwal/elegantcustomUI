@@ -81,8 +81,29 @@ val SectionTitleStyle = TextStyle(
     letterSpacing = (-1).sp,
 )
 
+// Home screen row titles — Continue Watching, Recommended, apps (Figma "Section Header": Plus Jakarta Sans, SemiBold, 32).
+val HomeSectionTitleStyle = TextStyle(
+    fontFamily = PlusJakartaSans,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 32.sp,
+)
+
+// "See All ›" link beside a row title (Figma: Plus Jakarta Sans, Regular, 22).
+val SeeAllStyle = TextStyle(
+    fontFamily = PlusJakartaSans,
+    fontWeight = FontWeight.Normal,
+    fontSize = 22.sp,
+)
+
+// Home hero banner headline (Figma home frame: Plus Jakarta Sans, Bold, 48).
+val HeroBannerTitleStyle = TextStyle(
+    fontFamily = PlusJakartaSans,
+    fontWeight = FontWeight.Bold,
+    fontSize = 48.sp,
+)
+
 @OptIn(ExperimentalTextApi::class)
-val Inter = FontFamily(
+val Inter =FontFamily(
     Font(
         resId = R.font.inter,
         weight = FontWeight.Normal,
