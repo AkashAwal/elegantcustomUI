@@ -66,6 +66,7 @@ val recommendedItems = listOf(
  * as [AppCarousel]; the row restores focus to the last-focused card on
  * re-entry, like the app rows.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MediaRow(
     title: String,
