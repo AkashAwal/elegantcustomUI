@@ -106,7 +106,7 @@ private fun HeroBannerContent(
         activePage = (activePage + 1) % banners.size
     }
 
-    Box(modifier = modifier.fillMaxWidth()) {
+    Box(modifier = modifier.fillMaxWidth().onFocusChanged { heroHasFocus = it.hasFocus }) {
         HorizontalPager(
             state = pagerState,
             userScrollEnabled = false,
