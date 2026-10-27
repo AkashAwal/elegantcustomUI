@@ -39,14 +39,12 @@ object BannerRepository {
     fun load(context: Context): List<Banner> {
         val cached = feedFile(context).takeIf { it.exists() }?.readText()
         val json = cached ?: context.assets.open("banners.json").bufferedReader().use { it.readText() }
-        return runCatching { parse(context, json) }.getOrElse {
-            if (cached != null) {
-                feedFile(context).delete()
-                load(context)
-            } else {
-                emptyList()
-            }
-        }
+        val banners = runCatching { parse(context, json) }.getOrNull().orEmpty()
+        if (banners.isNotEmpty() || cached == null) return banners
+        // Cached feed was corrupt or fully expired (e.g. the daily job stopped): use the bundled set.
+        return runCatching {
+            parse(context, context.assets.open("banners.json").bufferedReader().use { it.readText() })
+        }.getOrDefault(emptyList())
     }
 
     /** Returns true if the cache was replaced and the caller should [load] again. */
