@@ -79,6 +79,7 @@ fun AppCarousel(
     onAppClick: (AppInfo) -> Unit,
     modifier: Modifier = Modifier,
     onAppFocusChange: (AppInfo?) -> Unit = {},
+    downFocusRequester: FocusRequester? = null,
 ) {
     var focusedIndex by remember { mutableStateOf(-1) }
     val (lazyRow, firstItem) = remember { FocusRequester.createRefs() }
