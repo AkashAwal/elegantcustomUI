@@ -65,8 +65,8 @@ val recommendedItems = listOf(
 /**
  * Titled, horizontally-scrolling row of [MediaCard]s (Figma "Section Header" +
  * card strip): 32sp title on the left, optional lavender "See All ›" on the
- * right when [onSeeAll] is given, 16dp between cards. Same 48dp side padding
- * as [AppCarousel]; the row restores focus to the last-focused card on
+ * right when [onSeeAll] is given, 16dp between cards. Same side gutters as
+ * [AppCarousel]; the row restores focus to the last-focused card on
  * re-entry, like the app rows.
  */
 @OptIn(ExperimentalComposeUiApi::class)
