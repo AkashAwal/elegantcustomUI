@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.palette.graphics.Palette
-import com.elegantgalaxy.tvlauncher.model.AppCategory
 import com.elegantgalaxy.tvlauncher.model.AppInfo
 import com.elegantgalaxy.tvlauncher.ui.theme.AppBackground
 import com.elegantgalaxy.tvlauncher.utils.AppLauncherUtils
