@@ -107,6 +107,7 @@ fun HomeScreen(
                         apps = uiState.allApps,
                         onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
                         onAppFocusChange = viewModel::onFocusedAppChange,
+                        downFocusRequester = continueWatchingFocus,
                         modifier = Modifier.padding(top = 48.dp),
                     )
                 }
