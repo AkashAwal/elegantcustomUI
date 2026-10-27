@@ -71,6 +71,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /** Shows cached/bundled banners immediately, then refreshes from the feed if it's over 24h old. */
+    private fun loadBanners() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val context = getApplication<Application>()
+            _uiState.update { it.copy(banners = BannerRepository.load(context)) }
+            if (BannerRepository.refreshIfStale(context)) {
+                _uiState.update { it.copy(banners = BannerRepository.load(context)) }
+            }
+        }
+    }
+
     fun onSearchQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
     }
