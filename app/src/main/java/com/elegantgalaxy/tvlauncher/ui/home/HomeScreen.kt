@@ -84,8 +84,14 @@ fun HomeScreen(
                 .fillMaxSize()
                 .background(
                     Brush.verticalGradient(
-                        // Kept translucent so the shared app_background image shows through.
-                        listOf(displayMode.tint.copy(alpha = 0.15f), animatedAccent.copy(alpha = 0.25f)),
+                        // Translucent so the shared AppBackdrop (the Figma colours) stays true:
+                        // Normal mode adds nothing at the top, and the focused-app tint is a
+                        // whisper at the bottom rather than the old 25% wash that turned the
+                        // page teal/green whenever a tile was focused.
+                        listOf(
+                            if (displayMode == DisplayMode.NORMAL) Color.Transparent else displayMode.tint.copy(alpha = 0.15f),
+                            animatedAccent.copy(alpha = 0.07f),
+                        ),
                     ),
                 ),
         ) {
