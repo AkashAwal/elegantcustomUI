@@ -80,8 +80,11 @@ fun MediaRow(
     onItemClick: (MediaItem) -> Unit,
     modifier: Modifier = Modifier,
     onSeeAll: (() -> Unit)? = null,
+    /** Lets a caller (e.g. the row above) send D-Pad focus into this row; it restores the last-focused card. */
+    rowFocusRequester: FocusRequester? = null,
 ) {
-    val (lazyRow, firstItem) = remember { FocusRequester.createRefs() }
+    val (ownRowRequester, firstItem) = remember { FocusRequester.createRefs() }
+    val lazyRow = rowFocusRequester ?: ownRowRequester
 
     Column(modifier = modifier.focusGroup()) {
         Row(
