@@ -62,7 +62,10 @@ fun TopBar(
         modifier = modifier
             .fillMaxWidth()
             // Figma: bar sits 40 below the top edge and 48 above the hero.
-            .padding(start = HomeContentStart, end = HomeContentEnd, top = 40.dp, bottom = 48.dp),
+            .padding(start = HomeContentStart, end = HomeContentEnd, top = 40.dp, bottom = 48.dp)
+            // Figma "TOP BAR": black 20% -> transparent left-to-right strip, radius 20.
+            .clip(RoundedCornerShape(20.dp))
+            .background(Brush.horizontalGradient(listOf(Color.Black.copy(alpha = 0.2f), Color.Transparent))),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -70,7 +73,7 @@ fun TopBar(
         Text(
             text = time,
             style = TimeStyle,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = Color.White.copy(alpha = 0.9f),
         )
     }
 }
