@@ -91,7 +91,9 @@ fun MediaRow(
             modifier = Modifier
                 .fillMaxWidth()
                 // Header 40 + 20 + 12 of focus-scale room = Figma's 72 to the cards' top edge.
-                .padding(start = HomeContentStart, end = HomeContentEnd, bottom = 20.dp),
+                // End is 12 short of the gutter: SeeAllLink pads itself by 12 so its text still
+                // lines up with the gutter while leaving room for the focus outline.
+                .padding(start = HomeContentStart, end = HomeContentEnd - SEE_ALL_PADDING, bottom = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
