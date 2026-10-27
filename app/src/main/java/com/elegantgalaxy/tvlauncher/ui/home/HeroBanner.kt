@@ -49,6 +49,7 @@ import com.elegantgalaxy.tvlauncher.ui.components.PrimaryButton
 import com.elegantgalaxy.tvlauncher.ui.components.SecondaryButton
 import com.elegantgalaxy.tvlauncher.ui.theme.BodyStyle
 import com.elegantgalaxy.tvlauncher.ui.theme.HeroBannerTitleStyle
+import com.elegantgalaxy.tvlauncher.ui.theme.HomeBackground
 import com.elegantgalaxy.tvlauncher.ui.theme.NavigationStyle
 import com.elegantgalaxy.tvlauncher.utils.BannerRepository
 import kotlinx.coroutines.Dispatchers
