@@ -50,7 +50,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 private const val SLIDE_DURATION_MS = 6000
-private val BANNER_HEIGHT = 317.dp
+private val BANNER_HEIGHT = 562.dp // Figma home frame hero
 
 /**
  * Full-width rotating hero banner, edge-to-edge (no side padding, unlike
