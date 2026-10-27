@@ -14,4 +14,6 @@ data class Banner(
     val imagePath: String?,
     val packageName: String,
     val deepLink: String?,
+    /** Optional dot-separated facts line under the title, e.g. "IMDb 8.8 · 2018 · 4 Seasons"; empty = hidden. */
+    val meta: String = "",
 )
