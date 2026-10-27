@@ -114,10 +114,19 @@ fun AppCarousel(
 
                 val itemFocusRequester = if (index == 0) Modifier.focusRequester(firstItem) else Modifier
 
+                // Tiles rise by different amounts, so a neighbour's bottom edge sits below the
+                // focused tile's and Compose's geometric search treats it as "below" — D-Pad Down
+                // would step sideways along the row. Route Down to the next row explicitly.
+                val downTarget = if (downFocusRequester != null) {
+                    Modifier.focusProperties { down = downFocusRequester }
+                } else {
+                    Modifier
+                }
+
                 CompactAppTile(
                     app = app,
                     onClick = { onAppClick(app) },
-                    modifier = itemFocusRequester.size(TILE_SIZE).offset(y = -rise),
+                    modifier = itemFocusRequester.then(downTarget).size(TILE_SIZE).offset(y = -rise),
                     onFocusChange = { focusedAppOrNull ->
                         onAppFocusChange(focusedAppOrNull)
                         focusedIndex = when {
