@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import com.elegantgalaxy.tvlauncher.model.Banner
 import org.json.JSONArray
 import java.io.File
 import java.net.HttpURLConnection
@@ -24,7 +25,7 @@ import java.net.URL
 object BannerRepository {
 
     /** Hosted feed URL (https only). Empty = bundled banners only. */
-    private const val FEED_URL = ""
+    private const val FEED_URL = "https://akashawal.com/launcher/banners.json"
 
     private const val MAX_BANNERS = 4
     private const val REFRESH_INTERVAL_MS = 24L * 60 * 60 * 1000
@@ -35,7 +36,7 @@ object BannerRepository {
     private fun dir(context: Context) = File(context.filesDir, "banners").apply { mkdirs() }
     private fun feedFile(context: Context) = File(dir(context), "banners.json")
 
-    fun load(context: Context): List<com.elegantgalaxy.tvlauncher.model.Banner> {
+    fun load(context: Context): List<Banner> {
         val cached = feedFile(context).takeIf { it.exists() }?.readText()
         val json = cached ?: context.assets.open("banners.json").bufferedReader().use { it.readText() }
         return runCatching { parse(context, json) }.getOrElse {
@@ -83,10 +84,10 @@ object BannerRepository {
     /** Image file name keyed on id + url so a changed image URL gets re-downloaded. */
     private fun imageName(id: String, url: String) = "img_${id.filter { it.isLetterOrDigit() }}_${url.hashCode()}.jpg"
 
-    private fun parse(context: Context, json: String): List<com.elegantgalaxy.tvlauncher.model.Banner> {
+    private fun parse(context: Context, json: String): List<Banner> {
         val array = JSONArray(json)
         val nowSeconds = System.currentTimeMillis() / 1000
-        val result = ArrayList<com.elegantgalaxy.tvlauncher.model.Banner>()
+        val result = ArrayList<Banner>()
         for (i in 0 until array.length()) {
             if (result.size == MAX_BANNERS) break
             val item = array.getJSONObject(i)
@@ -96,7 +97,7 @@ object BannerRepository {
             val id = item.getString("id")
             val image = item.optString("image")
             val imageFile = if (image.isNotEmpty()) File(dir(context), imageName(id, image)) else null
-            result += com.elegantgalaxy.tvlauncher.model.Banner(
+            result += Banner(
                 id = id,
                 title = item.getString("title"),
                 subtitle = item.optString("subtitle"),
