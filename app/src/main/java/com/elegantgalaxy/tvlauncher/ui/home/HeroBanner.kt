@@ -152,12 +152,12 @@ private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
             )
-            // Keeps the title legible over any artwork.
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Brush.horizontalGradient(listOf(Color.Black.copy(alpha = 0.75f), Color.Transparent))),
-            )
+            // Figma blends the artwork into the page with background-colour fades on the
+            // left, right and bottom edges. Alphas are measured from the design export
+            // (see HeroFade* below) rather than eyeballed, and double as the title's scrim.
+            Box(Modifier.fillMaxSize().background(HeroFadeLeft))
+            Box(Modifier.fillMaxSize().background(HeroFadeRight))
+            Box(Modifier.fillMaxSize().background(HeroFadeBottom))
         }
         Column(
             modifier = Modifier
