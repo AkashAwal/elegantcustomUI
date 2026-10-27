@@ -23,6 +23,7 @@ data class HomeUiState(
     val allApps: List<AppInfo> = emptyList(),
     val searchQuery: String = "",
     val focusedApp: AppInfo? = null,
+    val banners: List<Banner> = emptyList(),
 ) {
     val appsByCategory: Map<AppCategory, List<AppInfo>>
         get() = allApps.groupBy { it.category }
