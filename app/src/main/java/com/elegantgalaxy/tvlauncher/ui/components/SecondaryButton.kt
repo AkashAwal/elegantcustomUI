@@ -65,7 +65,7 @@ fun SecondaryButton(
                 when {
                     pressed -> SecondaryButtonPressedFill
                     focused -> SecondaryButtonFocusedFill
-                    else -> SecondaryButtonFill
+                    else -> fill
                 },
             )
             // Pressed state has no stroke in Figma.
