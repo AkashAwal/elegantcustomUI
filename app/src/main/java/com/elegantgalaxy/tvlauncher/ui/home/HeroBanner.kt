@@ -177,7 +177,7 @@ private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
                 text = banner.subtitle,
                 style = BodyStyle.copy(fontSize = 18.sp, lineHeight = 25.sp),
                 color = Color.White.copy(alpha = 0.8f),
-                maxLines = 3,
+                maxLines = 2,
             )
             // Neither a title-details screen nor a separate "play" action exists yet,
             // so both buttons open the banner's app/deep link.
