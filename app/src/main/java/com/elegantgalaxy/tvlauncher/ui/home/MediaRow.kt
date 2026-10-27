@@ -1,8 +1,12 @@
 package com.elegantgalaxy.tvlauncher.ui.home
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusGroup
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -126,4 +130,26 @@ fun MediaRow(
             }
         }
     }
+}
+
+private val SEE_ALL_PADDING = 12.dp
+
+/** "See All ›" — lavender text that gets the same 2px lavender outline as other focused controls. */
+@Composable
+private fun SeeAllLink(onClick: () -> Unit) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val focused by interactionSource.collectIsFocusedAsState()
+    val shape = RoundedCornerShape(10.dp)
+
+    Text(
+        text = "See All ›",
+        style = SeeAllStyle,
+        color = AccentLavender,
+        modifier = Modifier
+            .clip(shape)
+            .background(if (focused) AccentLavender.copy(alpha = 0.16f) else Color.Transparent)
+            .then(if (focused) Modifier.border(2.dp, AccentLavender, shape) else Modifier)
+            .clickable(interactionSource = interactionSource, indication = null, onClick = onClick)
+            .padding(horizontal = SEE_ALL_PADDING, vertical = 4.dp),
+    )
 }
