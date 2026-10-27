@@ -91,6 +91,7 @@ fun HomeScreen(
                     HeroBanner(
                         banners = uiState.banners,
                         onBannerClick = { AppLauncherUtils.openBanner(context, it) },
+                        modifier = Modifier.padding(horizontal = 48.dp),
                     )
                 }
 
@@ -100,6 +101,25 @@ fun HomeScreen(
                         apps = uiState.allApps,
                         onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
                         onAppFocusChange = viewModel::onFocusedAppChange,
+                    )
+                }
+
+                // Placeholder content (see MediaRow.kt) — click/See All are no-ops until a content source exists.
+                item {
+                    MediaRow(
+                        title = "Continue Watching",
+                        items = continueWatchingItems,
+                        onItemClick = {},
+                        onSeeAll = {},
+                    )
+                }
+
+                item {
+                    MediaRow(
+                        title = "Recommended",
+                        items = recommendedItems,
+                        onItemClick = {},
+                        onSeeAll = {},
                     )
                 }
             }
