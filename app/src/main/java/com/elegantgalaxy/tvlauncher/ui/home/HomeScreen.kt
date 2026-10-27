@@ -93,16 +93,9 @@ fun HomeScreen(
                 item { HeroBanner() }
 
                 item {
-                    FeaturedContentRow(
-                        onAndroidTvClick = {},
-                        onInputsClick = {},
-                    )
-                }
-
-                items(AppCategory.entries.filter { appsByCategory[it]?.isNotEmpty() == true }) { category ->
                     AppCarousel(
-                        title = category.displayName,
-                        apps = appsByCategory[category].orEmpty(),
+                        title = "Apps",
+                        apps = uiState.allApps,
                         onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
                         onAppFocusChange = viewModel::onFocusedAppChange,
                     )
