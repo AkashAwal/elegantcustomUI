@@ -283,6 +283,8 @@ private fun HeroMetaRow(meta: String) {
                     text = entry,
                     style = BodyStyle.copy(fontSize = 16.sp, lineHeight = 20.sp),
                     color = if (index == 0) Color.White.copy(alpha = 0.85f) else Color.White,
+                    maxLines = 1,
+                    softWrap = false,
                 )
             }
         }
