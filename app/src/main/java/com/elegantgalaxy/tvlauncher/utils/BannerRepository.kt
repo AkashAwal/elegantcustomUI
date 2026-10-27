@@ -173,7 +173,11 @@ object BannerRepository {
         return sample
     }
 
-    /** Decodes a cached banner image as RGB_565 (half the RAM of ARGB_8888). */
+    /**
+     * Decodes a cached banner image as ARGB_8888. RGB_565 would halve the RAM, but at <=1280px wide
+     * that's only ~2MB saved and its 5/6/5-bit channels visibly band the dark navy gradients and
+     * skin tones — the hero is the largest picture on screen, so it gets full colour depth.
+     */
     fun decode(path: String): Bitmap? {
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
         BitmapFactory.decodeFile(path, bounds)
@@ -181,7 +185,7 @@ object BannerRepository {
             path,
             BitmapFactory.Options().apply {
                 inSampleSize = sampleSizeFor(bounds.outWidth, IMAGE_WIDTH)
-                inPreferredConfig = Bitmap.Config.RGB_565
+                inPreferredConfig = Bitmap.Config.ARGB_8888
             },
         )
     }
