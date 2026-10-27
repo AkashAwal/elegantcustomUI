@@ -155,22 +155,56 @@ private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = 48.dp, bottom = 40.dp, end = 48.dp),
+                .widthIn(max = 600.dp)
+                .padding(start = 48.dp, bottom = 56.dp, end = 48.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(
                 text = banner.title,
-                style = HeroTitleStyle,
+                style = HeroBannerTitleStyle,
                 color = Color.White,
             )
+            if (banner.meta.isNotEmpty()) {
+                Text(
+                    text = banner.meta,
+                    style = BodyStyle.copy(fontSize = 16.sp, lineHeight = 20.sp),
+                    color = Color.White.copy(alpha = 0.85f),
+                )
+            }
             Text(
                 text = banner.subtitle,
-                style = BodyStyle,
-                color = Color.White.copy(alpha = 0.85f),
-                modifier = Modifier.padding(top = 8.dp),
+                style = BodyStyle.copy(fontSize = 18.sp, lineHeight = 25.sp),
+                color = Color.White.copy(alpha = 0.8f),
+                maxLines = 3,
             )
+            // Neither a title-details screen nor a separate "play" action exists yet,
+            // so both buttons open the banner's app/deep link.
+            Row(horizontalArrangement = Arrangement.spacedBy(23.dp)) {
+                PrimaryButton(
+                    text = "Play",
+                    onClick = onOpen,
+                    width = Dp.Unspecified,
+                    height = 52.dp,
+                    cornerRadius = 16.dp,
+                    horizontalPadding = 24.dp,
+                    textStyle = HeroButtonTextStyle,
+                )
+                SecondaryButton(
+                    text = "More Info.",
+                    onClick = onOpen,
+                    width = Dp.Unspecified,
+                    height = 52.dp,
+                    cornerRadius = 16.dp,
+                    horizontalPadding = 24.dp,
+                    textStyle = HeroButtonTextStyle,
+                )
+            }
         }
     }
 }
+
+// Figma hero buttons: Plus Jakarta Sans Medium 18 / 24, +1px tracking.
+private val HeroButtonTextStyle = NavigationStyle.copy(letterSpacing = 1.sp)
 
 /**
  * Bottom-center dots; the active one is a wider capsule whose fill grows
