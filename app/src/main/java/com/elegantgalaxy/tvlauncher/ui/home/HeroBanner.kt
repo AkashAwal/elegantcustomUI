@@ -87,7 +87,6 @@ private fun HeroBannerContent(
 ) {
     val pagerState = rememberPagerState(pageCount = { banners.size })
     var activePage by remember { mutableStateOf(0) }
-    var focused by remember { mutableStateOf(false) }
     val progress = remember { Animatable(0f) }
 
     LaunchedEffect(activePage) {
