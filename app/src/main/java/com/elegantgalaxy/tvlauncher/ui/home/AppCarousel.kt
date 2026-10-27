@@ -84,7 +84,7 @@ fun AppCarousel(
     Column(modifier = modifier.focusGroup()) {
         Text(
             text = title,
-            style = SectionTitleStyle,
+            style = HomeSectionTitleStyle,
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(start = 48.dp, bottom = 12.dp),
         )
