@@ -80,7 +80,8 @@ fun MediaRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 48.dp, end = 48.dp, bottom = 12.dp),
+                // Header 40 + 20 + 12 of focus-scale room = Figma's 72 to the cards' top edge.
+                .padding(start = HomeContentStart, end = HomeContentEnd, bottom = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
