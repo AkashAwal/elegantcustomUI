@@ -78,7 +78,7 @@ private fun ProfileButton(onClick: () -> Unit) {
 
     Box(
         modifier = Modifier
-            .size(44.dp)
+            .size(40.dp)
             .then(focusVisuals.modifier)
             .clip(CircleShape)
             .background(Color.White.copy(alpha = 0.08f))
