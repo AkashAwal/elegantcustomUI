@@ -82,7 +82,7 @@ fun SideNavRail(
         modifier = modifier
             .fillMaxHeight()
             .width(64.dp)
-            .background(AppBackground.copy(alpha = 0.55f))
+            // Transparent: the page backdrop shows straight through the rail.
             .verticalScroll(rememberScrollState())
             .padding(vertical = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
