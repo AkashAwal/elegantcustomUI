@@ -106,12 +106,9 @@ private fun HeroBannerContent(
             userScrollEnabled = false,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(BANNER_HEIGHT)
-                .onFocusChanged { focused = it.isFocused }
-                .then(if (focused) Modifier.border(3.dp, AccentLavender) else Modifier)
-                .clickable { onBannerClick(banners[activePage]) },
+                .height(BANNER_HEIGHT),
         ) { page ->
-            HeroBannerPage(banner = banners[page])
+            HeroBannerPage(banner = banners[page], onOpen = { onBannerClick(banners[page]) })
         }
 
         if (banners.size > 1) {
