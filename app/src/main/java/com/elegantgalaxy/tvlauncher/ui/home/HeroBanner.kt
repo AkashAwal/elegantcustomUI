@@ -38,11 +38,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.elegantgalaxy.tvlauncher.model.Banner
-import com.elegantgalaxy.tvlauncher.ui.theme.AccentLavender
+import com.elegantgalaxy.tvlauncher.ui.components.PrimaryButton
+import com.elegantgalaxy.tvlauncher.ui.components.SecondaryButton
 import com.elegantgalaxy.tvlauncher.ui.theme.BodyStyle
-import com.elegantgalaxy.tvlauncher.ui.theme.HeroTitleStyle
+import com.elegantgalaxy.tvlauncher.ui.theme.HeroBannerTitleStyle
+import com.elegantgalaxy.tvlauncher.ui.theme.NavigationStyle
 import com.elegantgalaxy.tvlauncher.utils.BannerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
