@@ -3,12 +3,14 @@ package com.elegantgalaxy.tvlauncher.ui.home
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,115 +20,154 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.elegantgalaxy.tvlauncher.model.Banner
+import com.elegantgalaxy.tvlauncher.ui.theme.AccentLavender
 import com.elegantgalaxy.tvlauncher.ui.theme.BodyStyle
 import com.elegantgalaxy.tvlauncher.ui.theme.HeroTitleStyle
-
-private data class HeroBannerItem(
-    val title: String,
-    val subtitle: String,
-    val accentColor: Color,
-)
-
-/**
- * Placeholder banner data — solid gradient blocks standing in for real
- * artwork/thumbnails per title. Swap [accentColor] for an `Image`/`AsyncImage`
- * once real banner art exists per item; the rotation/indicator/overlay
- * plumbing here doesn't need to change either way. Two slides for now —
- * add more here whenever there's real content to back them.
- */
-private val heroBannerItems = listOf(
-    HeroBannerItem("YouTube", "Endless entertainment, ready to stream", Color(0xFFFF3B30)),
-    HeroBannerItem("Netflix", "New episodes added weekly", Color(0xFFB8004A)),
-    HeroBannerItem("Prime Video", "Included with your subscription", Color(0xFF1F5C99)),
-)
+import com.elegantgalaxy.tvlauncher.utils.BannerRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 private const val SLIDE_DURATION_MS = 6000
+private val BANNER_HEIGHT = 317.dp
 
 /**
  * Full-width rotating hero banner, edge-to-edge (no side padding, unlike
- * the 48dp-padded carousels below it). A single [Animatable] drives both
- * the auto-advance timing and the active dot's fill animation so they stay
- * perfectly in sync; the banner auto-advances only (no manual controls).
+ * the 48dp-padded carousels below it). Content comes from [banners] (at most
+ * 4, see [BannerRepository]); selecting the banner calls [onBannerClick] with
+ * the slide currently showing.
  *
- * The effect is keyed on [activePage] — a plain local `Int` we own — rather
- * than `pagerState.currentPage`, which updates mid-scroll before a scroll
- * animation actually finishes settling.
+ * A single [Animatable] drives both the auto-advance timing and the active
+ * dot's fill, and it's only read in the draw phase so the animation doesn't
+ * recompose the banner every frame. The effect is keyed on [activePage] — a
+ * plain local `Int` we own — rather than `pagerState.currentPage`, which
+ * updates mid-scroll before a scroll animation actually finishes settling.
+ * Only the visible page is composed, so only one image bitmap is decoded at a
+ * time. [key] on [banners] restarts from slide 0 when the feed is swapped.
  */
 @Composable
-fun HeroBanner(modifier: Modifier = Modifier) {
-    val pagerState = rememberPagerState(pageCount = { heroBannerItems.size })
+fun HeroBanner(
+    banners: List<Banner>,
+    onBannerClick: (Banner) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    if (banners.isEmpty()) {
+        Box(modifier = modifier.fillMaxWidth().height(BANNER_HEIGHT))
+        return
+    }
+    key(banners) { HeroBannerContent(banners, onBannerClick, modifier) }
+}
+
+@Composable
+private fun HeroBannerContent(
+    banners: List<Banner>,
+    onBannerClick: (Banner) -> Unit,
+    modifier: Modifier,
+) {
+    val pagerState = rememberPagerState(pageCount = { banners.size })
     var activePage by remember { mutableStateOf(0) }
+    var focused by remember { mutableStateOf(false) }
     val progress = remember { Animatable(0f) }
 
     LaunchedEffect(activePage) {
         if (pagerState.currentPage != activePage) {
             pagerState.animateScrollToPage(activePage)
         }
+        if (banners.size < 2) return@LaunchedEffect
         progress.snapTo(0f)
         progress.animateTo(1f, animationSpec = tween(SLIDE_DURATION_MS, easing = LinearEasing))
-        // Only reached if the animation wasn't cancelled by a manual page
-        // change above — i.e. it played out its full natural duration.
-        activePage = (activePage + 1) % heroBannerItems.size
+        // Only reached if the animation played out its full natural duration.
+        activePage = (activePage + 1) % banners.size
     }
 
     Box(modifier = modifier.fillMaxWidth()) {
         HorizontalPager(
             state = pagerState,
+            userScrollEnabled = false,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(317.dp),
+                .height(BANNER_HEIGHT)
+                .onFocusChanged { focused = it.isFocused }
+                .then(if (focused) Modifier.border(3.dp, AccentLavender) else Modifier)
+                .clickable { onBannerClick(banners[activePage]) },
         ) { page ->
-            HeroBannerPage(item = heroBannerItems[page])
+            HeroBannerPage(banner = banners[page])
         }
 
-        PageIndicator(
-            pageCount = heroBannerItems.size,
-            currentPage = activePage,
-            progress = progress.value,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 24.dp),
-        )
+        if (banners.size > 1) {
+            PageIndicator(
+                pageCount = banners.size,
+                currentPage = activePage,
+                progress = progress,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 24.dp),
+            )
+        }
     }
 }
 
 @Composable
-private fun HeroBannerPage(item: HeroBannerItem) {
+private fun HeroBannerPage(banner: Banner) {
+    val accent = Color(banner.accentArgb)
+    val image by produceState<ImageBitmap?>(null, banner.imagePath) {
+        value = banner.imagePath?.let { path ->
+            withContext(Dispatchers.IO) { BannerRepository.decode(path)?.asImageBitmap() }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.horizontalGradient(
-                    listOf(item.accentColor.copy(alpha = 0.85f), Color.Black.copy(alpha = 0.75f)),
-                ),
-            ),
+            .background(Brush.horizontalGradient(listOf(accent.copy(alpha = 0.85f), Color.Black.copy(alpha = 0.75f)))),
     ) {
+        image?.let {
+            Image(
+                bitmap = it,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
+            )
+            // Keeps the title legible over any artwork.
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Brush.horizontalGradient(listOf(Color.Black.copy(alpha = 0.75f), Color.Transparent))),
+            )
+        }
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(start = 48.dp, bottom = 40.dp, end = 48.dp),
         ) {
             Text(
-                text = item.title,
+                text = banner.title,
                 style = HeroTitleStyle,
                 color = Color.White,
             )
             Text(
-                text = item.subtitle,
+                text = banner.subtitle,
                 style = BodyStyle,
                 color = Color.White.copy(alpha = 0.85f),
                 modifier = Modifier.padding(top = 8.dp),
@@ -145,7 +186,7 @@ private fun HeroBannerPage(item: HeroBannerItem) {
 private fun PageIndicator(
     pageCount: Int,
     currentPage: Int,
-    progress: Float,
+    progress: Animatable<Float, *>,
     modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -156,16 +197,11 @@ private fun PageIndicator(
                         .width(32.dp)
                         .height(8.dp)
                         .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.3f)),
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth(progress)
-                            .clip(CircleShape)
-                            .background(Color.White),
-                    )
-                }
+                        .background(Color.White.copy(alpha = 0.3f))
+                        .drawBehind {
+                            drawRect(Color.White, size = Size(size.width * progress.value, size.height))
+                        },
+                )
             } else {
                 Box(
                     modifier = Modifier
