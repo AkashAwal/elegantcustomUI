@@ -29,6 +29,11 @@ val SurfaceElevated3 = Color(0xFF262A38)
 
 val AppBackground = Color(0xFF0A0A0A)
 
+// Figma home frame page colour (#0D1020) — the base under the two blurred glows in [AppBackdrop].
+val HomeBackground = Color(0xFF0D1020)
+val BackdropGlowPurple = Color(0xFF5C3BAB) // Ellipse 10, top-left, 15%
+val BackdropGlowCrimson = Color(0xFF852848) // Ellipse 9, bottom-right, 15%
+
 val TextPrimary = Color(0xFFF5F5F5)
 val TextSecondary = Color(0xFFB3B3B3)
 val TextDisabled = Color(0xFF6B6B6B)
