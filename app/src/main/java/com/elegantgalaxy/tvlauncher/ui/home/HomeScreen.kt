@@ -84,15 +84,16 @@ fun HomeScreen(
                     ),
                 ),
         ) {
+            // Gaps between sections come from the Figma frame (header-to-header pitch),
+            // minus the focus-room padding each row already carries — hence per-item tops.
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(32.dp),
-                contentPadding = PaddingValues(bottom = 16.dp),
+                contentPadding = PaddingValues(bottom = 48.dp),
             ) {
                 item {
                     HeroBanner(
                         banners = uiState.banners,
                         onBannerClick = { AppLauncherUtils.openBanner(context, it) },
-                        modifier = Modifier.padding(horizontal = 48.dp),
+                        modifier = Modifier.padding(start = HomeContentStart, end = HomeContentEnd),
                     )
                 }
 
@@ -102,6 +103,7 @@ fun HomeScreen(
                         apps = uiState.allApps,
                         onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
                         onAppFocusChange = viewModel::onFocusedAppChange,
+                        modifier = Modifier.padding(top = 48.dp),
                     )
                 }
 
@@ -112,6 +114,7 @@ fun HomeScreen(
                         items = continueWatchingItems,
                         onItemClick = {},
                         onSeeAll = {},
+                        modifier = Modifier.padding(top = 44.dp),
                     )
                 }
 
@@ -121,6 +124,7 @@ fun HomeScreen(
                         items = recommendedItems,
                         onItemClick = {},
                         onSeeAll = {},
+                        modifier = Modifier.padding(top = 31.dp),
                     )
                 }
             }
