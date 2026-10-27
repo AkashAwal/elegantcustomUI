@@ -195,6 +195,8 @@ private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
                 SecondaryButton(
                     text = "More Info.",
                     onClick = onOpen,
+                    // Figma: white @ 4% glass over the artwork, not the solid #171A2C secondary fill.
+                    fill = Color.White.copy(alpha = 0.04f),
                     width = Dp.Unspecified,
                     height = 52.dp,
                     cornerRadius = 16.dp,
