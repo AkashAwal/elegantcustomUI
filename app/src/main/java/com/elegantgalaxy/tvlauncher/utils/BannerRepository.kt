@@ -24,8 +24,13 @@ import java.net.URL
  */
 object BannerRepository {
 
-    /** Hosted feed URL (https only). Empty = bundled banners only. */
-    private const val FEED_URL = "https://akashawal.com/launcher/banners.json"
+    /**
+     * Hosted feed URL (https only). Empty = bundled banners only (assets/banners.json), and any
+     * previously cached feed is ignored. Currently empty so the hero shows just the bundled
+     * Succession banner; restore "https://akashawal.com/launcher/banners.json" to go back to
+     * the hosted feed (which can supply `image`, `meta` and `asset` fields per banner).
+     */
+    private const val FEED_URL = ""
 
     private const val MAX_BANNERS = 4
     private const val REFRESH_INTERVAL_MS = 24L * 60 * 60 * 1000
