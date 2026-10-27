@@ -110,6 +110,23 @@ object AppLauncherUtils {
     }
 
     /**
+     * Opens a banner's content: deep link inside its app if the app handles
+     * it, else the app itself, else its Play Store page (via [launchOrOpenStore]).
+     */
+    fun openBanner(context: Context, banner: com.elegantgalaxy.tvlauncher.model.Banner) {
+        banner.deepLink?.let { link ->
+            val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(link))
+                .setPackage(banner.packageName)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                context.startActivity(intent)
+                return
+            }
+        }
+        launchOrOpenStore(context, banner.packageName)
+    }
+
+    /**
      * The real launcher icon for [packageName] if it's installed, or null
      * otherwise. Used for the "Trending Apps" curated shortcuts — shows the
      * device's actual icon for whichever of those apps happen to be
