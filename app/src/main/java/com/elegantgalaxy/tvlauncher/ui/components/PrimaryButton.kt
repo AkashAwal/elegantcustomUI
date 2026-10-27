@@ -40,15 +40,19 @@ fun PrimaryButton(
     modifier: Modifier = Modifier,
     width: Dp = 236.dp,
     height: Dp = 145.dp,
+    cornerRadius: Dp = 29.dp,
+    horizontalPadding: Dp = 0.dp,
+    textStyle: TextStyle = NavigationStyle,
 ) {
-    val shape = RoundedCornerShape(29.dp)
+    val shape = RoundedCornerShape(cornerRadius)
     val interactionSource = remember { MutableInteractionSource() }
     val focused by interactionSource.collectIsFocusedAsState()
     val pressed by interactionSource.collectIsPressedAsState()
 
     Box(
         modifier = modifier
-            .width(width)
+            // Dp.Unspecified width = wrap the label (+ horizontalPadding), e.g. the hero's Play button.
+            .then(if (width.isSpecified) Modifier.width(width) else Modifier)
             .height(height)
             .clip(shape)
             .background(
