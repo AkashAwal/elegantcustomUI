@@ -60,8 +60,7 @@ private const val SLIDE_DURATION_MS = 6000
  * Full-width rotating hero banner, edge-to-edge (no side padding, unlike
  * the 48dp-padded carousels below it). A single [Animatable] drives both
  * the auto-advance timing and the active dot's fill animation so they stay
- * perfectly in sync; manual chevron taps change the current page, which
- * restarts that same animation from zero.
+ * perfectly in sync; the banner auto-advances only (no manual controls).
  *
  * The effect is keyed on [activePage] — a plain local `Int` we own — rather
  * than `pagerState.currentPage`, which updates mid-scroll before a scroll
