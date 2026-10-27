@@ -28,6 +28,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.elegantgalaxy.tvlauncher.ui.theme.AccentLavender
 import com.elegantgalaxy.tvlauncher.ui.theme.NavigationStyle
 import com.elegantgalaxy.tvlauncher.utils.rememberTvFocusVisuals
