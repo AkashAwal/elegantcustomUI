@@ -41,10 +41,10 @@ data class MediaItem(
  * [FeaturedContentRow]. Posters are 480x270 WebP in drawable-nodpi (2x the card).
  */
 val continueWatchingItems = listOf(
-    MediaItem("Continue 1", R.drawable.poster_cw_1),
+    MediaItem("Daredevil", R.drawable.poster_cw_1),
     MediaItem("Interstellar", R.drawable.poster_cw_2),
     MediaItem("The Devil Wears Prada", R.drawable.poster_cw_3),
-    MediaItem("Daredevil", R.drawable.poster_cw_4, progress = 0.5f),
+    MediaItem("La La Land", R.drawable.poster_cw_4, progress = 0.5f),
     MediaItem("Run", R.drawable.poster_cw_5),
     MediaItem("The Punisher", R.drawable.poster_cw_6),
     MediaItem("Breaking Bad", R.drawable.poster_cw_7),
