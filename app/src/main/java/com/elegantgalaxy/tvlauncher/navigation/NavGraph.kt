@@ -78,12 +78,9 @@ fun TvLauncherNavGraph(
     Box(modifier = Modifier.fillMaxSize()) {
         // Shared backdrop for every screen/page — individual screens stay
         // transparent (or only lightly tinted) so this shows through.
-        Image(
-            painter = painterResource(R.drawable.app_background),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize(),
-        )
+        // Drawn from the Figma recipe (flat #0D1020 + two blurred glows); the old
+        // app_background.png approximation is no longer used.
+        AppBackdrop()
 
         Row(modifier = Modifier.fillMaxSize()) {
             SideNavRail(
