@@ -104,23 +104,6 @@ fun HeroBanner(modifier: Modifier = Modifier) {
             HeroBannerPage(item = heroBannerItems[page])
         }
 
-        ChevronButton(
-            icon = Icons.Filled.ChevronLeft,
-            contentDescription = "Previous slide",
-            onClick = { goToPage(activePage - 1) },
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(start = 16.dp),
-        )
-        ChevronButton(
-            icon = Icons.Filled.ChevronRight,
-            contentDescription = "Next slide",
-            onClick = { goToPage(activePage + 1) },
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(end = 16.dp),
-        )
-
         PageIndicator(
             pageCount = heroBannerItems.size,
             currentPage = activePage,
