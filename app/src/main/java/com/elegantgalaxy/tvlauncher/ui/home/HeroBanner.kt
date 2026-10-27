@@ -90,10 +90,6 @@ fun HeroBanner(modifier: Modifier = Modifier) {
         activePage = (activePage + 1) % heroBannerItems.size
     }
 
-    fun goToPage(page: Int) {
-        activePage = (page + heroBannerItems.size) % heroBannerItems.size
-    }
-
     Box(modifier = modifier.fillMaxWidth()) {
         HorizontalPager(
             state = pagerState,
