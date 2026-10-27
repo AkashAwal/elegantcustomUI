@@ -86,11 +86,12 @@ fun AppCarousel(
             text = title,
             style = HomeSectionTitleStyle,
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(start = 48.dp, bottom = 12.dp),
+            // Header 40 + 16 here + 16 of rise room below = Figma's 72 from header top to tiles.
+            modifier = Modifier.padding(start = HomeContentStart, bottom = 16.dp),
         )
 
         LazyRow(
-            contentPadding = PaddingValues(start = 48.dp, end = 48.dp, top = RISE_FOCUSED, bottom = 4.dp),
+            contentPadding = PaddingValues(start = HomeContentStart, end = HomeContentEnd, top = RISE_FOCUSED, bottom = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .focusRequester(lazyRow)
