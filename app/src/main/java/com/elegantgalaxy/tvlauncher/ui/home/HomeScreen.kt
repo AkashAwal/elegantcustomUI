@@ -78,6 +78,9 @@ fun HomeScreen(
     )
 
     val continueWatchingFocus = remember { FocusRequester() }
+    // Streaming apps this TV lacks, appended to the Apps lane; selecting one opens the install panel.
+    val suggestedApps = rememberSuggestedApps(uiState.allApps)
+    var pendingInstall by remember { mutableStateOf<FamousApp?>(null) }
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(
@@ -113,8 +116,15 @@ fun HomeScreen(
                 item {
                     AppCarousel(
                         title = "Apps",
-                        apps = uiState.allApps,
-                        onAppClick = { app: AppInfo -> AppLauncherUtils.launch(context, app) },
+                        apps = uiState.allApps + suggestedApps,
+                        onAppClick = { app: AppInfo ->
+                            val suggestion = if (suggestedApps.any { it.packageName == app.packageName }) {
+                                FamousAppsList.firstOrNull { it.packageName == app.packageName }
+                            } else {
+                                null
+                            }
+                            if (suggestion != null) pendingInstall = suggestion else AppLauncherUtils.launch(context, app)
+                        },
                         onAppFocusChange = viewModel::onFocusedAppChange,
                         downFocusRequester = continueWatchingFocus,
                         modifier = Modifier.padding(top = 48.dp),
@@ -143,6 +153,17 @@ fun HomeScreen(
                     )
                 }
             }
+        }
+
+        pendingInstall?.let { app ->
+            AppInstallPanel(
+                app = app,
+                onInstall = {
+                    AppLauncherUtils.launchOrOpenStore(context, app.packageName)
+                    pendingInstall = null
+                },
+                onDismiss = { pendingInstall = null },
+            )
         }
     }
 }

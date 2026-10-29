@@ -86,6 +86,10 @@ object AppLauncherUtils {
      * "Famous Apps" curated shortcuts in search, which list well-known apps
      * regardless of whether this specific device has them installed.
      */
+    fun isInstalled(context: Context, packageName: String): Boolean =
+        context.packageManager.getLeanbackLaunchIntentForPackage(packageName) != null ||
+            context.packageManager.getLaunchIntentForPackage(packageName) != null
+
     fun launchOrOpenStore(context: Context, packageName: String) {
         val launchIntent = context.packageManager.getLeanbackLaunchIntentForPackage(packageName)
             ?: context.packageManager.getLaunchIntentForPackage(packageName)

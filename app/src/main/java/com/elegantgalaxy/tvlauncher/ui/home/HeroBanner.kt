@@ -55,7 +55,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 private const val SLIDE_DURATION_MS = 6000
-private val BANNER_HEIGHT = 562.dp // Figma home frame; dp here is Figma px, see ProvideFigmaDensity
+// Taller than the 562 Figma frame so 16:9 TMDB backdrops lose less to the crop (Apps row stays on screen).
+private val BANNER_HEIGHT = 680.dp // dp here is Figma px, see ProvideFigmaDensity
 
 /**
  * Full-width rotating hero banner, edge-to-edge (no side padding, unlike
@@ -167,10 +168,10 @@ private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 // Padding first, then the 600 cap, so the text itself gets the full 600 (Figma
-                // wraps the description at ~565). Buttons end 24 above the hero's bottom edge.
-                .padding(start = 77.dp, bottom = 24.dp, end = 48.dp)
+                // wraps the description at ~565). Buttons end 44 above the hero's bottom edge.
+                .padding(start = 77.dp, bottom = 44.dp, end = 48.dp)
                 .widthIn(max = 600.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             Text(
                 text = banner.title,
@@ -188,7 +189,7 @@ private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
             )
             // Neither a title-details screen nor a separate "play" action exists yet,
             // so both buttons open the banner's app/deep link.
-            Row(horizontalArrangement = Arrangement.spacedBy(23.dp)) {
+            Row(modifier = Modifier.padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(23.dp)) {
                 PrimaryButton(
                     text = "Play",
                     onClick = onOpen,

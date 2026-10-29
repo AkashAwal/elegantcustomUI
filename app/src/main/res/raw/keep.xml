@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Brand logos are looked up by name at runtime (see FamousApps.kt), so the resource shrinker must keep them. -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@drawable/ic_brand_*" />

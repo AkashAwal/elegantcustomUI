@@ -91,10 +91,13 @@ fun SearchOverlay(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
     var symbolsMode by remember { mutableStateOf(false) }
     var keyboardVisible by remember { mutableStateOf(true) }
     var showAllApps by remember { mutableStateOf(false) }
+    // Uninstalled "Trending Apps" tile the user selected; shown as an in-launcher install panel.
+    var pendingInstall by remember { mutableStateOf<FamousApp?>(null) }
 
     // "More Apps" opens a full list within this overlay; Back should close
     // that first rather than closing the whole overlay in one press.
     BackHandler(enabled = showAllApps) { showAllApps = false }
+    BackHandler(enabled = pendingInstall != null) { pendingInstall = null }
 
     LaunchedEffect(Unit) {
         SearchHistoryStore.ensureInitialized(context)
@@ -138,83 +141,105 @@ fun SearchOverlay(homeViewModel: HomeViewModel, modifier: Modifier = Modifier) {
         }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.9f))
-            // Traps D-Pad focus inside the overlay — without this, a
-            // directional move at the edge of the keyboard/content grid can
-            // escape into the nav rail underneath (which is still
-            // composed, just visually covered), silently closing search.
-            .focusGroup()
-            .focusProperties { onExit = { cancelFocusChange() } },
-    ) {
-        SearchField(
-            query = uiState.searchQuery,
-            cursorIndex = cursorIndex,
-            onClick = { keyboardVisible = true },
-            focusRequester = searchFieldFocusRequester,
-        )
-
-        Box(
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.9f))
+                // Traps D-Pad focus inside the overlay — without this, a
+                // directional move at the edge of the keyboard/content grid can
+                // escape into the nav rail underneath (which is still
+                // composed, just visually covered), silently closing search.
+                .focusGroup()
+                .focusProperties {
+                    onExit = { cancelFocusChange() }
+                },
         ) {
-            when {
-                showAllApps -> {
-                    AppGrid(
-                        apps = uiState.allApps,
-                        onAppClick = { app -> AppLauncherUtils.launch(context, app) },
-                        modifier = Modifier.fillMaxSize(),
-                    )
+            SearchField(
+                query = uiState.searchQuery,
+                cursorIndex = cursorIndex,
+                onClick = { keyboardVisible = true },
+                focusRequester = searchFieldFocusRequester,
+            )
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+            ) {
+                when {
+                    showAllApps -> {
+                        AppGrid(
+                            apps = uiState.allApps,
+                            onAppClick = { app -> AppLauncherUtils.launch(context, app) },
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
+                    uiState.searchQuery.isBlank() -> {
+                        BrowseSuggestions(
+                            history = history,
+                            onHistoryClick = { setQuery(it, it.length) },
+                            onTrendingClick = { setQuery(it, it.length) },
+                            onMoreAppsClick = { showAllApps = true },
+                            onFamousAppClick = { app ->
+                                if (AppLauncherUtils.isInstalled(context, app.packageName)) {
+                                    AppLauncherUtils.launchOrOpenStore(context, app.packageName)
+                                } else {
+                                    pendingInstall = app
+                                }
+                            },
+                        )
+                    }
+                    else -> {
+                        AppGrid(
+                            apps = uiState.searchResults,
+                            onAppClick = { app -> AppLauncherUtils.launch(context, app) },
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
                 }
-                uiState.searchQuery.isBlank() -> {
-                    BrowseSuggestions(
-                        history = history,
-                        onHistoryClick = { setQuery(it, it.length) },
-                        onTrendingClick = { setQuery(it, it.length) },
-                        onMoreAppsClick = { showAllApps = true },
-                    )
-                }
-                else -> {
-                    AppGrid(
-                        apps = uiState.searchResults,
-                        onAppClick = { app -> AppLauncherUtils.launch(context, app) },
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                }
+            }
+
+            AnimatedVisibility(visible = keyboardVisible) {
+                TvKeyboard(
+                    capsLock = capsLock,
+                    onToggleCaps = { capsLock = !capsLock },
+                    symbolsMode = symbolsMode,
+                    onToggleSymbols = { symbolsMode = !symbolsMode },
+                    onCharPress = { char -> insertChar(char) },
+                    onBackspace = { backspace() },
+                    onClearAll = { setQuery("", 0) },
+                    onMoveCursor = { delta -> cursorIndex = (cursorIndex + delta).coerceIn(0, uiState.searchQuery.length) },
+                    onDone = { submit() },
+                    onMicPress = {
+                        val intent = android.content.Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                            putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to search")
+                        }
+                        if (context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                            voiceLauncher.launch(intent)
+                        }
+                    },
+                    onHideKeyboard = {
+                        keyboardVisible = false
+                        searchFieldFocusRequester.requestFocus()
+                    },
+                    firstKeyFocusRequester = firstKeyFocusRequester,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.4f),
+                )
             }
         }
 
-        AnimatedVisibility(visible = keyboardVisible) {
-            TvKeyboard(
-                capsLock = capsLock,
-                onToggleCaps = { capsLock = !capsLock },
-                symbolsMode = symbolsMode,
-                onToggleSymbols = { symbolsMode = !symbolsMode },
-                onCharPress = { char -> insertChar(char) },
-                onBackspace = { backspace() },
-                onClearAll = { setQuery("", 0) },
-                onMoveCursor = { delta -> cursorIndex = (cursorIndex + delta).coerceIn(0, uiState.searchQuery.length) },
-                onDone = { submit() },
-                onMicPress = {
-                    val intent = android.content.Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                        putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to search")
-                    }
-                    if (context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
-                        voiceLauncher.launch(intent)
-                    }
+        pendingInstall?.let { app ->
+            AppInstallPanel(
+                app = app,
+                onInstall = {
+                    AppLauncherUtils.launchOrOpenStore(context, app.packageName)
+                    pendingInstall = null
                 },
-                onHideKeyboard = {
-                    keyboardVisible = false
-                    searchFieldFocusRequester.requestFocus()
-                },
-                firstKeyFocusRequester = firstKeyFocusRequester,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.4f),
+                onDismiss = { pendingInstall = null },
             )
         }
     }
@@ -289,6 +314,7 @@ private fun BrowseSuggestions(
     onHistoryClick: (String) -> Unit,
     onTrendingClick: (String) -> Unit,
     onMoreAppsClick: () -> Unit,
+    onFamousAppClick: (FamousApp) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -319,7 +345,7 @@ private fun BrowseSuggestions(
         SectionLabel("Trending Apps")
         LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             items(FamousAppsList) { app ->
-                FamousAppTile(app = app, onClick = { AppLauncherUtils.launchOrOpenStore(context, app.packageName) })
+                FamousAppTile(app = app, onClick = { onFamousAppClick(app) })
             }
         }
 
@@ -413,14 +439,14 @@ private fun FamousAppTile(app: FamousApp, onClick: () -> Unit) {
             Image(
                 painter = painterResource(brandLogo),
                 contentDescription = app.label,
-                modifier = Modifier.size(width = 96.dp, height = 40.dp),
+                modifier = Modifier.align(Alignment.TopCenter).padding(top = 7.dp).size(width = 96.dp, height = 34.dp),
             )
             // Not installed: the tile opens its Play Store page.
             Text(
                 text = "Install",
                 color = Color.White.copy(alpha = 0.85f),
                 style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier.align(Alignment.BottomEnd).padding(end = 8.dp, bottom = 3.dp),
+                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 3.dp),
             )
         } else {
             Text(
