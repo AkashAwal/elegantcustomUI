@@ -34,6 +34,10 @@ object BannerRepository {
      */
     private const val FEED_URL = ""
 
+    /** TMDB read-access token (local.properties -> BuildConfig). When set, it replaces the feed. */
+    private val TMDB_TOKEN: String = BuildConfig.TMDB_TOKEN
+    private val useRemote get() = FEED_URL.isNotEmpty() || TMDB_TOKEN.isNotEmpty()
+
     private const val MAX_BANNERS = 4
     private const val REFRESH_INTERVAL_MS = 24L * 60 * 60 * 1000
     private const val IMAGE_WIDTH = 1280
