@@ -153,6 +153,8 @@ private fun HeroBannerPage(banner: Banner, onOpen: () -> Unit) {
                 bitmap = it,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
+                // Anchor to the top so any overflow is trimmed from the bottom (faces stay in frame).
+                alignment = Alignment.TopCenter,
                 modifier = Modifier.fillMaxSize(),
             )
             // Figma blends the artwork into the page with background-colour fades on the
