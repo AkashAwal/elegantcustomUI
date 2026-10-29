@@ -116,7 +116,8 @@ object BannerRepository {
             TmdbRow(
                 "new_bollywood", "New in Bollywood",
                 "/discover/movie?with_original_language=hi&sort_by=popularity.desc" +
-                    "&primary_release_date.gte=${today.minusDays(90)}&primary_release_date.lte=$today",
+                    "&primary_release_date.gte=${today.minusDays(90)}&primary_release_date.lte=$today" +
+                    "&vote_average.gte=5.5&vote_count.gte=5",
                 "#2E7D5B", false, "hi",
             ),
             TmdbRow(
