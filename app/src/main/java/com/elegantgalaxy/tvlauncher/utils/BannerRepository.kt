@@ -92,6 +92,8 @@ object BannerRepository {
 
     private class TmdbRow(
         val id: String, val label: String, val path: String, val accent: String, val tv: Boolean?,
+        /** Original language a title must have (TMDB `original_language`); trending/top-rated can't filter server-side. */
+        val lang: String,
     )
 
     /**
