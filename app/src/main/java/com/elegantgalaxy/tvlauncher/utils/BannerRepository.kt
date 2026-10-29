@@ -48,7 +48,7 @@ object BannerRepository {
     private fun feedFile(context: Context) = File(dir(context), "banners.json")
 
     fun load(context: Context): List<Banner> {
-        val cached = if (FEED_URL.isEmpty()) null else feedFile(context).takeIf { it.exists() }?.readText()
+        val cached = if (!useRemote) null else feedFile(context).takeIf { it.exists() }?.readText()
         val json = cached ?: context.assets.open("banners.json").bufferedReader().use { it.readText() }
         val banners = runCatching { parse(context, json) }.getOrNull().orEmpty()
         if (banners.isNotEmpty() || cached == null) return banners
