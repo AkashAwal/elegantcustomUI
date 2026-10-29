@@ -105,7 +105,8 @@ fun HomeScreen(
                     HeroBanner(
                         banners = uiState.banners,
                         onBannerClick = { AppLauncherUtils.openBanner(context, it) },
-                        modifier = Modifier.padding(start = HomeContentStart, end = HomeContentEnd),
+                        // Bleeds to the right screen edge; text and dots sit well inside the safe area.
+                        modifier = Modifier.padding(start = HomeContentStart),
                     )
                 }
 
