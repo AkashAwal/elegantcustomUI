@@ -137,9 +137,10 @@ object BannerRepository {
         return target
     }
 
-    private fun download(url: String, maxBytes: Int): ByteArray {
+    private fun download(url: String, maxBytes: Int, bearer: String? = null): ByteArray {
         val conn = URL(url).openConnection() as HttpURLConnection
         try {
+            if (bearer != null) conn.setRequestProperty("Authorization", "Bearer $bearer")
             conn.connectTimeout = TIMEOUT_MS
             conn.readTimeout = TIMEOUT_MS
             check(conn.responseCode == 200) { "HTTP ${conn.responseCode}" }
