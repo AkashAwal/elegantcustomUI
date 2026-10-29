@@ -60,7 +60,7 @@ object BannerRepository {
 
     /** Returns true if the cache was replaced and the caller should [load] again. */
     fun refreshIfStale(context: Context): Boolean {
-        if (FEED_URL.isEmpty()) return false
+        if (!useRemote) return false
         val feed = feedFile(context)
         if (feed.exists() && System.currentTimeMillis() - feed.lastModified() < REFRESH_INTERVAL_MS) return false
 
