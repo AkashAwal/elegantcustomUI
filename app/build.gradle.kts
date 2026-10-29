@@ -14,6 +14,10 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(keystorePropertiesFile.inputStream())
 }
 
+// TMDB read-access token comes from local.properties (git-ignored), same idea as the keystore.
+val localProperties = Properties()
+rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { localProperties.load(it) }
+
 android {
     namespace = "com.elegantgalaxy.tvlauncher"
     compileSdk = 37
