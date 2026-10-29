@@ -65,7 +65,7 @@ object BannerRepository {
         if (feed.exists() && System.currentTimeMillis() - feed.lastModified() < REFRESH_INTERVAL_MS) return false
 
         return runCatching {
-            val json = download(FEED_URL, 256 * 1024).toString(Charsets.UTF_8)
+            val json = if (TMDB_TOKEN.isNotEmpty()) buildTmdbFeed() else download(FEED_URL, 256 * 1024).toString(Charsets.UTF_8)
             val array = JSONArray(json)
             val keep = HashSet<String>()
             for (i in 0 until minOf(array.length(), MAX_BANNERS)) {
