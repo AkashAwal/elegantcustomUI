@@ -101,16 +101,21 @@ object BannerRepository {
      */
     private fun buildTmdbFeed(): String {
         val today = java.time.LocalDate.now()
-        val india = "watch_region=IN&with_watch_monetization_types=flatrate&sort_by=popularity.desc"
+        // Slot order alternates Hindi / English so the carousel isn't all one language.
         val rows = listOf(
-            TmdbRow("trending_world", "Trending Worldwide", "/trending/all/week", "#1F5C99", null),
-            TmdbRow("trending_india", "Trending in India", "/discover/movie?$india", "#B5532A", false),
             TmdbRow(
-                "new_india", "New in India",
-                "/discover/movie?$india&primary_release_date.gte=${today.minusDays(60)}&primary_release_date.lte=$today",
-                "#2E7D5B", false,
+                "hindi_series", "Trending Hindi Series",
+                "/discover/tv?with_original_language=hi&watch_region=IN&with_watch_monetization_types=flatrate&sort_by=popularity.desc",
+                "#B5532A", true, "hi",
             ),
-            TmdbRow("top_series", "Top Rated Series", "/tv/top_rated", "#6A3FA0", true),
+            TmdbRow("trending_world", "Trending Worldwide", "/trending/all/week", "#1F5C99", null, "en"),
+            TmdbRow(
+                "new_bollywood", "New in Bollywood",
+                "/discover/movie?with_original_language=hi&sort_by=popularity.desc" +
+                    "&primary_release_date.gte=${today.minusDays(90)}&primary_release_date.lte=$today",
+                "#2E7D5B", false, "hi",
+            ),
+            TmdbRow("top_series", "Top Rated Series", "/tv/top_rated", "#6A3FA0", true, "en"),
         )
         val used = HashSet<Int>()
         val out = JSONArray()
