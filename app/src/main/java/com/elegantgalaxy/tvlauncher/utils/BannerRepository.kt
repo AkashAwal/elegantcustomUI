@@ -134,6 +134,7 @@ object BannerRepository {
                 val overview = r.optString("overview")
                 val isTv = row.tv ?: (r.optString("media_type") == "tv")
                 val title = r.optString(if (isTv) "name" else "title")
+                if (r.optString("original_language") != row.lang) continue
                 if (tmdbId in used || backdrop.isEmpty() || backdrop == "null" || overview.isEmpty() || title.isEmpty()) continue
                 used += tmdbId
                 val year = r.optString(if (isTv) "first_air_date" else "release_date").take(4)
