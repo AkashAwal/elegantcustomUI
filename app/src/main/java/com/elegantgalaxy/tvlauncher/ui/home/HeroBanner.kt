@@ -46,7 +46,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.elegantgalaxy.tvlauncher.model.Banner
 import com.elegantgalaxy.tvlauncher.ui.components.PrimaryButton
-import com.elegantgalaxy.tvlauncher.ui.components.SecondaryButton
 import com.elegantgalaxy.tvlauncher.ui.theme.BodyStyle
 import com.elegantgalaxy.tvlauncher.ui.theme.HeroBannerTitleStyle
 import com.elegantgalaxy.tvlauncher.ui.theme.HomeBackground
