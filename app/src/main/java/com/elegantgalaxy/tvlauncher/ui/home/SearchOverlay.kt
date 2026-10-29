@@ -390,13 +390,15 @@ private fun FamousAppTile(app: FamousApp, onClick: () -> Unit) {
     val shape = RoundedCornerShape(12.dp)
     val focusVisuals = rememberTvFocusVisuals(shape = shape)
     val realIcon = remember(app.packageName) { AppLauncherUtils.getInstalledAppIcon(context, app.packageName) }
+    // Optional bundled official logo: res/drawable-nodpi/ic_brand_<key>.png (0 = not provided).
+    val brandLogo = remember(app.key) { context.resources.getIdentifier("ic_brand_${app.key}", "drawable", context.packageName) }
 
     Box(
         modifier = Modifier
             .then(focusVisuals.modifier)
             .size(width = 132.dp, height = 64.dp)
             .clip(shape)
-            .background(if (realIcon != null) SurfaceElevated3 else app.color)
+            .background(if (realIcon != null || brandLogo != 0) SurfaceElevated3 else app.color)
             .clickable(interactionSource = focusVisuals.interactionSource, indication = null, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
@@ -405,6 +407,19 @@ private fun FamousAppTile(app: FamousApp, onClick: () -> Unit) {
                 bitmap = realIcon.asImageBitmap(),
                 contentDescription = app.label,
                 modifier = Modifier.size(44.dp),
+            )
+        } else if (brandLogo != 0) {
+            Image(
+                painter = painterResource(brandLogo),
+                contentDescription = app.label,
+                modifier = Modifier.size(width = 96.dp, height = 40.dp),
+            )
+            // Not installed: the tile opens its Play Store page.
+            Text(
+                text = "Install",
+                color = Color.White.copy(alpha = 0.85f),
+                style = MaterialTheme.typography.labelSmall,
+                modifier = Modifier.align(Alignment.BottomEnd).padding(end = 8.dp, bottom = 3.dp),
             )
         } else {
             Text(
