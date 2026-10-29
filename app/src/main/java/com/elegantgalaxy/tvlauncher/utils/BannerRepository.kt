@@ -106,9 +106,11 @@ object BannerRepository {
         // Slot order alternates Hindi / English so the carousel isn't all one language.
         val rows = listOf(
             TmdbRow(
-                "hindi_series", "Trending Hindi Series",
-                "/discover/tv?with_original_language=hi&watch_region=IN&with_watch_monetization_types=flatrate&sort_by=popularity.desc",
-                "#B5532A", true, "hi",
+                "hindi_hits", "Bollywood Hits",
+                // Movies only (no daily soaps), 2025 onwards; the vote floor keeps out obscure releases.
+                "/discover/movie?with_original_language=hi&sort_by=popularity.desc" +
+                    "&primary_release_date.gte=2025-01-01&primary_release_date.lte=$today&vote_count.gte=100",
+                "#B5532A", false, "hi",
             ),
             TmdbRow("trending_world", "Trending Worldwide", "/trending/all/week", "#1F5C99", null, "en"),
             TmdbRow(
@@ -117,7 +119,12 @@ object BannerRepository {
                     "&primary_release_date.gte=${today.minusDays(90)}&primary_release_date.lte=$today",
                 "#2E7D5B", false, "hi",
             ),
-            TmdbRow("top_series", "Top Rated Series", "/tv/top_rated", "#6A3FA0", true, "en"),
+            TmdbRow(
+                "top_series", "Top Rated Series",
+                "/discover/tv?with_original_language=en&sort_by=vote_average.desc&vote_count.gte=300" +
+                    "&first_air_date.gte=${today.minusYears(3)}",
+                "#6A3FA0", true, "en",
+            ),
         )
         val used = HashSet<Int>()
         val out = JSONArray()
