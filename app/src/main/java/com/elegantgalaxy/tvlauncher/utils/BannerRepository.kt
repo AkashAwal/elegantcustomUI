@@ -90,6 +90,76 @@ object BannerRepository {
         }.getOrDefault(false)
     }
 
+    private class TmdbRow(
+        val id: String, val label: String, val path: String, val accent: String, val tv: Boolean?,
+    )
+
+    /**
+     * Four hero slots, one TMDB list each; the top title per list that has a backdrop and an
+     * overview wins, and a title already used by an earlier slot is skipped. Output is the same
+     * JSON shape as the hosted feed so everything downstream (image cache, parse) is shared.
+     */
+    private fun buildTmdbFeed(): String {
+        val today = java.time.LocalDate.now()
+        val india = "watch_region=IN&with_watch_monetization_types=flatrate&sort_by=popularity.desc"
+        val rows = listOf(
+            TmdbRow("trending_world", "Trending Worldwide", "/trending/all/week", "#1F5C99", null),
+            TmdbRow("trending_india", "Trending in India", "/discover/movie?$india", "#B5532A", false),
+            TmdbRow(
+                "new_india", "New in India",
+                "/discover/movie?$india&primary_release_date.gte=${today.minusDays(60)}&primary_release_date.lte=$today",
+                "#2E7D5B", false,
+            ),
+            TmdbRow("top_series", "Top Rated Series", "/tv/top_rated", "#6A3FA0", true),
+        )
+        val used = HashSet<Int>()
+        val out = JSONArray()
+        for (row in rows) {
+            val sep = if ('?' in row.path) '&' else '?'
+            val results = JSONObject(
+                download("https://api.themoviedb.org/3${row.path}${sep}language=en-US", 512 * 1024, TMDB_TOKEN)
+                    .toString(Charsets.UTF_8),
+            ).getJSONArray("results")
+            for (i in 0 until results.length()) {
+                val r = results.getJSONObject(i)
+                val tmdbId = r.getInt("id")
+                val backdrop = r.optString("backdrop_path")
+                val overview = r.optString("overview")
+                val isTv = row.tv ?: (r.optString("media_type") == "tv")
+                val title = r.optString(if (isTv) "name" else "title")
+                if (tmdbId in used || backdrop.isEmpty() || backdrop == "null" || overview.isEmpty() || title.isEmpty()) continue
+                used += tmdbId
+                val year = r.optString(if (isTv) "first_air_date" else "release_date").take(4)
+                val rating = r.optDouble("vote_average", 0.0)
+                val meta = listOfNotNull(
+                    row.label,
+                    if (rating > 0) "TMDB %.1f".format(java.util.Locale.US, rating) else null,
+                    year.ifEmpty { null },
+                    if (isTv) "Series" else "Movie",
+                ).joinToString("|")
+                out.put(
+                    JSONObject()
+                        .put("id", row.id)
+                        .put("title", title)
+                        .put("subtitle", overview)
+                        .put("meta", meta)
+                        .put("accent", row.accent)
+                        // Play opens a YouTube trailer search until a streaming-app target is chosen.
+                        .put("package", "com.google.android.youtube.tv")
+                        .put(
+                            "deepLink",
+                            "https://www.youtube.com/results?search_query=" +
+                                java.net.URLEncoder.encode("$title $year trailer", "UTF-8"),
+                        )
+                        .put("image", "https://image.tmdb.org/t/p/w1280$backdrop"),
+                )
+                break
+            }
+        }
+        check(out.length() > 0) { "no TMDB results" }
+        return out.toString()
+    }
+
     /** Image file name keyed on id + url so a changed image URL gets re-downloaded. */
     private fun imageName(id: String, url: String) = "img_${id.filter { it.isLetterOrDigit() }}_${url.hashCode()}.jpg"
 
